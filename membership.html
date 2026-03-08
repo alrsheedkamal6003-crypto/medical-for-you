@@ -12,15 +12,15 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Tajawal', sans-serif; background-color: #f4f7f6; color: #333; }
 
-        /* === تصميم القائمة العلوية (المطابق للصورة) === */
+        /* === تصميم القائمة العلوية === */
         .site-header {
-            background-color: #0b6271; /* لون أزرق/أخضر غامق */
+            background-color: #0b6271; 
             color: white;
             text-align: center;
             padding-top: 30px;
         }
         .logo-area h1 { font-size: 32px; margin-bottom: 5px; }
-        .text-yellow { color: #ffb703; /* اللون الأصفر الذهبي */ }
+        .text-yellow { color: #ffb703; }
         .logo-area p { font-size: 16px; margin-bottom: 25px; opacity: 0.9; }
         .main-nav { background-color: #08505d; padding: 15px 0; }
         .main-nav ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 25px; }
@@ -55,12 +55,21 @@
             font-weight: bold;
         }
         .input-group { margin-bottom: 18px; }
+        .two-columns { display: flex; gap: 15px; flex-wrap: wrap; }
+        .two-columns .input-group { flex: 1; min-width: 250px; }
+        
         label { display: block; margin-bottom: 8px; font-weight: bold; color: #444; }
-        input[type="text"], input[type="number"], select, textarea {
+        .required-star { color: red; margin-right: 3px; }
+        
+        input[type="text"], input[type="number"], input[type="email"], input[type="tel"], select, textarea {
             width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; font-family: 'Tajawal', sans-serif; transition: 0.3s; font-size: 15px;
         }
         input:focus, select:focus, textarea:focus {
             border-color: #0b6271; outline: none; box-shadow: 0 0 5px rgba(11, 98, 113, 0.3);
+        }
+        /* تمييز الخانات غير الممتلئة عند المحاولة */
+        input:invalid:focus, select:invalid:focus, textarea:invalid:focus {
+            border-color: #dc3545;
         }
         textarea { resize: vertical; }
         .submit-btn {
@@ -77,6 +86,7 @@
         @media (max-width: 768px) {
             .main-nav ul { gap: 15px; padding: 10px; }
             .form-container { margin: 20px; padding: 15px; }
+            .two-columns { flex-direction: column; gap: 0; }
         }
     </style>
 </head>
@@ -101,29 +111,77 @@
     </header>
 
     <div class="form-container">
-        <form id="membershipForm" action="https://formspree.io/f/YOUR_CODE_HERE" method="POST">
+        <form id="membershipForm" action="https://formspree.io/f/mqeyarbj" method="POST">
             
             <fieldset>
-                <legend><i class="fas fa-user-md"></i> البيانات الشخصية الأساسية</legend>
-                <div class="input-group">
-                    <label>الاسم الرباعي *</label>
-                    <input type="text" name="الاسم_الرباعي" required placeholder="أدخل اسمك الكامل">
+                <legend><i class="fas fa-id-card"></i> البيانات الشخصية ومعلومات الاتصال</legend>
+                
+                <div class="two-columns">
+                    <div class="input-group">
+                        <label>الاسم الرباعي <span class="required-star">*</span></label>
+                        <input type="text" name="الاسم_الرباعي" required placeholder="أدخل اسمك الكامل">
+                    </div>
+                    <div class="input-group">
+                        <label>العمر <span class="required-star">*</span></label>
+                        <input type="number" name="العمر" required min="18" placeholder="مثال: 25">
+                    </div>
                 </div>
-                <div class="input-group">
-                    <label>العمر *</label>
-                    <input type="number" name="العمر" required min="18" placeholder="مثال: 25">
+
+                <div class="two-columns">
+                    <div class="input-group">
+                        <label>الجنسية <span class="required-star">*</span></label>
+                        <select name="الجنسية" required>
+                            <option value="" disabled selected>اختر الجنسية (اضغط هنا)</option>
+                            <option value="سوداني">سوداني</option>
+                            <option value="مصري">مصري</option>
+                            <option value="سعودي">سعودي</option>
+                            <option value="إماراتي">إماراتي</option>
+                            <option value="قطري">قطري</option>
+                            <option value="كويتي">كويتي</option>
+                            <option value="عماني">عماني</option>
+                            <option value="بحريني">بحريني</option>
+                            <option value="أردني">أردني</option>
+                            <option value="يمني">يمني</option>
+                            <option value="سوري">سوري</option>
+                            <option value="لبناني">لبناني</option>
+                            <option value="فلسطيني">فلسطيني</option>
+                            <option value="عراقي">عراقي</option>
+                            <option value="ليبي">ليبي</option>
+                            <option value="تونسي">تونسي</option>
+                            <option value="جزائري">جزائري</option>
+                            <option value="مغربي">مغربي</option>
+                            <option value="أخرى">جنسية أخرى</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>مكان السكن الحالي <span class="required-star">*</span></label>
+                        <input type="text" name="مكان_السكن" required placeholder="المدينة، الحي...">
+                    </div>
+                </div>
+
+                <div class="two-columns">
+                    <div class="input-group">
+                        <label>رقم الهاتف (واتساب) <span class="required-star">*</span></label>
+                        <input type="tel" name="رقم_الهاتف" required placeholder="أدخل رقمك مع مفتاح الدولة">
+                    </div>
+                    <div class="input-group">
+                        <label>البريد الإلكتروني <span class="required-star">*</span></label>
+                        <input type="email" name="البريد_الإلكتروني" required placeholder="example@gmail.com">
+                    </div>
                 </div>
             </fieldset>
 
             <fieldset>
                 <legend><i class="fas fa-graduation-cap"></i> المؤهلات ومكان العمل</legend>
-                <div class="input-group">
-                    <label>المستوى التعليمي (إن وجد)</label>
-                    <input type="text" name="المستوى_التعليمي" placeholder="مثال: بكالوريوس تمريض، دبلوم صيدلة...">
-                </div>
-                <div class="input-group">
-                    <label>جهة العمل الحالية (إن وجد)</label>
-                    <input type="text" name="جهة_العمل" placeholder="اسم المستشفى، المركز الصحي، أو المؤسسة">
+                <div class="two-columns">
+                    <div class="input-group">
+                        <label>المستوى التعليمي <span class="required-star">*</span></label>
+                        <input type="text" name="المستوى_التعليمي" required placeholder="مثال: بكالوريوس تمريض، دبلوم صيدلة...">
+                    </div>
+                    <div class="input-group">
+                        <label>جهة العمل الحالية (إن وجد)</label>
+                        <input type="text" name="جهة_العمل" placeholder="اسم المستشفى، المركز الصحي، أو المؤسسة">
+                    </div>
                 </div>
             </fieldset>
 
@@ -131,30 +189,30 @@
                 <legend><i class="fas fa-briefcase-medical"></i> التدريب والخبرات السابقة</legend>
                 <div class="input-group">
                     <label>الدورات التدريبية (إن وجدت)</label>
-                    <textarea name="الدورات_التدريبية" rows="3" placeholder="اذكر أبرز الدورات التي حضرتها..."></textarea>
+                    <textarea name="الدورات_التدريبية" rows="2" placeholder="اذكر أبرز الدورات التي حضرتها..."></textarea>
                 </div>
                 <div class="input-group">
                     <label>المنظمات التي عملت بها سابقاً (إن وجد)</label>
-                    <textarea name="المنظمات_السابقة" rows="3" placeholder="أسماء المنظمات وفترات العمل..."></textarea>
+                    <textarea name="المنظمات_السابقة" rows="2" placeholder="أسماء المنظمات وفترات العمل..."></textarea>
                 </div>
                 <div class="input-group">
-                    <label>الخبرات التي تمتلكها</label>
-                    <textarea name="الخبرات_العملية" rows="3" placeholder="تحدث عن خبراتك الميدانية والعملية..."></textarea>
+                    <label>الخبرات التي تمتلكها <span class="required-star">*</span></label>
+                    <textarea name="الخبرات_العملية" rows="3" required placeholder="تحدث عن خبراتك الميدانية والعملية..."></textarea>
                 </div>
             </fieldset>
 
             <fieldset>
                 <legend><i class="fas fa-hand-holding-medical"></i> الدوافع والنشاطات</legend>
                 <div class="input-group">
-                    <label>الهوايات والنشاطات</label>
-                    <textarea name="الهوايات" rows="2" placeholder="ما هي هواياتك ونشاطاتك المفضلة؟"></textarea>
+                    <label>الهوايات والنشاطات <span class="required-star">*</span></label>
+                    <textarea name="الهوايات" rows="2" required placeholder="ما هي هواياتك ونشاطاتك المفضلة؟"></textarea>
                 </div>
                 <div class="input-group">
-                    <label>ما هو هدفك من الانضمام للمنظمة؟ *</label>
+                    <label>ما هو هدفك من الانضمام للمنظمة؟ <span class="required-star">*</span></label>
                     <textarea name="هدف_الانضمام" rows="3" required placeholder="لماذا اخترت الانضمام إلينا تحديداً؟"></textarea>
                 </div>
                 <div class="input-group">
-                    <label>ماذا ستقدم للمنظمة؟ *</label>
+                    <label>ماذا ستقدم للمنظمة؟ <span class="required-star">*</span></label>
                     <textarea name="ماذا_ستقدم" rows="3" required placeholder="كيف ستساهم مهاراتك في تطوير عمل المنظمة؟"></textarea>
                 </div>
             </fieldset>
