@@ -3,108 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>طلب عضوية | ميديكال فور يو</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>استمارة الانضمام للمنظمة</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
-        body { font-family: 'Cairo', sans-serif; line-height: 1.6; margin: 0; padding: 0; background-color: #f4f7f6; overflow-x: hidden; }
-        .background-shapes { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: linear-gradient(135deg, #f4f7f6, #e0f2f1); }
-        .shape { position: absolute; border-radius: 50%; background: rgba(10, 147, 150, 0.15); animation: float 10s infinite ease-in-out alternate; }
-        .shape1 { width: 150px; height: 150px; top: 10%; left: 15%; animation-duration: 8s; }
-        .shape2 { width: 300px; height: 300px; top: 40%; left: 75%; animation-duration: 12s; }
-        .shape3 { width: 200px; height: 200px; top: 75%; left: 20%; animation-duration: 10s; }
-        @keyframes float { 0% { transform: translateY(0) scale(1) rotate(0deg); } 100% { transform: translateY(-40px) scale(1.1) rotate(20deg); } }
-        header { background-color: #005f73; color: white; padding: 15px 20px; text-align: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        header h1 { margin: 0; font-size: 28px; }
-        header p { margin: 5px 0 15px 0; font-size: 14px; color: #e0f2f1; }
-        nav { display: flex; justify-content: center; gap: 20px; }
-        nav a { color: white; text-decoration: none; font-size: 16px; font-weight: 700; transition: color 0.3s; }
-        nav a:hover { color: #ffb703; }
-        main { padding: 30px; max-width: 700px; margin: 40px auto; background-color: rgba(255, 255, 255, 0.95); border-radius: 10px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); position: relative; z-index: 1; }
-        h2 { text-align: center; color: #005f73; font-weight: 700; font-size: 2em; margin-bottom: 5px; }
-        .subtitle { text-align: center; margin-bottom: 30px; color: #555; font-size: 1.1em; }
-        fieldset { border: 2px solid #e9ecef; padding: 20px; margin-bottom: 25px; border-radius: 8px; background-color: #fff; }
-        legend { font-weight: 700; color: #0a9396; font-size: 1.2em; padding: 0 10px; }
-        label { font-weight: 600; color: #333; }
-        input[type="text"], input[type="tel"], input[type="email"], select { width: 100%; padding: 12px; margin-top: 8px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-family: 'Cairo', sans-serif; font-size: 1em; }
-        .submit-btn { background-color: #0a9396; color: white; padding: 15px 30px; border: none; border-radius: 6px; cursor: pointer; font-size: 18px; font-weight: 700; transition: all 0.3s ease; font-family: 'Cairo', sans-serif; width: 100%; }
-        .submit-btn:hover { background-color: #005f73; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,95,115,0.3); }
-        footer { background-color: #222; color: white; text-align: center; padding: 20px 0; font-family: 'Cairo', sans-serif; }
+        /* === إعدادات عامة === */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Tajawal', sans-serif; background-color: #f4f7f6; color: #333; }
+
+        /* === تصميم القائمة العلوية (المطابق للصورة) === */
+        .site-header {
+            background-color: #0b6271; /* لون أزرق/أخضر غامق */
+            color: white;
+            text-align: center;
+            padding-top: 30px;
+        }
+        .logo-area h1 { font-size: 32px; margin-bottom: 5px; }
+        .text-yellow { color: #ffb703; /* اللون الأصفر الذهبي */ }
+        .logo-area p { font-size: 16px; margin-bottom: 25px; opacity: 0.9; }
+        .main-nav { background-color: #08505d; padding: 15px 0; }
+        .main-nav ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 25px; }
+        .main-nav a { color: white; text-decoration: none; font-size: 16px; font-weight: bold; transition: 0.3s; }
+        .main-nav a:hover { color: #ffb703; }
+        .active-link { color: #ffb703 !important; }
+        .main-nav i { margin-left: 5px; }
+
+        /* === تصميم الاستمارة === */
+        .form-container {
+            max-width: 850px;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-top: 5px solid #0b6271;
+        }
+        fieldset {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+            background-color: #fafbfc;
+        }
+        legend {
+            background: #0b6271;
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .input-group { margin-bottom: 18px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: #444; }
+        input[type="text"], input[type="number"], select, textarea {
+            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; font-family: 'Tajawal', sans-serif; transition: 0.3s; font-size: 15px;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #0b6271; outline: none; box-shadow: 0 0 5px rgba(11, 98, 113, 0.3);
+        }
+        textarea { resize: vertical; }
+        .submit-btn {
+            width: 100%; padding: 15px; background-color: #ffb703; color: #08505d; border: none; border-radius: 4px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s;
+        }
+        .submit-btn:hover { background-color: #e0a000; }
+        .success-message {
+            margin-top: 20px; padding: 15px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 4px; text-align: center; font-weight: bold; display: none;
+        }
+        .error-message {
+            margin-top: 20px; padding: 15px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 4px; text-align: center; font-weight: bold; display: none;
+        }
+
+        @media (max-width: 768px) {
+            .main-nav ul { gap: 15px; padding: 10px; }
+            .form-container { margin: 20px; padding: 15px; }
+        }
     </style>
 </head>
 <body>
-    <div class="background-shapes">
-        <div class="shape shape1"></div><div class="shape shape2"></div><div class="shape shape3"></div>
-    </div>
 
-    <header>
-        <h1><i class="fa-solid fa-heart-pulse" style="color: #ffb703; margin-left: 10px;"></i>منظمة ميديكال فور يو</h1>
-        <p>انضم إلى فريقنا الطبي</p>
-        <nav><a href="index.html"><i class="fa-solid fa-arrow-right"></i> العودة للرئيسية</a></nav>
+    <header class="site-header">
+        <div class="logo-area">
+            <h1> منظمة ميديكال فور يو <i class="fas fa-heartbeat text-yellow"></i></h1>
+            <p>رعايتك الصحية هي أولويتنا</p>
+        </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+                <li><a href="#"><i class="fas fa-info-circle"></i> من نحن</a></li>
+                <li><a href="#"><i class="fas fa-hand-holding-medical"></i> خدماتنا</a></li>
+                <li><a href="#"><i class="fas fa-images"></i> معرض الصور</a></li>
+                <li><a href="#"><i class="fas fa-question-circle"></i> الأسئلة الشائعة</a></li>
+                <li><a href="#"><i class="fas fa-envelope"></i> اتصل بنا</a></li>
+                <li><a href="#" class="active-link"><i class="fas fa-user-plus"></i> طلب عضوية</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <main>
-        <h2><i class="fa-solid fa-user-plus" style="margin-left: 10px;"></i>استمارة العضوية</h2>
-        <p class="subtitle">يرجى تعبئة البيانات بدقة للإنضمام إلى شبكة ميديكال فور يو.</p>
-
-        <form id="membershipForm" action="https://formsubmit.co/alrsheedkamal6003@gmail.com" method="POST">
+    <div class="form-container">
+        <form id="membershipForm" action="https://formspree.io/f/YOUR_CODE_HERE" method="POST">
             
-            <input type="hidden" name="_subject" value="طلب عضوية جديد - منظمة ميديكال فور يو">
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_next" value="https://alrsheedkamal6003-crypto.github.io/medical-for-you/index.html">
-
             <fieldset>
-                <legend><i class="fa-solid fa-id-card" style="margin-left: 8px;"></i>البيانات الشخصية</legend>
-                <label for="fullName">الاسم الرباعي:</label>
-                <input type="text" id="fullName" name="الاسم" placeholder="اكتب اسمك الرباعي..." required>
-
-                <label for="phone">رقم الهاتف:</label>
-                <input type="tel" id="phone" name="رقم_الهاتف" placeholder="مثال: 0912345678" required>
-
-                <label for="email">البريد الإلكتروني:</label>
-                <input type="email" id="email" name="البريد_الإلكتروني" placeholder="example@email.com" required>
+                <legend><i class="fas fa-user-md"></i> البيانات الشخصية الأساسية</legend>
+                <div class="input-group">
+                    <label>الاسم الرباعي *</label>
+                    <input type="text" name="الاسم_الرباعي" required placeholder="أدخل اسمك الكامل">
+                </div>
+                <div class="input-group">
+                    <label>العمر *</label>
+                    <input type="number" name="العمر" required min="18" placeholder="مثال: 25">
+                </div>
             </fieldset>
 
             <fieldset>
-                <legend><i class="fa-solid fa-user-doctor" style="margin-left: 8px;"></i>البيانات المهنية</legend>
-                <label for="specialty">التخصص الطبي:</label>
-                <select id="specialty" name="التخصص" required>
-                    <option value="">-- اختر التخصص --</option>
-                    <option value="تمريض">تمريض</option>
-                    <option value="طب بشري">طب بشري</option>
-                    <option value="صحة عامة">صحة عامة / مكافحة عدوى</option>
-                    <option value="أخرى">أخرى</option>
-                </select>
+                <legend><i class="fas fa-graduation-cap"></i> المؤهلات ومكان العمل</legend>
+                <div class="input-group">
+                    <label>المستوى التعليمي (إن وجد)</label>
+                    <input type="text" name="المستوى_التعليمي" placeholder="مثال: بكالوريوس تمريض، دبلوم صيدلة...">
+                </div>
+                <div class="input-group">
+                    <label>جهة العمل الحالية (إن وجد)</label>
+                    <input type="text" name="جهة_العمل" placeholder="اسم المستشفى، المركز الصحي، أو المؤسسة">
+                </div>
             </fieldset>
 
-            <div style="text-align: center;">
-                <button type="submit" class="submit-btn"><i class="fa-solid fa-paper-plane" style="margin-left: 8px;"></i>تقديم طلب العضوية</button>
-            </div>
+            <fieldset>
+                <legend><i class="fas fa-briefcase-medical"></i> التدريب والخبرات السابقة</legend>
+                <div class="input-group">
+                    <label>الدورات التدريبية (إن وجدت)</label>
+                    <textarea name="الدورات_التدريبية" rows="3" placeholder="اذكر أبرز الدورات التي حضرتها..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label>المنظمات التي عملت بها سابقاً (إن وجد)</label>
+                    <textarea name="المنظمات_السابقة" rows="3" placeholder="أسماء المنظمات وفترات العمل..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label>الخبرات التي تمتلكها</label>
+                    <textarea name="الخبرات_العملية" rows="3" placeholder="تحدث عن خبراتك الميدانية والعملية..."></textarea>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend><i class="fas fa-hand-holding-medical"></i> الدوافع والنشاطات</legend>
+                <div class="input-group">
+                    <label>الهوايات والنشاطات</label>
+                    <textarea name="الهوايات" rows="2" placeholder="ما هي هواياتك ونشاطاتك المفضلة؟"></textarea>
+                </div>
+                <div class="input-group">
+                    <label>ما هو هدفك من الانضمام للمنظمة؟ *</label>
+                    <textarea name="هدف_الانضمام" rows="3" required placeholder="لماذا اخترت الانضمام إلينا تحديداً؟"></textarea>
+                </div>
+                <div class="input-group">
+                    <label>ماذا ستقدم للمنظمة؟ *</label>
+                    <textarea name="ماذا_ستقدم" rows="3" required placeholder="كيف ستساهم مهاراتك في تطوير عمل المنظمة؟"></textarea>
+                </div>
+            </fieldset>
+
+            <button type="submit" class="submit-btn" id="submitBtn"><i class="fas fa-paper-plane"></i> إرسال طلب العضوية</button>
+            <div id="successMessage" class="success-message">تم إرسال طلبك بنجاح! سنتواصل معك قريباً.</div>
+            <div id="errorMessage" class="error-message">حدث خطأ أثناء الإرسال، يرجى المحاولة مرة أخرى.</div>
         </form>
-    </main>
-
-    <footer>
-        <p style="margin: 0;">&copy; 2026 جميع الحقوق محفوظة لمنظمة ميديكال فور يو.</p>
-    </footer>
+    </div>
 
     <script>
-        document.getElementById("membershipForm").addEventListener("submit", function(event) {
-            let phoneValue = document.getElementById("phone").value;
-            let specialtyValue = document.getElementById("specialty").value;
-            let phoneRegex = /^[0-9]{10,}$/;
+        var form = document.getElementById("membershipForm");
+        
+        async function handleSubmit(event) {
+            event.preventDefault();
+            var statusSuccess = document.getElementById("successMessage");
+            var statusError = document.getElementById("errorMessage");
+            var btn = document.getElementById("submitBtn");
             
-            if (!phoneRegex.test(phoneValue)) {
-                event.preventDefault(); // نمنع الإرسال فقط في حال وجود خطأ
-                alert("عذراً، يرجى إدخال رقم هاتف صحيح (يجب أن يكون 10 أرقام على الأقل ولا يحتوي على حروف).");
-                return; 
-            }
-            if (specialtyValue === "") {
-                event.preventDefault(); // نمنع الإرسال فقط في حال وجود خطأ
-                alert("يرجى اختيار التخصص الطبي من القائمة المنسدلة.");
-                return; 
-            }
-            // إذا كانت البيانات صحيحة، سيتم إرسالها تلقائياً إلى بريدك الإلكتروني!
-        });
+            var data = new FormData(event.target);
+            
+            // تغيير شكل الزر أثناء الإرسال
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+            btn.disabled = true;
+
+            fetch(event.target.action, {
+                method: form.method,
+                body: data,
+                headers: { 'Accept': 'application/json' }
+            }).then(response => {
+                if (response.ok) {
+                    statusSuccess.style.display = "block";
+                    statusError.style.display = "none";
+                    form.reset();
+                } else {
+                    statusError.style.display = "block";
+                    statusSuccess.style.display = "none";
+                }
+                // إعادة الزر لشكله الطبيعي
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال طلب العضوية';
+                btn.disabled = false;
+            }).catch(error => {
+                statusError.style.display = "block";
+                statusSuccess.style.display = "none";
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال طلب العضوية';
+                btn.disabled = false;
+            });
+        }
+        form.addEventListener("submit", handleSubmit);
     </script>
 </body>
 </html>
