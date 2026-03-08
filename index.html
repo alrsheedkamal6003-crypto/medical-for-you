@@ -87,14 +87,42 @@
         ul.services-list li { margin-bottom: 15px; font-size: 1.1em; }
         ul.services-list i { color: #0a9396; margin-left: 10px; font-size: 1.2em; }
 
+       
+        /* استجابة الهواتف المطورة لجعل القائمة عرضية وقابلة للسحب */
         @media (max-width: 768px) {
             main { padding: 10px; }
             section { padding: 20px; }
-            header h1 { font-size: 22px; }
-            nav { flex-direction: column; gap: 12px; background-color: rgba(0,0,0,0.1); padding: 15px; border-radius: 8px; }
-            nav a { display: block; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 8px; }
-            nav a:last-child { border-bottom: none; padding-bottom: 0; }
+            header h1 { font-size: 20px; }
+            header p { margin-bottom: 10px; }
+
+            /* جعل القائمة عرضية وقابلة للسحب من اليمين لليسان */
+            nav { 
+                display: flex; 
+                flex-direction: row; /* جعلها بالعرض */
+                flex-wrap: nowrap; /* منع النزول لسطر جديد */
+                gap: 15px; 
+                overflow-x: auto; /* تفعيل السحب العرضي */
+                padding: 10px 5px;
+                -webkit-overflow-scrolling: touch; /* سحب سلس على الآيفون */
+                scrollbar-width: none; /* إخفاء شريط السحب في فايرفوكس */
+            }
+
+            /* إخفاء شريط السحب في كروم */
+            nav::-webkit-scrollbar {
+                display: none;
+            }
+
+            nav a { 
+                display: inline-block; 
+                white-space: nowrap; /* منع انقسام نص الزر الواحد على سطرين */
+                background-color: rgba(255, 255, 255, 0.1); /* خلفية خفيفة للأزرار */
+                padding: 8px 15px;
+                border-radius: 20px;
+                border-bottom: none; /* إلغاء الخط الفاصل القديم */
+                font-size: 14px;
+            }
         }
+        
     </style>
 </head>
 <body>
