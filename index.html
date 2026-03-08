@@ -6,39 +6,19 @@
     <title>ميديكال فور يو | Medical For You</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* 2. تفعيل التمرير السلس وضبط الخط الجديد */
-        html { 
-            scroll-behavior: smooth; 
-            scroll-padding-top: 100px; /* لضمان عدم تغطية الشريط العلوي للعناوين عند النقر */
-        }
-        
-        body { 
-            font-family: 'Cairo', sans-serif; /* تطبيق الخط هنا */
-            line-height: 1.8; 
-            margin: 0; 
-            padding: 0; 
-            background-color: #f4f7f6; 
-        }
+        html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+        body { font-family: 'Cairo', sans-serif; line-height: 1.8; margin: 0; padding: 0; background-color: #f4f7f6; }
 
-        /* 3. تثبيت شريط التنقل العلوي (Sticky Header) */
         header { 
-            background-color: #005f73; 
-            color: white; 
-            padding: 15px 20px; 
-            text-align: center; 
-            position: sticky; /* هذه هي خاصية التثبيت */
-            top: 0; 
-            z-index: 1000; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background-color: #005f73; color: white; padding: 15px 20px; text-align: center; 
+            position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         header h1 { margin: 0; font-size: 28px; }
         header p { margin: 5px 0 15px 0; font-size: 14px; color: #e0f2f1; }
         
-        /* تنسيق قائمة التنقل */
         nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 20px; }
         nav a { color: white; text-decoration: none; font-size: 16px; font-weight: 600; transition: color 0.3s; }
         nav a:hover { color: #ffb703; }
@@ -47,52 +27,54 @@
         section { margin-bottom: 40px; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         h2 { color: #0a9396; border-bottom: 2px solid #e9ecef; padding-bottom: 10px; font-weight: 700; }
         
-        /* تنسيقات معرض الصور */
-        .gallery-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .gallery-item {
-            width: 100%;
-            height: 200px;
-            background-color: #e9ecef;
-            border-radius: 8px;
-            object-fit: cover;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .gallery-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-        }
+        .gallery-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px; }
+        .gallery-item { width: 100%; height: 200px; background-color: #e9ecef; border-radius: 8px; object-fit: cover; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .gallery-item:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.2); }
         .image-caption { text-align: center; font-size: 0.9em; color: #555; margin-top: 8px; font-weight: 600; }
 
-        /* تنسيقات الأسئلة الشائعة */
         details { background-color: #f8f9fa; padding: 15px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #dee2e6; cursor: pointer; transition: background 0.3s; }
         details:hover { background-color: #e9ecef; }
         summary { font-weight: 700; color: #005f73; outline: none; font-size: 1.1em; }
         details p { margin-top: 15px; color: #444; padding-right: 15px; border-right: 3px solid #0a9396; }
 
-        /* تنسيق النماذج */
         label { font-weight: 600; color: #333; }
         input, textarea, select { width: 100%; padding: 12px; margin-top: 8px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
         input[type="submit"] { background-color: #0a9396; color: white; border: none; cursor: pointer; font-size: 18px; font-weight: 700; transition: background 0.3s; }
         input[type="submit"]:hover { background-color: #005f73; }
 
-        /* تنسيق القوائم مع الأيقونات */
         ul.services-list { list-style-type: none; padding: 0; }
         ul.services-list li { margin-bottom: 15px; font-size: 1.1em; }
         ul.services-list i { color: #0a9396; margin-left: 10px; font-size: 1.2em; }
 
-        /* استجابة الهواتف */
+        /* =========================================
+           تعديلات الهواتف المحمولة (الجديدة)
+           ========================================= */
         @media (max-width: 768px) {
             main { padding: 10px; }
             section { padding: 20px; }
-            header h1 { font-size: 22px; }
-            nav { flex-direction: column; gap: 12px; background-color: rgba(0,0,0,0.1); padding: 15px; border-radius: 8px; }
-            nav a { display: block; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 8px; }
-            nav a:last-child { border-bottom: none; padding-bottom: 0; }
+            
+            /* 1. تصغير الهيدر وإخفاء النص الفرعي لتوفير المساحة */
+            header { padding: 10px; }
+            header h1 { font-size: 20px; }
+            header p { display: none; } 
+            
+            /* 2. تحويل القائمة لتكون أفقية وقابلة للسحب (Scrollable) */
+            nav { 
+                flex-direction: row; 
+                flex-wrap: nowrap; 
+                overflow-x: auto; /* يسمح بالسحب لليمين واليسار */
+                justify-content: flex-start; 
+                gap: 15px; 
+                background-color: rgba(0,0,0,0.1); 
+                padding: 10px; 
+                border-radius: 8px; 
+                white-space: nowrap; /* يمنع نزول الروابط لسطر جديد */
+            }
+            nav a { font-size: 14px; }
+            
+            /* 3. إخفاء شريط التمرير المزعج ليكون السحب ناعماً مثل التطبيقات */
+            nav::-webkit-scrollbar { display: none; }
+            nav { -ms-overflow-style: none; scrollbar-width: none; }
         }
     </style>
 </head>
@@ -137,15 +119,15 @@
             <p>جانب من أنشطة المنظمة وجهود الكوادر الطبية:</p>
             <div class="gallery-container">
                 <div>
-                    <img src="team.jpg.jpg" alt="طاقم التمريض" class="gallery-item">
+                    <img src="team.jpg" alt="طاقم التمريض" class="gallery-item">
                     <div class="image-caption">طاقم التمريض أثناء تقديم الرعاية</div>
                 </div>
                 <div>
-                    <img src="nursing_care.png.jpg" alt="العناية التمريضية" class="gallery-item">
+                    <img src="nursing_care.png" alt="العناية التمريضية" class="gallery-item">
                     <div class="image-caption">تطبيق معايير العناية التمريضية</div>
                 </div>
                 <div>
-                    <img src="hospital.jpg.jpg" alt="تدريب المستشفيات" class="gallery-item">
+                    <img src="hospital.jpg" alt="تدريب المستشفيات" class="gallery-item">
                     <div class="image-caption">تدريب الكوادر في المستشفيات</div>
                 </div>
             </div>
