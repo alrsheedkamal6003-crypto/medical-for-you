@@ -1,222 +1,203 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ميديكال فور يو | Medical For You</title>
-    <link rel="icon" href="medical.png" type="image/png">
+    <meta charset="UTF-8">
+    <title>شبكة الممرضين السودانيين | المنصة الأولى للتمريض</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <style>
-        html { 
-            scroll-behavior: smooth; 
-            scroll-padding-top: 100px; 
-        }
-        
-        body { 
-            font-family: 'Cairo', sans-serif; 
-            line-height: 1.8; 
-            margin: 0; 
-            padding: 0; 
-            background-color: #f4f7f6; 
-        }
-
-        header { 
-            background-color: #005f73; 
-            color: white; 
-            padding: 15px 20px; 
-            text-align: center; 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        
-        /* هذا هو كود تنسيق الشعار ليكون بحجم احترافي ومضبوط مع النص */
-        .site-logo {
-            width: 50px; 
-            height: auto;
-            vertical-align: middle; 
-            margin-left: 10px; 
-            border-radius: 5px; /* يضيف انحناء بسيط لحواف الصورة */
-        }
-
-        header h1 { margin: 0; font-size: 28px; display: flex; align-items: center; justify-content: center; }
-        header p { margin: 5px 0 15px 0; font-size: 14px; color: #e0f2f1; }
-        
-        nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 20px; }
-        nav a { color: white; text-decoration: none; font-size: 16px; font-weight: 600; transition: color 0.3s; }
-        nav a:hover { color: #ffb703; }
-        
-        main { padding: 20px; max-width: 1000px; margin: auto; }
-        section { margin-bottom: 40px; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        h2 { color: #0a9396; border-bottom: 2px solid #e9ecef; padding-bottom: 10px; font-weight: 700; }
-        
-        .gallery-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .gallery-item {
-            width: 100%;
-            height: 200px;
-            background-color: #e9ecef;
-            border-radius: 8px;
-            object-fit: cover;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .gallery-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-        }
-        .image-caption { text-align: center; font-size: 0.9em; color: #555; margin-top: 8px; font-weight: 600; }
-
-        details { background-color: #f8f9fa; padding: 15px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #dee2e6; cursor: pointer; transition: background 0.3s; }
-        details:hover { background-color: #e9ecef; }
-        summary { font-weight: 700; color: #005f73; outline: none; font-size: 1.1em; }
-        details p { margin-top: 15px; color: #444; padding-right: 15px; border-right: 3px solid #0a9396; }
-
-        label { font-weight: 600; color: #333; }
-        input, textarea, select { width: 100%; padding: 12px; margin-top: 8px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-        input[type="submit"] { background-color: #0a9396; color: white; border: none; cursor: pointer; font-size: 18px; font-weight: 700; transition: background 0.3s; }
-        input[type="submit"]:hover { background-color: #005f73; }
-
-        ul.services-list { list-style-type: none; padding: 0; }
-        ul.services-list li { margin-bottom: 15px; font-size: 1.1em; }
-        ul.services-list i { color: #0a9396; margin-left: 10px; font-size: 1.2em; }
-
-       
-        /* استجابة الهواتف المطورة لجعل القائمة عرضية وقابلة للسحب */
-        @media (max-width: 768px) {
-            main { padding: 10px; }
-            section { padding: 20px; }
-            header h1 { font-size: 20px; }
-            header p { margin-bottom: 10px; }
-
-            /* جعل القائمة عرضية وقابلة للسحب من اليمين لليسان */
-            nav { 
-                display: flex; 
-                flex-direction: row; /* جعلها بالعرض */
-                flex-wrap: nowrap; /* منع النزول لسطر جديد */
-                gap: 15px; 
-                overflow-x: auto; /* تفعيل السحب العرضي */
-                padding: 10px 5px;
-                -webkit-overflow-scrolling: touch; /* سحب سلس على الآيفون */
-                scrollbar-width: none; /* إخفاء شريط السحب في فايرفوكس */
-            }
-
-            /* إخفاء شريط السحب في كروم */
-            nav::-webkit-scrollbar {
-                display: none;
-            }
-
-            nav a { 
-                display: inline-block; 
-                white-space: nowrap; /* منع انقسام نص الزر الواحد على سطرين */
-                background-color: rgba(255, 255, 255, 0.1); /* خلفية خفيفة للأزرار */
-                padding: 8px 15px;
-                border-radius: 20px;
-                border-bottom: none; /* إلغاء الخط الفاصل القديم */
-                font-size: 14px;
-            }
-        }
-        
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header>
-        <h1><img src="medical.png" alt="شعار المنظمة" class="site-logo"> منظمة ميديكال فور يو</h1>
-        <p>رعايتك الصحية هي أولويتنا</p>
-        <nav>
-            <a href="#home"><i class="fa-solid fa-house"></i> الرئيسية</a>
-            <a href="#about"><i class="fa-solid fa-circle-info"></i> من نحن</a>
-            <a href="#services"><i class="fa-solid fa-hand-holding-medical"></i> خدماتنا</a>
-            <a href="#gallery"><i class="fa-solid fa-images"></i> معرض الصور</a>
-            <a href="#faq"><i class="fa-solid fa-circle-question"></i> الأسئلة الشائعة</a>
-            <a href="#contact"><i class="fa-solid fa-envelope"></i> اتصل بنا</a>
-            <a href="membership.html" style="color: #ffb703;"><i class="fa-solid fa-user-plus"></i> طلب عضوية</a>
-        </nav>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-heart-pulse"></i> شبكة الممرضين <span>السودانيين</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+            <li><a href="research.html"><i class="fas fa-book-medical"></i> الأبحاث</a></li>
+            <li><a href="jobs.html"><i class="fas fa-user-md"></i> الوظائف</a></li>
+            <li><a href="training.html"><i class="fas fa-users"></i> التدريب</a></li>
+            <li><a href="consult.html"><i class="fas fa-comments"></i> الاستشارات</a></li>
+            <li><a href="join.html"><i class="fas fa-user-plus"></i> انضم إلينا</a></li>
+        </ul>
+    </nav>
+
+    <header id="home" class="hero">
+        <div class="hero-content">
+            <h1>رعاية تمريضية بـ <span class="highlight">معايير عالمية</span></h1>
+            <p>منصة تجمع الخبرات، الأبحاث، والفرص لكل ممرض وممرضة سودانية.</p>
+            <div class="hero-btns">
+                <a href="research.html" class="btn btn-primary">تصفح الأبحاث</a>
+                <a href="consult.html" class="btn btn-secondary">اطلب استشارة بحثية</a>
+            </div>
+        </div>
     </header>
 
-    <main>
-        <section id="home" style="text-align: center; background-color: transparent; box-shadow: none;">
-            <h2 style="border: none; color: #005f73; font-size: 2em;">مرحباً بكم في ميديكال فور يو</h2>
-            <p style="font-size: 1.2em; color: #555;">نحن منظمة رائدة تهدف إلى تقديم أفضل الخدمات الطبية والإرشادات الصحية لضمان مجتمع صحي وآمن.</p>
-        </section>
+    <div class="notification-bar">
+        <div class="container">
+            <div class="ticker-wrapper">
+                <span class="ticker-title"><i class="fas fa-bullhorn"></i> عاجل:</span>
+                <marquee direction="right" scrollamount="5">
+                    • دورة الإنعاش القلبي (CPR) تبدأ قريباً سجل الآن! &nbsp;&nbsp;&nbsp; 
+                    • تم إضافة بحث جديد عن مكافحة العدوى بمستشفى أم درمان &nbsp;&nbsp;&nbsp;
+                    • باب الانضمام لشبكة الممرضين مفتوح الآن لجميع الزملاء.
+                </marquee>
+            </div>
+        </div>
+    </div>
 
-        <section id="about">
-            <h2><i class="fa-solid fa-users" style="margin-left: 10px;"></i>من نحن</h2>
-            <p>منظمة "ميديكال فور يو" هي مؤسسة صحية متكاملة تضم نخبة من الكوادر الطبية والتمريضية المتخصصة. نلتزم بتقديم رعاية طبية شاملة، ونسعى للارتقاء بمستوى الوعي الصحي وتطبيق أحدث المعايير السريرية.</p>
-        </section>
+    <div id="toast-container" class="toast-container"></div>
 
-        <section id="services">
-            <h2><i class="fa-solid fa-briefcase-medical" style="margin-left: 10px;"></i>خدماتنا</h2>
-            <ul class="services-list">
-                <li><i class="fa-solid fa-user-nurse"></i><strong>العناية التمريضية الشاملة:</strong> تقديم رعاية متخصصة للمرضى على أيدي طواقم تمريضية مؤهلة.</li>
-                <li><i class="fa-solid fa-shield-virus"></i><strong>برامج مكافحة انتقال العدوى:</strong> نشر الوعي وتطبيق الإجراءات الوقائية للحد من انتقال الأمراض.</li>
-                <li><i class="fa-solid fa-stethoscope"></i><strong>الاستشارات الطبية:</strong> توفير تقييمات طبية دقيقة وإرشادات مخصصة.</li>
-            </ul>
-        </section>
+    <div class="stats-bar">
+        <div class="stat-item"><i class="fas fa-user-nurse"></i> <span>+5000 ممرض</span></div>
+        <div class="stat-item"><i class="fas fa-file-alt"></i> <span>+200 بحث</span></div>
+        <div class="stat-item"><i class="fas fa-check-circle"></i> <span>+15 مشروع</span></div>
+    </div>
 
-        <section id="gallery">
-            <h2><i class="fa-solid fa-camera" style="margin-left: 10px;"></i>معرض الصور</h2>
-            <p>جانب من أنشطة المنظمة وجهود الكوادر الطبية:</p>
-            <div class="gallery-container">
-                <div>
-                    <img src="team.jpg" alt="طاقم التمريض" class="gallery-item">
-                    <div class="image-caption">طاقم التمريض أثناء تقديم الرعاية</div>
-                </div>
-                <div>
-                    <img src="nursing_care.jpg" alt="العناية التمريضية" class="gallery-item">
-                    <div class="image-caption">تطبيق معايير العناية التمريضية</div>
-                </div>
-                <div>
-                    <img src="hospital.jpg"hospital.jpg"" alt="تدريب المستشفيات" class="gallery-item">
-                    <div class="image-caption">تدريب الكوادر في المستشفيات</div>
+   <section class="section" id="services">
+    <div class="container">
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px;">
+            
+            <a href="research.html" class="service-card fade-element">
+                <div class="icon-box"><i class="fas fa-book-medical"></i></div>
+                <h3>مكتبة الأبحاث</h3>
+                <p>نشر ومشاركة أبحاث التخرج والدراسات العلمية في مجال التمريض.</p>
+            </a>
+
+            <a href="jobs.html" class="service-card fade-element">
+                <div class="icon-box"><i class="fas fa-user-md"></i></div>
+                <h3>فرص العمل</h3>
+                <p>توفير أحدث إعلانات الوظائف في المستشفيات والمنظمات.</p>
+            </a>
+
+            <a href="sos.html" class="service-card red-card fade-element">
+                <div class="icon-box red-icon"><i class="fas fa-ambulance"></i></div>
+                <h3>نداء استغاثة (SOS)</h3>
+                <p>هل تحتاج لممرض في المنزل؟ أرسل نداءك وسيصلك أقرب ممرض متطوع.</p>
+            </a>
+
+            <a href="hospitals.html" class="service-card blue-card fade-element">
+                <div class="icon-box blue-icon"><i class="fas fa-hospital-alt"></i></div>
+                <h3>دليل المستشفيات</h3>
+                <p>حالة المستشفيات، الفحوصات المتاحة، ونظام تحويل المرضى الإلكتروني.</p>
+            </a>
+
+            <a href="handover.html" class="service-card purple-card fade-element">
+                <div class="icon-box purple-icon"><i class="fas fa-exchange-alt"></i></div>
+                <h3>تسليم الورديات (SBAR)</h3>
+                <p>نظام إلكتروني ذكي لتسليم وتسلم الورديات وتوثيق حالة المرضى.</p>
+            </a>
+
+            <a href="calc.html" class="service-card orange-card fade-element">
+                <div class="icon-box orange-icon"><i class="fas fa-calculator"></i></div>
+                <h3>الحاسبة السريرية</h3>
+                <p>حساب معدل التنقيط الوريدي، جرعات الأطفال، ومقياس جلاسكو (GCS).</p>
+            </a>
+
+            <a href="drugs.html" class="service-card teal-card fade-element">
+                <div class="icon-box teal-icon"><i class="fas fa-pills"></i></div>
+                <h3>الدليل السريري للأدوية</h3>
+                <p>مرجع سريع للجرعات، طرق الإعطاء، والتحذيرات، مع خاصية التعرف بالصور.</p>
+            </a>
+
+            <a href="blood.html" class="service-card red-card fade-element">
+                <div class="icon-box red-icon"><i class="fas fa-tint"></i></div>
+                <h3>بنك الدم التفاعلي</h3>
+                <p>ابحث عن متبرعين بالدم أو سجل كمتبرع لإنقاذ حياة المرضى في الطوارئ.</p>
+            </a>
+
+            <a href="consult.html" class="service-card fade-element">
+                <div class="icon-box"><i class="fas fa-comments"></i></div>
+                <h3>الاستشارات والتدريب</h3>
+                <p>اسأل زملاءك، تبادل الخبرات، وسجل في أحدث الكورسات التدريبية.</p>
+            </a>
+
+        </div>
+    </div>
+</section>
+
+    <section id="projects" class="section bg-light">
+        <h2 class="section-title">مشاريع الشبكة</h2>
+        <div class="grid">
+            <div class="project-card fade-element">
+                <img src="https://via.placeholder.com/400x250" alt="مشروع مكافحة العدوى">
+                <div class="p-3">
+                    <h3>مشروع التوعية بمكافحة العدوى</h3>
+                    <p>مبادرة تستهدف مستشفيات الخرطوم وأم درمان لرفع الوعي الوقائي وطرق انتقال العدوى.</p>
                 </div>
             </div>
-        </section>
+            <div class="project-card fade-element">
+                <img src="https://via.placeholder.com/400x250" alt="قاعدة بيانات الممرضين">
+                <div class="p-3">
+                    <h3>قاعدة البيانات الوطنية</h3>
+                    <p>أول سجل رقمي شامل للممرضين السودانيين بمختلف تخصصاتهم.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <section id="faq">
-            <h2><i class="fa-solid fa-comments" style="margin-left: 10px;"></i>الأسئلة الشائعة</h2>
-            <details>
-                <summary>ما هي أهم طرق الوقاية من انتقال العدوى في المستشفيات؟</summary>
-                <p>تعتبر نظافة وتطهير اليدين المستمر، واستخدام معدات الوقاية الشخصية (PPE) بالشكل الصحيح، من أهم الركائز لمنع انتقال العدوى.</p>
-            </details>
-            <details>
-                <summary>هل تقدمون دورات تدريبية للكوادر التمريضية حديثي التخرج؟</summary>
-                <p>نعم، المنظمة توفر برامج تدريبية متخصصة لرفع الكفاءة وتعزيز المعرفة بدور الممرض في مختلف الأقسام السريرية.</p>
-            </details>
-            <details>
-                <summary>كيف يمكنني التطوع في برامج المنظمة؟</summary>
-                <p>يمكنك الانضمام إلينا من خلال الضغط على رابط "طلب عضوية" في أعلى الصفحة، وسيقوم فريقنا بالتواصل معك.</p>
-            </details>
-        </section>
+    <section id="faq" class="section">
+        <h2 class="section-title">الأسئلة الشائعة</h2>
+        <div class="accordion">
+            <div class="faq-item">
+                <button class="faq-question">كيف يمكنني الانضمام للشبكة؟ <i class="fas fa-plus"></i></button>
+                <div class="faq-answer">
+                    <p>يمكنك الانضمام عبر التسجيل في <a href="join.html" style="color: var(--main-color); font-weight: bold;">استمارة العضوية الكاملة</a> وإكمال بياناتك المهنية.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">هل توفر الشبكة فرصاً للتدريب؟ <i class="fas fa-plus"></i></button>
+                <div class="faq-answer">
+                    <p>نعم، نقوم بتنظيم دورات دورية بالتعاون مع وزارة الصحة والمؤسسات التعليمية.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <section id="contact">
-            <h2><i class="fa-solid fa-headset" style="margin-left: 10px;"></i>اتصل بنا</h2>
-            <form action="https://formspree.io/f/mqeyarbj" method="POST">
-                <label for="name">الاسم الكريم:</label>
-                <input type="text" id="name" name="الاسم" placeholder="اكتب اسمك هنا..." required>
-
-                <label for="email">البريد الإلكتروني:</label>
-                <input type="email" id="email" name="البريد_الإلكتروني" placeholder="example@email.com" required>
-
-                <label for="message">الرسالة:</label>
-                <textarea id="message" name="الرسالة" rows="4" placeholder="كيف يمكننا مساعدتك؟" required></textarea>
-
-                <input type="submit" value="إرسال رسالتك">
+    <section id="contact" class="section bg-dark text-white">
+        <h2 class="section-title">تواصل معنا</h2>
+        <div class="contact-container">
+            <form action="https://formspree.io/f/meerewpw" method="POST" id="contactForm">
+                <input type="hidden" name="_subject" value="📩 رسالة تواصل جديدة - الشاشة الرئيسية">
+                <input type="hidden" name="نوع_الطلب" value="رسالة من نموذج التواصل (الشاشة الرئيسية)">
+                
+                <input type="text" name="الاسم_الكامل" placeholder="الاسم الكامل" required>
+                <input type="email" name="البريد_الالكتروني" placeholder="البريد الإلكتروني" required>
+                <textarea name="الرسالة" placeholder="رسالتك هنا..." rows="5" required></textarea>
+                <button type="submit" class="btn btn-primary">إرسال الرسالة <i class="fas fa-paper-plane"></i></button>
             </form>
-        </section>
+        </div>
+    </section>
 
-    </main>
-
-    <footer style="background-color: #222; color: white; text-align: center; padding: 20px 0; font-family: 'Cairo', sans-serif;">
-        <p style="margin: 0;">&copy; 2026 جميع الحقوق محفوظة لمنظمة ميديكال فور يو.</p>
+    <footer>
+        <p>جميع الحقوق محفوظة &copy; 2026 - شبكة الممرضين السودانيين</p>
     </footer>
 
+    <script src="script.js"></script>
+    
+    <div class="quick-access-btn" onclick="toggleQuickMenu()" title="كل الشاشات">
+    <i class="fas fa-th-large"></i>
+</div>
+
+<div id="quickMenu" class="quick-menu">
+    <ul>
+        <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+        <li><a href="about.html"><i class="fas fa-info-circle"></i> من نحن</a></li>
+        <li><a href="research.html"><i class="fas fa-book-medical"></i> مكتبة الأبحاث</a></li>
+        <li><a href="jobs.html"><i class="fas fa-user-md"></i> فرص العمل</a></li>
+        <li><a href="training.html"><i class="fas fa-users"></i> التدريب المستمر</a></li>
+        <li><a href="consult.html"><i class="fas fa-comments"></i> ركن الاستشارات</a></li>
+        <li><a href="join.html"><i class="fas fa-user-plus"></i> انضم إلينا (عضوية)</a></li>
+        <li><a href="sos.html"><i class="fas fa-ambulance"></i> نداءات الاستغاثة (SOS)</a></li>
+        <li><a href="blood.html"><i class="fas fa-tint"></i> بنك الدم التفاعلي</a></li>
+        <li><a href="drugs.html"><i class="fas fa-pills"></i> دليل الأدوية السريري</a></li>
+        <li><a href="hospitals.html"><i class="fas fa-hospital-alt"></i> المستشفيات</a></li>
+        <li><a href="handover.html"><i class="fas fa-exchange-alt"></i> تسليم الوردية</a></li>
+        <li><a href="calc.html"><i class="fas fa-calculator"></i> الحاسبة السريرية</a></li>
+        
+    </ul>
+</div>
 </body>
 </html>
