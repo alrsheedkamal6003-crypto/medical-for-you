@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>إدارة صوت التمريض | لوحة التحكم</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --main-green: #059669; --dark-blue: #1e293b; }
+        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; padding: 20px; direction: rtl; }
+        .admin-card { background: white; max-width: 750px; margin: 0 auto; padding: 35px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-top: 8px solid var(--main-green); }
+        h2 { color: var(--dark-blue); text-align: center; margin-bottom: 25px; font-weight: 900; }
+        .form-section { background: #f1f5f9; padding: 20px; border-radius: 15px; margin-bottom: 25px; border: 1px solid #e2e8f0; }
+        label { display: block; font-weight: bold; margin-bottom: 8px; color: #334155; }
+        input, select, textarea { width: 100%; padding: 14px; margin-bottom: 15px; border: 2px solid #ddd; border-radius: 12px; font-family: 'Cairo'; box-sizing: border-box; outline: none; transition: 0.3s; }
+        .btn-publish { width: 100%; padding: 18px; background: linear-gradient(45deg, var(--main-green), #10b981); color: white; border: none; border-radius: 12px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-publish:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(5,150,105,0.3); }
+        .posts-list { margin-top: 40px; border-top: 2px solid #eee; padding-top: 20px; }
+        .post-item { background: #fff; border: 1px solid #eee; padding: 15px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .btn-delete { background: #fee2e2; color: #ef4444; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .badge-admin { background: var(--main-green); color: white; padding: 2px 8px; border-radius: 5px; font-size: 0.7rem; }
+    </style>
+</head>
+<body>
+
+<div class="admin-card">
+    <h2><i class="fas fa-user-shield"></i> إدارة منتدى صوت التمريض</h2>
+    
+    <div class="form-section">
+        <label>اسم الكاتب (المرسل)</label>
+        <input type="text" id="postAuthor" placeholder="مثلاً: الرشيد كمال">
+        
+        <label>رتبة الكاتب</label>
+        <select id="postRole">
+            <option value="أدمن الشبكة">أدمن الشبكة (منشور مميز)</option>
+            <option value="ممرض/ة">عضو / ممرض</option>
+            <option value="طبيب/ة">طبيب مشارك</option>
+        </select>
+
+        <label>عنوان المنشور</label>
+        <input type="text" id="postTitle" placeholder="عنوان جذاب للموضوع">
+
+        <label>محتوى المنشور</label>
+        <textarea id="postContent" rows="5" placeholder="اكتب تفاصيل المنشور هنا..."></textarea>
+    </div>
+
+    <button class="btn-publish" onclick="pushPost()">نشر المنشور في المنتدى الآن <i class="fas fa-paper-plane"></i></button>
+    
+    <div class="posts-list">
+        <h3>المنشورات الحالية:</h3>
+        <div id="activePosts"></div>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyBltsN_YuPhicWCv4MmbYf7-kSp9u66lBE",
+        authDomain: "sudanse-nursing-network.firebaseapp.com",
+        databaseURL: "https://sudanse-nursing-network-default-rtdb.firebaseio.com/",
+        projectId: "sudanse-nursing-network",
+        storageBucket: "sudanse-nursing-network.firebasestorage.app",
+        messagingSenderId: "577008528931",
+        appId: "1:577008528931:web:febfbc9ce086a07b8ccb96"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    function pushPost() {
+        const author = document.getElementById('postAuthor').value;
+        const role = document.getElementById('postRole').value;
+        const title = document.getElementById('postTitle').value;
+        const content = document.getElementById('postContent').value;
+        const isAdmin = (role === "أدمن الشبكة");
+
+        if (!title || !content) return alert("يا الرشيد، املأ العنوان والمحتوى!");
+
+        const newPostRef = database.ref('forum_posts').push();
+        newPostRef.set({
+            id: Date.now(),
+            author, role, title, content, isAdmin,
+            likes: 0, reaction: "❤️", comments: [],
+            timestamp: new Date().toISOString()
+        }).then(() => {
+            alert("✅ تم النشر بنجاح!");
+            document.getElementById('postTitle').value = "";
+            document.getElementById('postContent').value = "";
+        });
+    }
+
+    database.ref('forum_posts').on('value', (snapshot) => {
+        const list = document.getElementById('activePosts');
+        list.innerHTML = '';
+        snapshot.forEach(child => {
+            const data = child.val();
+            list.innerHTML += `
+                <div class="post-item">
+                    <span><strong>${data.title}</strong> - ${data.author} ${data.isAdmin ? '<span class="badge-admin">أدمن</span>' : ''}</span>
+                    <button class="btn-delete" onclick="deletePost('${child.key}')">حذف</button>
+                </div>`;
+        });
+    });
+
+    function deletePost(key) {
+        if(confirm("هل تريد حذف هذا المنشور نهائياً من المنتدى؟")) database.ref('forum_posts/' + key).remove();
+    }
+</script>
+</body>
+</html>

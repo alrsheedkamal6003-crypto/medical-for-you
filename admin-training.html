@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>لوحة تحكم مركز التدريب | الإدارة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --train-color: #2563eb; --main-color: #00a884; }
+        body { font-family: 'Cairo', sans-serif; background-color: #f0f2f5; padding: 20px; direction: rtl; }
+        .admin-card { background: white; max-width: 600px; margin: 0 auto; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 8px solid var(--train-color); }
+        h2 { color: #2c3e50; text-align: center; margin-bottom: 25px; }
+        .form-section { background: #f8f9fa; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #eef0f2; }
+        label { display: block; font-weight: bold; margin-bottom: 8px; color: #34495e; }
+        input, select { width: 100%; padding: 12px; margin-bottom: 15px; border: 2px solid #ddd; border-radius: 10px; font-family: 'Cairo'; box-sizing: border-box; }
+        .btn-update { width: 100%; padding: 15px; background: linear-gradient(45deg, var(--train-color), #1d4ed8); color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-update:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(37,99,235,0.4); }
+        .course-list { margin-top: 20px; border-top: 1px solid #eee; padding-top: 10px; }
+        .course-item { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 10px; border-radius: 8px; margin-bottom: 5px; border: 1px solid #eee; }
+        .status-badge { padding: 2px 8px; border-radius: 5px; font-size: 0.8rem; color: white; }
+    </style>
+</head>
+<body>
+
+<div class="admin-card">
+    <h2><i class="fas fa-tools"></i> إدارة محتوى التدريب</h2>
+    
+    <div class="form-section">
+        <label>أين تريد عرض الدورة؟</label>
+        <select id="courseStatus">
+            <option value="available">الدورات المتاحة حالياً (تسجيل فورى)</option>
+            <option value="upcoming">الدورات المرتقبة (تنبيه لاحقاً)</option>
+        </select>
+
+        <label>اسم الدورة</label>
+        <input type="text" id="courseTitle" placeholder="مثلاً: إنعاش قلبي رئوي (CPR/BLS)">
+        
+        <label>التصنيف (طوارئ، وقاية، أبحاث...)</label>
+        <input type="text" id="courseCat" placeholder="مثلاً: طوارئ">
+
+        <label>تاريخ البدء</label>
+        <input type="text" id="courseDate" placeholder="مثلاً: 15 مارس 2026">
+
+        <label>المدة والحضور</label>
+        <input type="text" id="courseInfo" placeholder="مثلاً: 10 ساعات تدريبية / مقر الشبكة">
+
+        <label>العدد المتاح (للدورات المتاحة فقط)</label>
+        <input type="text" id="courseSeats" placeholder="مثلاً: 5 مقاعد">
+    </div>
+
+    <button class="btn-update" onclick="pushToFirebase()">نشر وتحديث البيانات الآن</button>
+    <div id="statusMsg" style="text-align:center; margin-top:10px; font-weight:bold;"></div>
+
+    <div class="course-list" id="courseAdminList">
+        </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyBltsN_YuPhicWCv4MmbYf7-kSp9u66lBE",
+        authDomain: "sudanse-nursing-network.firebaseapp.com",
+        databaseURL: "https://sudanse-nursing-network-default-rtdb.firebaseio.com/",
+        projectId: "sudanse-nursing-network",
+        storageBucket: "sudanse-nursing-network.firebasestorage.app",
+        messagingSenderId: "577008528931",
+        appId: "1:577008528931:web:febfbc9ce086a07b8ccb96"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    function pushToFirebase() {
+        const title = document.getElementById('courseTitle').value;
+        const status = document.getElementById('courseStatus').value;
+        if (!title) return alert("الرشيد، يرجى إدخال عنوان الدورة!");
+
+        database.ref('training_center/' + title).set({
+            title: title,
+            status: status,
+            category: document.getElementById('courseCat').value,
+            date: document.getElementById('courseDate').value,
+            info: document.getElementById('courseInfo').value,
+            seats: document.getElementById('courseSeats').value,
+            time: new Date().toLocaleString('ar-EG')
+        }).then(() => {
+            alert("✅ تم التحديث بنجاح!");
+            document.getElementById('courseTitle').value = "";
+        });
+    }
+
+    database.ref('training_center').on('value', (snapshot) => {
+        const list = document.getElementById('courseAdminList');
+        list.innerHTML = '<h4>الدورات المنشورة حالياً:</h4>';
+        snapshot.forEach(child => {
+            const data = child.val();
+            const color = data.status === 'available' ? '#00a884' : '#f39c12';
+            list.innerHTML += `<div class="course-item">
+                <span>${data.title} <span class="status-badge" style="background:${color}">${data.status === 'available' ? 'متاحة' : 'مرتقبة'}</span></span>
+                <button onclick="deleteCourse('${child.key}')" style="background:red; color:white; border:none; border-radius:5px; cursor:pointer;">حذف</button>
+            </div>`;
+        });
+    });
+
+    function deleteCourse(key) {
+        if(confirm("هل تريد الحذف؟")) database.ref('training_center/' + key).remove();
+    }
+</script>
+</body>
+</html>

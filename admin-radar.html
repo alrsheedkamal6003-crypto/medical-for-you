@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم الرادار الطبي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #f0f2f5; padding: 20px; direction: rtl; }
+        .admin-card { background: white; max-width: 600px; margin: 0 auto; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 8px solid #00a884; }
+        h2 { color: #2c3e50; text-align: center; margin-bottom: 25px; }
+        .form-section { background: #f8f9fa; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #eef0f2; }
+        label { display: block; font-weight: bold; margin-bottom: 8px; color: #34495e; }
+        input, select, textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 2px solid #ddd; border-radius: 10px; font-family: 'Cairo'; box-sizing: border-box; }
+        
+        .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .service-item { display: flex; align-items: center; background: white; padding: 10px; border-radius: 8px; border: 1px solid #ddd; cursor: pointer; font-size: 0.9rem; }
+        .service-item input { width: auto; margin-left: 10px; margin-bottom: 0; }
+        
+        .btn-update { width: 100%; padding: 15px; background: linear-gradient(45deg, #00a884, #1a237e); color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-update:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,168,132,0.4); }
+        #statusMsg { text-align: center; margin-top: 15px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="admin-card">
+    <h2><i class="fas fa-user-shield"></i> إدارة الرادار الطبي</h2>
+    
+    <div class="form-section">
+        <label>الفئة المهنية</label>
+        <select id="staffRole">
+            <option value="nurse">ممرض / ممرضة</option>
+            <option value="doctor">طبيب / طبيبة</option>
+            <option value="pharmacist">صيدلي / صيدلانية</option>
+        </select>
+
+        <label>الاسم الكامل</label>
+        <input type="text" id="staffName" placeholder="الاسم كما سيظهر في الرادار">
+        
+        <label>المنطقة / الحي</label>
+        <input type="text" id="staffArea" placeholder="مثلاً: أم درمان - الثورة">
+
+        <label>الوصف المهني (Bio)</label>
+        <input type="text" id="staffBio" placeholder="مثلاً: بكالوريوس تمريض - طوارئ">
+
+        <label>رقم الهاتف (للاتصال)</label>
+        <input type="tel" id="staffPhone" placeholder="0123456789">
+
+        <label>رقم الواتساب (بالصيغة الدولية)</label>
+        <input type="tel" id="staffWA" placeholder="249123456789">
+    </div>
+
+    <div class="form-section">
+        <label><i class="fas fa-check-circle"></i> المهارات والخدمات المتاحة:</label>
+        <div class="services-grid" id="skillsContainer">
+            <label class="service-item"><input type="checkbox" value="تركيب محاليل"> تركيب محاليل</label>
+            <label class="service-item"><input type="checkbox" value="غيارات جروح"> غيارات جروح</label>
+            <label class="service-item"><input type="checkbox" value="حقن عضل/وريد"> حقن عضل/وريد</label>
+            <label class="service-item"><input type="checkbox" value="قسطرة بولية"> قسطرة بولية</label>
+            <label class="service-item"><input type="checkbox" value="فحص ضغط وسكري"> فحص ضغط وسكري</label>
+            <label class="service-item"><input type="checkbox" value="رعاية أمومة"> رعاية أمومة</label>
+        </div>
+    </div>
+
+    <button class="btn-update" onclick="pushStaffToFirebase()">إضافة الكادر الطبي للرادار الآن</button>
+    <div id="statusMsg"></div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyBltsN_YuPhicWCv4MmbYf7-kSp9u66lBE",
+        authDomain: "sudanse-nursing-network.firebaseapp.com",
+        databaseURL: "https://sudanse-nursing-network-default-rtdb.firebaseio.com/",
+        projectId: "sudanse-nursing-network",
+        storageBucket: "sudanse-nursing-network.firebasestorage.app",
+        messagingSenderId: "577008528931",
+        appId: "1:577008528931:web:febfbc9ce086a07b8ccb96"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    function pushStaffToFirebase() {
+        const role = document.getElementById('staffRole').value;
+        const name = document.getElementById('staffName').value;
+        const area = document.getElementById('staffArea').value;
+        const bio = document.getElementById('staffBio').value;
+        const phone = document.getElementById('staffPhone').value;
+        const wa = document.getElementById('staffWA').value;
+        const statusMsg = document.getElementById('statusMsg');
+
+        // تجميع المهارات المختارة
+        const selectedSkills = [];
+        const checkboxes = document.querySelectorAll('#skillsContainer input[type="checkbox"]:checked');
+        checkboxes.forEach(cb => selectedSkills.push(cb.value));
+
+        if (!name || !area || !phone) {
+            alert("يرجى ملء البيانات الأساسية (الاسم، المنطقة، الهاتف)");
+            return;
+        }
+
+        statusMsg.innerText = "جاري الحفظ في الرادار...";
+        statusMsg.style.color = "#00a884";
+
+        // إرسال البيانات لفرع جديد اسمه 'radar_staff'
+        database.ref('radar_staff/' + Date.now()).set({
+            name: name,
+            role: role,
+            area: area,
+            bio: bio,
+            phone: phone,
+            wa: wa,
+            skills: selectedSkills,
+            timestamp: new Date().toLocaleString('ar-EG')
+        }).then(() => {
+            statusMsg.innerText = "✅ تم إضافة " + name + " للرادار بنجاح!";
+            statusMsg.style.color = "green";
+            // مسح الحقول بعد النجاح
+            document.getElementById('staffName').value = "";
+        }).catch((err) => {
+            statusMsg.innerText = "❌ فشل: " + err.message;
+            statusMsg.style.color = "red";
+        });
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة نداءات الاستغاثة | لوحة التحكم</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --sos-red: #e74c3c; --dark-blue: #1e272e; }
+        body { font-family: 'Cairo', sans-serif; background-color: #f0f2f5; padding: 20px; direction: rtl; }
+        .admin-card { background: white; max-width: 600px; margin: 0 auto; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 8px solid var(--sos-red); }
+        h2 { color: var(--dark-blue); text-align: center; margin-bottom: 25px; }
+        .form-section { background: #f8f9fa; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #eef0f2; }
+        label { display: block; font-weight: bold; margin-bottom: 8px; color: #34495e; }
+        input, select, textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 2px solid #ddd; border-radius: 10px; font-family: 'Cairo'; box-sizing: border-box; }
+        .btn-update { width: 100%; padding: 15px; background: linear-gradient(45deg, var(--sos-red), #c0392b); color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-update:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(231,76,60,0.4); }
+        .sos-list { margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px; }
+        .sos-item { background: #fff; border: 1px solid #eee; padding: 10px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .btn-delete { background: #fee2e2; color: #ef4444; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="admin-card">
+    <h2><i class="fas fa-satellite-dish"></i> إدارة نداءات الاستغاثة</h2>
+    
+    <div class="form-section">
+        <label>نوع الحالة (العنوان العريض)</label>
+        <input type="text" id="sosType" placeholder="مثلاً: تركيب فراشة (Canula)">
+        
+        <label>اسم المريض</label>
+        <input type="text" id="patientName" placeholder="مثلاً: أحمد (حالة سكري)">
+
+        <label>الموقع (الحي والمدينة)</label>
+        <input type="text" id="sosLoc" placeholder="مثلاً: أم درمان - الثورة">
+
+        <label>رقم هاتف المريض</label>
+        <input type="tel" id="sosPhone" placeholder="0123456789">
+
+        <label>رابط الموقع (Google Maps) - اختياري</label>
+        <input type="url" id="sosMap" placeholder="انسخ الرابط هنا">
+
+        <label>درجة الاستعجال</label>
+        <select id="sosUrgency">
+            <option value="urgent">حالة طارئة جداً (تحذير أحمر)</option>
+            <option value="normal">حالة عادية (برتقالي)</option>
+        </select>
+    </div>
+
+    <button class="btn-update" onclick="pushSOSToFirebase()">نشر نداء الاستغاثة الآن</button>
+    <div id="statusMsg" style="text-align:center; margin-top:15px; font-weight:bold;"></div>
+
+    <div class="sos-list">
+        <h3>النداءات النشطة حالياً:</h3>
+        <div id="activeSosList"></div>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyBltsN_YuPhicWCv4MmbYf7-kSp9u66lBE",
+        authDomain: "sudanse-nursing-network.firebaseapp.com",
+        databaseURL: "https://sudanse-nursing-network-default-rtdb.firebaseio.com/",
+        projectId: "sudanse-nursing-network",
+        storageBucket: "sudanse-nursing-network.firebasestorage.app",
+        messagingSenderId: "577008528931",
+        appId: "1:577008528931:web:febfbc9ce086a07b8ccb96"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    function pushSOSToFirebase() {
+        const title = document.getElementById('sosType').value;
+        const patient = document.getElementById('patientName').value;
+        const loc = document.getElementById('sosLoc').value;
+        const phone = document.getElementById('sosPhone').value;
+        const urgency = document.getElementById('sosUrgency').value;
+        const map = document.getElementById('sosMap').value || "http://maps.google.com";
+
+        if (!title || !phone || !loc) return alert("يا الرشيد، املأ البيانات الأساسية!");
+
+        const newSosRef = database.ref('sos_calls').push();
+        newSosRef.set({
+            title, patient, loc, phone, urgency, map,
+            time: new Date().toLocaleTimeString('ar-EG', {hour: '2-digit', minute:'2-digit'})
+        }).then(() => {
+            alert("تم نشر النداء!");
+            document.getElementById('sosType').value = "";
+        });
+    }
+
+    database.ref('sos_calls').on('value', (snapshot) => {
+        const list = document.getElementById('activeSosList');
+        list.innerHTML = '';
+        snapshot.forEach(child => {
+            const data = child.val();
+            list.innerHTML += `<div class="sos-item">
+                <span>${data.title} - ${data.patient}</span>
+                <button class="btn-delete" onclick="deleteSos('${child.key}')">حذف</button>
+            </div>`;
+        });
+    });
+
+    function deleteSos(key) {
+        if(confirm("هل تم تقديم الخدمة وحذف النداء؟")) database.ref('sos_calls/' + key).remove();
+    }
+</script>
+</body>
+</html>

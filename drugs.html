@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>دليل الأدوية والتعرف البصري | شبكة الممرضين السودانيين</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --main-color: #27ae60;
+            --main-hover: #219150;
+            --dark-blue: #2c3e50;
+            --light-bg: #f4f7f6;
+            --accent-orange: #f39c12;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            background-color: var(--light-bg);
+            color: #333;
+            scroll-behavior: smooth;
+        }
+
+        /* تخصيص شكل شريط التمرير (Scrollbar) للصفحة بالكامل */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: var(--main-color); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--main-hover); }
+
+        /* التنسيقات العامة للملاحة */
+        .navbar {
+            background: white;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .logo { font-weight: 700; font-size: 1.4rem; text-decoration: none; color: var(--dark-blue); display: flex; align-items: center; gap: 8px; }
+        .logo span { color: var(--main-color); }
+        .logo i { color: var(--main-color); animation: heartbeat 1.5s infinite; }
+        @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        
+        .nav-links { list-style: none; display: flex; gap: 20px; margin: 0; padding: 0; flex-wrap: wrap; justify-content: center; }
+        .nav-links a { text-decoration: none; color: #555; font-size: 1rem; font-weight: 600; transition: all 0.3s ease; display: flex; align-items: center; gap: 6px; }
+        .nav-links a:hover { color: var(--main-color); transform: translateY(-2px); }
+
+        .drugs-header { 
+            background: linear-gradient(135deg, var(--dark-blue), #34495e); 
+            color: white; 
+            padding: 70px 20px 80px; 
+            text-align: center; 
+            border-radius: 0 0 40px 40px; 
+            box-shadow: 0 10px 20px rgba(44, 62, 80, 0.2);
+        }
+        .drugs-header h1 { margin: 0 0 15px 0; font-size: 2.2rem; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        .drugs-header p { margin: 0; font-size: 1.1rem; opacity: 0.9; }
+        
+        /* قسم رفع الصورة والنموذج */
+        .photo-consult-section { 
+            background: #fff; 
+            padding: 40px 30px; 
+            margin: -40px 5% 40px; 
+            border-radius: 25px; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08); 
+            position: relative;
+        }
+        .upload-container { 
+            max-width: 1000px; 
+            margin: auto; 
+            display: grid; 
+            grid-template-columns: 1.2fr 0.8fr; 
+            gap: 40px; 
+            align-items: stretch; 
+        }
+        
+        @media (max-width: 768px) { 
+            .upload-container { grid-template-columns: 1fr; }
+            .nav-links { display: none; } /* إخفاء القائمة العلوية في الموبايل والاعتماد على السريعة */
+            .photo-consult-section { padding: 30px 20px; margin: -30px 3% 30px; }
+        }
+        
+        /* تفعيل خيار السحب للنموذج في الشاشات الصغيرة لو زاد حجمه */
+        .upload-form-wrapper {
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--main-color) #f0f0f0;
+        }
+        
+        .upload-box {
+            border: 3px dashed var(--main-color); border-radius: 20px; padding: 30px; text-align: center;
+            background: #f9fdfc; cursor: pointer; transition: all 0.3s ease; position: relative; min-height: 250px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            box-shadow: inset 0 0 15px rgba(39, 174, 96, 0.05);
+        }
+        .upload-box:hover { background: #e8f6f3; border-color: var(--main-hover); transform: scale(1.02); }
+        .upload-icon { font-size: 4rem; color: var(--main-color); margin-bottom: 15px; transition: 0.3s; }
+        .upload-box:hover .upload-icon { transform: translateY(-5px); }
+        .file-input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+        #imagePreview { max-width: 100%; max-height: 250px; border-radius: 15px; display: none; margin-top: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); object-fit: cover; }
+        
+        .upload-form { display: flex; flex-direction: column; gap: 18px; }
+        .upload-form input, .upload-form textarea { 
+            padding: 15px; border: 2px solid #eee; border-radius: 12px; font-family: 'Cairo'; 
+            font-size: 1rem; outline: none; transition: all 0.3s ease; width: 100%; box-sizing: border-box; background: #fafafa;
+        }
+        .upload-form input:focus, .upload-form textarea:focus { border-color: var(--main-color); background: #fff; box-shadow: 0 0 0 4px rgba(39, 174, 96, 0.1); }
+        .btn-primary { 
+            background: linear-gradient(135deg, var(--main-color), var(--main-hover)); 
+            color: white; border: none; border-radius: 12px; cursor: pointer; 
+            font-weight: bold; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            box-shadow: 0 8px 20px rgba(39, 174, 96, 0.3);
+        }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(39, 174, 96, 0.4); }
+
+        /* شريط البحث */
+        .search-container { max-width: 700px; margin: 30px auto; padding: 0 20px; position: relative; }
+        .search-box { 
+            width: 100%; padding: 18px 25px 18px 50px; border-radius: 50px; border: 2px solid #eee; 
+            font-size: 1.1rem; font-family: 'Cairo'; box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
+            outline: none; transition: 0.3s; box-sizing: border-box;
+        }
+        .search-box:focus { border-color: var(--main-color); box-shadow: 0 10px 30px rgba(39, 174, 96, 0.15); }
+        
+        /* كروت الأدوية */
+        .container { max-width: 1200px; margin: auto; padding: 20px; }
+        .drugs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .drug-card { 
+            background: white; border-radius: 20px; padding: 30px; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.04); border-top: 6px solid var(--main-color); 
+            transition: all 0.4s ease; display: flex; flex-direction: column;
+        }
+        .drug-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+        .drug-name { font-size: 1.4rem; font-weight: 700; color: var(--dark-blue); display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #f0f0f0; padding-bottom: 15px; }
+        .drug-category { background: #e8f6f3; color: var(--main-color); padding: 6px 15px; border-radius: 30px; font-size: 0.85rem; font-weight: 600; }
+        .drug-info { list-style: none; padding: 0; margin: 0; flex-grow: 1; }
+        .drug-info li { margin-bottom: 12px; font-size: 1rem; color: #555; display: flex; align-items: flex-start; gap: 10px; line-height: 1.6; }
+        .drug-info i { color: var(--main-color); font-size: 1.1rem; margin-top: 4px; }
+        
+        .patient-request-card { border-top-color: var(--accent-orange); background: #fffdf9; }
+        .patient-img-preview { width: 100%; height: 200px; object-fit: cover; border-radius: 12px; margin: 15px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .btn-reply { 
+            background: var(--accent-orange); color: white; padding: 15px; text-align: center; 
+            border-radius: 12px; display: block; text-decoration: none; font-weight: bold; 
+            margin-top: auto; transition: 0.3s; box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3); font-size: 1.1rem;
+        }
+        .btn-reply:hover { background: #e67e22; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(243, 156, 18, 0.4); }
+
+        /* القائمة السريعة العائمة مع تفعيل السحب للأسفل والأعلى */
+        .quick-access-btn { 
+            position: fixed; bottom: 30px; right: 30px; width: 65px; height: 65px; 
+            background: linear-gradient(135deg, var(--dark-blue), #34495e); color: white; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 1.8rem; cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 2000; transition: 0.3s;
+        }
+        .quick-access-btn:hover { transform: scale(1.1) rotate(15deg); }
+        
+        .quick-menu { 
+            position: fixed; bottom: 110px; right: 30px; background: white; 
+            border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.2); 
+            display: none; width: 260px; z-index: 2000; border: 1px solid #eee;
+            /* تفعيل السحب (التمرير) */
+            max-height: 400px; 
+            overflow-y: auto; 
+            animation: fadeInUp 0.3s ease;
+            scrollbar-width: thin;
+            scrollbar-color: var(--main-color) #f0f0f0;
+        }
+        
+        /* تصميم شريط التمرير للقائمة السريعة */
+        .quick-menu::-webkit-scrollbar { width: 6px; }
+        .quick-menu::-webkit-scrollbar-track { background: #f0f0f0; border-radius: 10px; }
+        .quick-menu::-webkit-scrollbar-thumb { background: var(--main-color); border-radius: 10px; }
+        
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .quick-menu ul { list-style: none; padding: 10px; margin: 0; }
+        .quick-menu li a { display: flex; align-items: center; gap: 12px; padding: 12px 15px; text-decoration: none; color: #444; border-radius: 10px; font-weight: 600; transition: 0.2s; }
+        .quick-menu li a:hover { background: #e8f6f3; color: var(--main-color); transform: translateX(-5px); }
+        .quick-menu li a i { color: var(--main-color); width: 20px; text-align: center; }
+
+        footer { text-align: center; padding: 40px; background: #fff; color: #888; font-size: 1rem; border-top: 1px solid #eee; margin-top: 50px; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <i class="fas fa-heart-pulse"></i> شبكة الممرضين <span>السودانيين</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+            <li><a href="drugs.html" style="color: var(--main-color);"><i class="fas fa-pills"></i> دليل الأدوية</a></li>
+            <li><a href="sos.html"><i class="fas fa-ambulance"></i> الاستغاثة</a></li>
+            <li><a href="blood.html"><i class="fas fa-tint"></i> بنك الدم</a></li>
+            <li><a href="consult.html"><i class="fas fa-comments"></i> الاستشارات</a></li>
+        </ul>
+    </nav>
+
+    <div class="drugs-header">
+        <h1><i class="fas fa-capsules"></i> الدليل السريري والتعرف على الأدوية</h1>
+        <p>ابحث عن جرعات الأدوية، أو ارفع صورة لدواء لا تعرفه ليساعدك زملاؤك الممرضون.</p>
+    </div>
+
+    <section class="photo-consult-section">
+        <form id="drugPhotoForm" action="https://formsubmit.co/alrsheedkamal5003@gmail.com" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="_subject" value="💊 استفسار عن دواء جديد (مرفق صورة) - شبكة الممرضين">
+            <input type="hidden" name="_captcha" value="false"> 
+            <input type="hidden" name="_template" value="table">
+
+            <div class="upload-container">
+                <div class="upload-form-wrapper">
+                    <div class="upload-form">
+                        <h2 style="color: var(--dark-blue); margin: 0;"><i class="fas fa-camera"></i> صور الدواء واسألنا</h2>
+                        <p style="color: #666; font-size: 0.95rem; margin-bottom: 5px;">ارفق الصورة وسيرد عليك ممرض عبر الواتساب.</p>
+                        
+                        <input type="text" name="اسم_المريض" placeholder="اسم المريض أو المستفسر" required>
+                        <input type="tel" name="رقم_الواتساب" placeholder="رقم الواتساب (لإرسال الرد)" required>
+                        <textarea name="ملاحظة_الاستفسار" placeholder="أضف ملاحظة: (مثلاً: الدكتور كتبه لي لشنو؟)" rows="4" required></textarea>
+                        
+                        <button type="submit" class="btn-primary" style="padding: 18px; font-size: 1.1rem; margin-top: 5px;">
+                            <i class="fas fa-paper-plane"></i> إرسال الصورة للممرضين
+                        </button>
+                    </div>
+                </div>
+
+                <div class="upload-box" id="uploadBox" onclick="document.getElementById('drugImageInput').click();">
+                    <input type="file" name="صورة_الدواء_المرفقة" id="drugImageInput" class="file-input" accept="image/*" onchange="previewImage(event)" required>
+                    <div id="uploadPlaceholder">
+                        <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                        <h3 style="color: var(--dark-blue); margin: 10px 0;">اضغط لإضافة صورة</h3>
+                        <p style="color: #888; font-size: 0.9rem; margin: 0;">(صورة واضحة للاسم أو شكل الحبة)</p>
+                    </div>
+                    <img id="imagePreview" src="" alt="معاينة الدواء">
+                </div>
+            </div>
+        </form> 
+    </section>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" class="search-box" placeholder="🔍 بحث سريع عن اسم الدواء (بالعربي أو الإنجليزي)..." onkeyup="filterDrugs()">
+    </div>
+
+    <section class="container">
+        <div class="drugs-grid" id="drugsGrid">
+            
+            <div class="drug-card patient-request-card">
+                <div class="drug-name" style="color: #d35400;">
+                    استفسار من مريض
+                    <span class="drug-category" style="background: #fdebd0; color: #d35400;"><i class="fas fa-clock"></i> منذ قليل</span>
+                </div>
+                <img src="https://via.placeholder.com/300x180?text=صورة+شريط+دواء+غير+واضح" class="patient-img-preview" alt="صورة الدواء">
+                <ul class="drug-info">
+                    <li><i class="fas fa-user"></i> <b>المستفسر:</b> الحاج عثمان</li>
+                    <li><i class="fas fa-question-circle"></i> <b>السؤال:</b> "يا ولدي الحبة دي حقت ضغط ولا سكري؟"</li>
+                </ul>
+                <a href="https://wa.me/249xxxxxxx" class="btn-reply"><i class="fab fa-whatsapp"></i> الرد عبر الواتساب</a>
+            </div>
+
+            <div class="drug-card">
+                <div class="drug-name">Ceftriaxone <span class="drug-category">مضاد حيوي</span></div>
+                <ul class="drug-info">
+                    <li><i class="fas fa-tag"></i> <span><b>الاسم التجاري:</b> Rocephin</span></li>
+                    <li><i class="fas fa-syringe"></i> <span><b>طريقة الإعطاء:</b> IV / IM</span></li>
+                    <li><i class="fas fa-balance-scale"></i> <span><b>الجرعة:</b> 1-2 جرام يومياً</span></li>
+                    <li style="color: #e74c3c;"><i class="fas fa-exclamation-triangle"></i> <span><b>تحذير:</b> يحتاج اختبار حساسية.</span></li>
+                </ul>
+            </div>
+
+            <div class="drug-card">
+                <div class="drug-name">Paracetamol IV <span class="drug-category">مسكن</span></div>
+                <ul class="drug-info">
+                    <li><i class="fas fa-tag"></i> <span><b>الاسم التجاري:</b> Perfalgan</span></li>
+                    <li><i class="fas fa-syringe"></i> <span><b>طريقة الإعطاء:</b> IV Infusion</span></li>
+                    <li><i class="fas fa-balance-scale"></i> <span><b>الجرعة:</b> 1 جرام كل 8 ساعات</span></li>
+                    <li style="color: #e74c3c;"><i class="fas fa-exclamation-triangle"></i> <span><b>تحذير:</b> لا تتجاوز 4 جرام يومياً.</span></li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="quick-access-btn" onclick="toggleQuickMenu()" title="القائمة السريعة">
+        <i class="fas fa-bars"></i>
+    </div>
+    
+    <div id="quickMenu" class="quick-menu">
+        <ul>
+             <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+            <li><a href="about.html"><i class="fas fa-info-circle"></i> من نحن</a></li>
+            <li><a href="research.html"><i class="fas fa-book-medical"></i> مكتبة الأبحاث</a></li>
+            <li><a href="jobs.html"><i class="fas fa-user-md"></i> فرص العمل</a></li>
+            <li><a href="training.html"><i class="fas fa-users"></i> التدريب المستمر</a></li>
+            <li><a href="consult.html"><i class="fas fa-comments"></i> ركن الاستشارات</a></li>
+            <li><a href="join.html"><i class="fas fa-user-plus"></i> انضم إلينا (عضوية)</a></li>
+            <li><a href="sos.html"><i class="fas fa-ambulance"></i> نداءات الاستغاثة (SOS)</a></li>
+            <li><a href="blood.html"><i class="fas fa-tint"></i> بنك الدم التفاعلي</a></li>
+            <li><a href="drugs.html"><i class="fas fa-pills"></i> دليل الأدوية السريري</a></li>
+            <li><a href="hospitals.html"><i class="fas fa-hospital-alt"></i> المستشفيات</a></li>
+            <li><a href="handover.html"><i class="fas fa-exchange-alt"></i> تسليم الوردية</a></li>
+            <li><a href="calc.html"><i class="fas fa-calculator"></i> الحاسبة السريرية</a></li>
+            <li><a href="academy.html"><i class="fas fa-graduation-cap"></i> أكاديمية الشبكة</a></li>
+            <li><a href="activities.html"><i class="fas fa-heartbeat"></i> نبض الميدان (النشاطات)</a></li>
+            <li><a href="equipment.html"><i class="fas fa-tools"></i> موسوعة المعدات</a></li>
+            <li><a href="forum.html"><i class="fas fa-comments"></i> صوت التمريض (المنتدى)</a></li>
+            <li><a href="locator.html"><i class="fas fa-search-location"></i> الرادار الطبي</a></li>
+            <li><a href="archive.html"><i class="fas fa-book-medical"></i> أرشيف الأبحاث</a></li>
+            <li><a href="upload-research.html"><i class="fas fa-cloud-upload-alt"></i> شارك بحثك العلمي</a></li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>جميع الحقوق محفوظة &copy; 2026 - شبكة الممرضين السودانيين</p>
+    </footer>
+
+    <script>
+        // معاينة الصورة المرفوعة
+        function previewImage(event) {
+            const input = event.target;
+            const preview = document.getElementById('imagePreview');
+            const placeholder = document.getElementById('uploadPlaceholder');
+            
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    placeholder.style.display = 'none';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // إرسال النموذج باستخدام FormSubmit و AJAX (كما هو دون تغيير)
+        document.getElementById('drugPhotoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const form = this;
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+            submitBtn.disabled = true;
+
+            fetch(form.action, {
+                method: form.method,
+                body: new FormData(form),
+                headers: { 'Accept': 'application/json' }
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('تم استلام طلبك بنجاح! سيقوم أحد الممرضين بالتواصل معك عبر الواتساب قريباً.');
+                    form.reset();
+                    document.getElementById('imagePreview').style.display = 'none';
+                    document.getElementById('uploadPlaceholder').style.display = 'block';
+                } else {
+                    alert('حدث خطأ أثناء الإرسال، يرجى المحاولة مرة أخرى.');
+                }
+            })
+            .catch(error => {
+                alert('خطأ في الاتصال بالإنترنت.');
+            })
+            .finally(() => {
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+            });
+        });
+
+        // وظيفة البحث
+        function filterDrugs() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.getElementsByClassName('drug-card');
+            for (let i = 0; i < cards.length; i++) {
+                let text = cards[i].innerText.toLowerCase();
+                cards[i].style.display = text.includes(input) ? "" : "none";
+            }
+        }
+
+        // فتح وإغلاق القائمة السريعة
+        function toggleQuickMenu() {
+            const menu = document.getElementById('quickMenu');
+            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+        }
+
+        // إغلاق القائمة عند الضغط خارجها
+        window.onclick = function(event) {
+            if (!event.target.closest('.quick-access-btn') && !event.target.closest('.quick-menu')) {
+                document.getElementById('quickMenu').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
