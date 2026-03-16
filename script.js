@@ -2,6 +2,7 @@
 document.querySelectorAll('.faq-question').forEach(button => {
     button.addEventListener('click', () => {
         const answer = button.nextElementSibling;
+        if(!answer) return; // حماية من الأخطاء
         button.classList.toggle('active');
         if (answer.style.maxHeight) {
             answer.style.maxHeight = null;
@@ -13,49 +14,15 @@ document.querySelectorAll('.faq-question').forEach(button => {
     });
 });
 
-// =========================================================
-// 2. معالجة نماذج التواصل (محدث للعمل مع Formspree بالخلفية)
-// =========================================================
+// 2. معالجة نموذج التواصل 
 const contactForm = document.getElementById('contactForm');
 if (contactForm) {
     contactForm.addEventListener('submit', function(e) {
-        e.preventDefault(); // نمنع تحديث الصفحة الافتراضي
-        
-        // جلب البيانات من الفورم
-        const formData = new FormData(this);
-        const nameInput = this.querySelector('input[name="الاسم"], input[type="text"]');
-        const name = nameInput ? nameInput.value : 'ممرض/ة';
-
-        // تغيير نص الزر أثناء الإرسال (اختياري لكنه احترافي)
-        const submitBtn = this.querySelector('button[type="submit"]');
-        const originalBtnText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
-        submitBtn.disabled = true;
-
-        // إرسال البيانات لـ Formspree في الخلفية
-        fetch(this.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'Accept': 'application/json'
-            }
-        })
-        .then(response => {
-            if (response.ok) {
-                alert('شكراً لتواصلك معنا ' + name + '. تم استلام رسالتك وسنرد عليك قريباً!');
-                this.reset(); // تفريغ الحقول بعد النجاح
-            } else {
-                alert('عذراً، حدثت مشكلة أثناء الإرسال. يرجى المحاولة لاحقاً.');
-            }
-        })
-        .catch(error => {
-            alert('خطأ في الاتصال! يرجى التأكد من اتصالك بالإنترنت.');
-        })
-        .finally(() => {
-            // إرجاع الزر لشكله الطبيعي
-            submitBtn.innerHTML = originalBtnText;
-            submitBtn.disabled = false;
-        });
+        e.preventDefault(); 
+        const nameInput = this.querySelector('input[type="text"]');
+        const name = nameInput ? nameInput.value : '';
+        alert('شكراً لتواصلك معنا ممرض/ة ' + name + '. تم استلام رسالتك وسنرد عليك قريباً!');
+        this.reset(); 
     });
 }
 
@@ -78,27 +45,23 @@ if (fadeElements.length > 0) {
 // =========================================================
 // 4. برمجة النافذة المنبثقة (المودال) في صفحة الأرشيف
 // =========================================================
-const modal = document.getElementById("summaryModal");
+const summaryModal = document.getElementById("summaryModal");
 const modalTitle = document.getElementById("modalTitle");
 const modalBody = document.getElementById("modalBody");
 const closeBtn = document.querySelector(".close-btn");
 
-if (modal && closeBtn) {
+if (summaryModal && closeBtn) {
+    // إغلاق المودال عند الضغط على (X)
     closeBtn.onclick = function() {
-        modal.style.display = "none";
-    }
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
+        summaryModal.style.display = "none";
     }
 }
 
 function openSummary(title, text) {
-    if (modalTitle && modalBody && modal) {
+    if (modalTitle && modalBody && summaryModal) {
         modalTitle.innerText = title;
         modalBody.innerText = text;
-        modal.style.display = "block";
+        summaryModal.style.display = "block";
     }
 }
 
@@ -111,14 +74,17 @@ const totalPages = 3;
 function goToPage(pageNumber) {
     currentPage = pageNumber; 
     
+    // إخفاء كل الكروت أولاً
     const allCards = document.querySelectorAll('.result-card');
     if (allCards.length === 0) return; 
     
     allCards.forEach(card => card.style.display = 'none');
 
+    // إظهار كروت الصفحة المطلوبة فقط
     const targetCards = document.querySelectorAll(`.result-card[data-page="${pageNumber}"]`);
     targetCards.forEach(card => card.style.display = 'flex');
 
+    // تظبيط لون أزرار الأرقام
     const allBtns = document.querySelectorAll('.pagination .page-btn');
     allBtns.forEach(btn => btn.classList.remove('active'));
     
@@ -151,6 +117,7 @@ function createToast(message) {
     
     container.appendChild(toast);
 
+    // إخفاء التنبيه بعد 4 ثواني
     setTimeout(() => {
         toast.style.opacity = '0';
         setTimeout(() => toast.remove(), 500);
@@ -167,21 +134,45 @@ setTimeout(() => {
 }, 8000);
 
 
-// وظيفة فتح وإغلاق قائمة الشاشات السريعة
-function toggleQuickMenu() {
+// =========================================================
+// 6. وظيفة القائمة السريعة وإغلاق النوافذ المنبثقة (بدون تضارب)
+// =========================================================
+function toggleQuickMenu(event) {
+    if(event) {
+        event.preventDefault();
+        event.stopPropagation(); // منع التداخل مع ضغطات الشاشة
+    }
     const menu = document.getElementById('quickMenu');
-    if (menu.style.display === 'block') {
-        menu.style.display = 'none';
-    } else {
-        menu.style.display = 'block';
+    const btn = document.getElementById('quickToggleBtn');
+    
+    if (menu) {
+        menu.classList.toggle('active'); // استخدام الكلاس للتنسيق
+        if(btn) btn.classList.toggle('active-btn');
     }
 }
 
-// إغلاق القائمة عند الضغط في أي مكان خارجها
-window.onclick = function(event) {
+// نستخدم addEventListener لحل كل مشكلات التضارب بين الشاشات
+document.addEventListener('click', function(event) {
     const menu = document.getElementById('quickMenu');
-    const btn = document.querySelector('.quick-access-btn');
-    if (event.target !== menu && !menu.contains(event.target) && event.target !== btn && !btn.contains(event.target)) {
-        menu.style.display = 'none';
+    const btn = document.getElementById('quickToggleBtn');
+    const eqModal = document.getElementById('eqModal'); // مودال صفحة المعدات
+    const archiveModal = document.getElementById('summaryModal'); // مودال الأرشيف
+
+    // 1. إغلاق القائمة السريعة عند الضغط خارجها
+    if (menu && menu.classList.contains('active')) {
+        if (!menu.contains(event.target) && btn && !btn.contains(event.target)) {
+            menu.classList.remove('active');
+            btn.classList.remove('active-btn');
+        }
     }
-}
+
+    // 2. إغلاق نافذة المعدات (إذا كنا في شاشتها)
+    if (eqModal && event.target === eqModal) {
+        eqModal.style.display = 'none';
+    }
+
+    // 3. إغلاق نافذة الأرشيف (إذا كنا في شاشتها)
+    if (archiveModal && event.target === archiveModal) {
+        archiveModal.style.display = 'none';
+    }
+});

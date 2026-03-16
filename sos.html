@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="style.css">
     
     <style>
-        /* المتغيرات الأساسية والتحديثات الجمالية */
+        /* المتغيرات الأساسية والتحديثات الجمالية الأصلية */
         :root {
             --sos-red: #e74c3c;
             --sos-red-hover: #c0392b;
@@ -59,7 +59,7 @@
             50% { transform: scale(1.2); }
         }
 
-        .nav-links { list-style: none; display: flex; gap: 25px; margin: 0; padding: 0; }
+        .nav-links { list-style: none; display: flex; gap: 25px; margin: 0; padding: 0; align-items: center; }
         .nav-links a { text-decoration: none; color: #555; font-weight: 700; display: flex; align-items: center; gap: 8px; transition: var(--transition); padding: 5px 10px; border-radius: 8px; }
         .nav-links a:hover, .nav-links a.active { color: var(--sos-red); background: rgba(231, 76, 60, 0.1); transform: translateY(-2px); }
 
@@ -135,6 +135,12 @@
             box-shadow: 0 8px 25px rgba(231, 76, 60, 0.5); cursor: pointer; z-index: 1000;
             transition: var(--transition); animation: float 3s ease-in-out infinite;
         }
+        
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
 
         .modal {
             display: none; position: fixed; z-index: 2000; left: 0; top: 0; 
@@ -147,19 +153,118 @@
             overflow-y: auto; position: relative; border-top: 8px solid var(--sos-red);
         }
 
+        footer { text-align: center; padding: 25px; background: #1e272e; color: white; font-weight: 600; margin-top: 40px; border-top: 5px solid var(--sos-red); }
+
+        /* ========================================= */
+        /* التنسيقات المضافة لزر ونافذة المبرمج (Dev Modal) */
+        /* ========================================= */
+        .nav-dev-btn { 
+            background: rgba(231, 76, 60, 0.1); 
+            color: var(--sos-red) !important; 
+            border: 1px solid var(--sos-red); 
+            padding: 8px 18px !important; 
+            border-radius: 10px; 
+            margin-right: 10px; 
+            font-weight: 900; 
+            transition: 0.3s; 
+            cursor: pointer; 
+            display: inline-flex; 
+            align-items: center; 
+            font-family: 'Cairo', sans-serif;
+        }
+        .nav-dev-btn:hover { 
+            background: var(--sos-red); 
+            color: white !important; 
+            box-shadow: 0 4px 15px rgba(231,76,60,0.4); 
+            transform: translateY(-2px); 
+        }
+
+        .copyright-btn { 
+            background: rgba(255,255,255,0.05); 
+            border: 1px solid rgba(255,255,255,0.2); 
+            color: #fff; 
+            padding: 10px 25px; 
+            border-radius: 30px; 
+            cursor: pointer; 
+            font-family: 'Cairo', sans-serif; 
+            font-size: 1rem; 
+            margin-top: 15px; 
+            transition: 0.3s; 
+            font-weight: bold; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 8px; 
+        }
+        .copyright-btn:hover { 
+            background: var(--sos-red); 
+            border-color: var(--sos-red); 
+            transform: translateY(-3px); 
+            box-shadow: 0 5px 15px rgba(231,76,60,0.4); 
+        }
+
+        .dev-modal { display: none; position: fixed; z-index: 999999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); opacity: 0; transition: opacity 0.3s ease; }
+        .dev-modal.show-modal { display: flex; opacity: 1; justify-content: center; align-items: center; }
+        .dev-content { background: white; width: 90%; max-width: 420px; padding: 40px 30px; border-radius: 25px; text-align: center; position: relative; border-bottom: 8px solid var(--sos-red); color: #333; box-shadow: 0 25px 50px rgba(0,0,0,0.4); transform: translateY(-50px); opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .dev-modal.show-modal .dev-content { transform: translateY(0); opacity: 1; }
+        .dev-img { width: 140px; height: 140px; border-radius: 50%; border: 5px solid var(--sos-red); margin-bottom: 20px; object-fit: cover; box-shadow: 0 10px 25px rgba(231,76,60,0.4); padding: 4px; background: white; }
+        .close-dev { position: absolute; left: 25px; top: 20px; font-size: 30px; cursor: pointer; color: #aaa; transition: 0.3s; line-height: 1; }
+        .close-dev:hover { color: var(--sos-red); transform: rotate(90deg) scale(1.2); }
+        .dev-contact-info { text-align: right; margin-top: 25px; background: #fdf2f2; padding: 25px; border-radius: 15px; border: 2px dashed var(--sos-red); }
+        .dev-contact-info p { margin: 15px 0; font-size: 1.1rem; display: flex; align-items: center; gap: 15px; font-weight: bold; }
+        .dev-contact-info a { color: var(--dark-text); text-decoration: none; transition: 0.3s; }
+        .dev-contact-info a:hover { color: var(--sos-red); padding-right: 5px; }
+        .dev-contact-info i { color: var(--sos-red); width: 25px; font-size: 1.3rem; text-align: center; }
+
+        /* ========================================= */
+        /* القائمة السريعة المطورة (الزر العائم) */
+        /* ========================================= */
         .quick-access-btn {
             position: fixed; bottom: 30px; right: 30px; background: #1e272e; color: white;
             width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 24px; cursor: pointer; z-index: 1001;
+            font-size: 24px; cursor: pointer; z-index: 100000; transition: 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            -webkit-tap-highlight-color: transparent;
         }
+        
+        .quick-access-btn:hover, .quick-access-btn.active-btn { transform: scale(1.1) rotate(90deg); background: var(--sos-red); }
 
         .quick-menu {
-            display: none; position: fixed; bottom: 110px; right: 30px; background: white;
-            width: 280px; max-height: 450px; overflow-y: auto; border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.25); z-index: 1000; border: 1px solid rgba(0,0,0,0.05);
+            display: none; position: fixed; bottom: 110px; right: 30px; background: rgba(255,255,255,0.98); 
+            backdrop-filter: blur(15px); width: 280px; max-height: 75vh; overflow-y: auto; border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.2); z-index: 99999; border: 1px solid rgba(255,255,255,0.5);
+            display: block !important; 
+            visibility: hidden; opacity: 0; pointer-events: none; 
+            transform: translateY(20px) scale(0.9); 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+        }
+        
+        /* كلاس التفعيل للنافذة السريعة */
+        .quick-menu.active { 
+            visibility: visible !important; 
+            opacity: 1 !important; 
+            transform: translateY(0) scale(1) !important; 
+            pointer-events: auto !important; 
         }
 
-        footer { text-align: center; padding: 25px; background: #1e272e; color: white; font-weight: 600; margin-top: 40px; border-top: 5px solid var(--sos-red); }
+        .quick-menu::-webkit-scrollbar { width: 5px; }
+        .quick-menu::-webkit-scrollbar-track { background: #f4f7f6; border-radius: 10px; }
+        .quick-menu::-webkit-scrollbar-thumb { background: var(--sos-red); border-radius: 10px; }
+        .quick-menu::-webkit-scrollbar-thumb:hover { background: var(--dark-text); }
+        
+        .quick-menu ul { list-style: none; padding: 10px 0; margin: 0; }
+        .quick-menu li { border-bottom: 1px solid #eee; }
+        .quick-menu li:last-child { border-bottom: none; }
+        .quick-menu li a { display: flex; align-items: center; gap: 15px; padding: 15px 25px; color: var(--dark-text); font-weight: 800; text-decoration: none; transition: 0.3s; }
+        .quick-menu li a:hover { background: var(--dark-bg); color: var(--sos-red); padding-right: 35px; }
+        .quick-menu li a i { width: 25px; text-align: center; color: var(--sos-red); font-size: 1.3rem; transition: 0.3s; }
+        .quick-menu li a:hover i { transform: scale(1.2); }
+
+        @media (max-width: 768px) {
+            .navbar { flex-direction: column; gap: 15px; padding: 10px; }
+            .nav-links { display: flex; flex-wrap: nowrap; overflow-x: auto; width: 100%; justify-content: flex-start; padding-bottom: 5px; -webkit-overflow-scrolling: touch; }
+            .nav-links::-webkit-scrollbar { display: none; }
+            .nav-links li { flex: 0 0 auto; }
+        }
     </style>
 </head>
 <body>
@@ -172,6 +277,7 @@
             <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
             <li><a href="sos.html" class="active" style="color: var(--sos-red);"><i class="fas fa-ambulance"></i> الاستغاثة</a></li>
             <li><a href="consult.html"><i class="fas fa-comments"></i> الاستشارات</a></li>
+            <li><button class="nav-dev-btn" onclick="openDevModal(event)"><i class="fas fa-code"></i> المبرمج</button></li>
         </ul>
     </nav>
 
@@ -195,7 +301,7 @@
 
     <div id="sosModal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeSOSModal()" style="position: absolute; left: 25px; top: 20px; font-size: 30px; cursor: pointer;">×</span>
+            <span class="close-btn" onclick="closeSOSModal()" style="position: absolute; left: 25px; top: 20px; font-size: 30px; cursor: pointer; color: #aaa;">×</span>
             <h2 style="color: var(--sos-red); font-weight: 900; margin-top: 0; text-align: center;"><i class="fas fa-tower-broadcast"></i> أرسل نداءك</h2>
             <p style="text-align: center; color: #666;">قم بتعبئة البيانات وسيقوم أقرب ممرض متطوع بالتواصل معك فوراً.</p>
             
@@ -211,17 +317,62 @@
         </div>
     </div>
 
-    <div class="quick-access-btn" onclick="toggleQuickMenu()"><i class="fas fa-th-large"></i></div>
+    <div class="quick-access-btn" id="quickToggleBtn" title="كل الشاشات">
+        <i class="fas fa-th-large" style="pointer-events: none;"></i>
+    </div>
+    
     <div id="quickMenu" class="quick-menu">
         <ul>
             <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
-            <li><a href="locator.html"><i class="fas fa-search-location"></i> الرادار الطبي</a></li>
+            <li><a href="about.html"><i class="fas fa-info-circle"></i> من نحن</a></li>
+            <li><a href="research.html"><i class="fas fa-book-medical"></i> مكتبة الأبحاث</a></li>
+            <li><a href="jobs.html"><i class="fas fa-user-md"></i> فرص العمل</a></li>
             <li><a href="training.html"><i class="fas fa-users"></i> التدريب المستمر</a></li>
-            <li><a href="sos.html"><i class="fas fa-ambulance"></i> نداءات الاستغاثة</a></li>
+            <li><a href="consult.html"><i class="fas fa-comments"></i> ركن الاستشارات</a></li>
+            <li><a href="join.html"><i class="fas fa-user-plus"></i> انضم إلينا (عضوية)</a></li>
+            <li><a href="sos.html"><i class="fas fa-ambulance"></i> نداءات الاستغاثة (SOS)</a></li>
+            <li><a href="blood.html"><i class="fas fa-tint"></i> بنك الدم التفاعلي</a></li>
+            <li><a href="drugs.html"><i class="fas fa-pills"></i> دليل الأدوية السريري</a></li>
+            <li><a href="hospitals.html"><i class="fas fa-hospital-alt"></i> المستشفيات</a></li>
+            <li><a href="handover.html"><i class="fas fa-exchange-alt"></i> تسليم الوردية</a></li>
+            <li><a href="calc.html"><i class="fas fa-calculator"></i> الحاسبة السريرية</a></li>
+            <li><a href="academy.html"><i class="fas fa-graduation-cap"></i> أكاديمية الشبكة</a></li>
+            <li><a href="activities.html"><i class="fas fa-heartbeat"></i> نبض الميدان (النشاطات)</a></li>
+            <li><a href="equipment.html"><i class="fas fa-tools"></i> موسوعة المعدات</a></li>
+            <li><a href="forum.html"><i class="fas fa-comments"></i> صوت التمريض (المنتدى)</a></li>
+            <li><a href="locator.html"><i class="fas fa-search-location"></i> الرادار الطبي</a></li>
+            <li><a href="archive.html"><i class="fas fa-book-medical"></i> أرشيف الأبحاث</a></li>
+            <li><a href="upload-research.html"><i class="fas fa-cloud-upload-alt"></i> شارك بحثك العلمي</a></li>
         </ul>
     </div>
 
-    <footer><p>جميع الحقوق محفوظة © 2026 - شبكة الممرضين السودانيين</p></footer>
+    <div id="devModal" class="dev-modal">
+        <div class="dev-content">
+            <span class="close-dev" id="closeDevBtn">&times;</span>
+            
+            <img src="me.jpeg" alt="المبرمج الرشيد كمال" class="dev-img" onerror="this.src='https://via.placeholder.com/150?text=Al-Rasheed'">
+            
+            <h3 style="color: var(--dark-text); margin-bottom: 5px; font-weight: 900; font-size: 1.6rem;">تطوير المبرمج: الرشيد كمال</h3>
+            <p style="color: #666; font-size: 1.1rem; font-weight: bold;">متخصص في حلول الويب والأنظمة الصحية</p>
+            
+            <div class="dev-contact-info">
+                <p><i class="fas fa-phone-alt"></i> <a href="tel:0127825456">0127825456</a></p>
+                <p><i class="fas fa-phone-alt"></i> <a href="tel:0964278052">0964278052</a></p>
+                <p><i class="fas fa-envelope"></i> <a href="mailto:alrsheedkamal6002@gmail.com">alrsheedkamal6002@gmail.com</a></p>
+            </div>
+
+            <hr style="margin: 25px 0; border: 0; border-top: 1px solid #eee;">
+            <p style="margin-top: 10px; font-weight: 900; font-size: 1.2rem; color: var(--sos-red);">Al-Rasheed Company © 2026</p>
+            <p style="font-size: 0.9rem; color: #888; font-weight: bold;">صنع بكل فخر لدعم الكوادر الصحية السودانية</p>
+        </div>
+    </div>
+
+    <footer>
+        <p style="margin-bottom: 10px;">جميع الحقوق محفوظة © 2026 - شبكة الممرضين السودانيين</p>
+        <button class="copyright-btn" onclick="openDevModal(event)">
+            <i class="fas fa-code"></i> حقوق البرمجة والتطوير
+        </button>
+    </footer>
 
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
@@ -269,12 +420,56 @@
             });
         });
 
-        // وظائف القوائم والمودال الأصلية (كما هي)
+        // وظائف المودال الخاصة بالاستغاثة
         function openSOSModal() { document.getElementById('sosModal').style.display='block'; }
         function closeSOSModal() { document.getElementById('sosModal').style.display='none'; }
-        function toggleQuickMenu() { 
-            const q = document.getElementById('quickMenu'); 
-            q.style.display = q.style.display === 'block' ? 'none' : 'block'; 
+        
+        // ========================================================
+        // سكريبت القائمة السريعة ونافذة المبرمج (الجديد والمعدل)
+        // ========================================================
+        const quickMenu = document.getElementById('quickMenu');
+        const quickToggleBtn = document.getElementById('quickToggleBtn');
+
+        if (quickToggleBtn && quickMenu) {
+            quickToggleBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                quickMenu.classList.toggle('active');
+                quickToggleBtn.classList.toggle('active-btn');
+            });
+        }
+
+        // مستمع نقرات لإغلاق النوافذ عند النقر خارجها
+        document.addEventListener('click', function(e) {
+            if (quickMenu && quickToggleBtn) {
+                if (!quickMenu.contains(e.target) && !quickToggleBtn.contains(e.target)) {
+                    quickMenu.classList.remove('active');
+                    quickToggleBtn.classList.remove('active-btn');
+                }
+            }
+            
+            const devModal = document.getElementById('devModal');
+            if (devModal && e.target === devModal) {
+                devModal.classList.remove('show-modal');
+            }
+            
+            const sosModal = document.getElementById('sosModal');
+            if(sosModal && e.target === sosModal) {
+                closeSOSModal();
+            }
+        });
+
+        // دوال فتح وإغلاق نافذة المبرمج
+        function openDevModal(e) { 
+            if(e) { e.preventDefault(); e.stopPropagation(); }
+            document.getElementById('devModal').classList.add('show-modal'); 
+        }
+        
+        const closeDevBtn = document.getElementById('closeDevBtn');
+        if (closeDevBtn) {
+            closeDevBtn.addEventListener('click', function() {
+                document.getElementById('devModal').classList.remove('show-modal');
+            });
         }
 
         // سكريبت FormSubmit الأصلي كما هو
