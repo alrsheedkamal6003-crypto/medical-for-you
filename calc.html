@@ -11,13 +11,15 @@
         /* التنسيقات الجوهرية لضمان استقرار الحاسبة كما هي */
         :root { --main-color: #00a884; --dark-blue: #1e272e; }
         
-        body { background-color: #f4f7f6; font-family: 'Cairo', sans-serif; margin: 0; }
+        body { background-color: #f4f7f6; font-family: 'Cairo', sans-serif; margin: 0; padding-bottom: 90px; }
 
         .calc-header { 
             background: #1e272e; color: white; padding: 50px 20px; 
             text-align: center; border-radius: 0 0 40px 40px; 
             border-bottom: 5px solid var(--main-color); 
         }
+        .calc-header h1 { margin: 0 0 10px 0; font-size: 2.2rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3); font-weight: 900; }
+        .calc-header p { margin: 0; font-size: 1.1rem; opacity: 0.9; font-weight: bold; }
 
         /* الهيدر والقائمة العلوية */
         .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: rgba(255, 255, 255, 0.95); box-shadow: 0 4px 20px rgba(0,0,0,0.06); position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px); }
@@ -38,42 +40,47 @@
         .calc-card {
             background: white; border-radius: 20px; padding: 25px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.08); border-top: 6px solid var(--main-color);
-            position: relative; transition: 0.3s;
+            position: relative; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; flex-direction: column;
         }
-        .calc-card:hover { transform: translateY(-5px); }
+        .calc-card:hover { transform: translateY(-8px); }
 
         .calc-card h3 { 
             color: var(--dark-blue); margin: 0 0 20px 0; 
             display: flex; align-items: center; gap: 12px; 
             border-bottom: 2px solid #f4f7f6; padding-bottom: 15px; 
-            font-size: 1.2rem;
+            font-size: 1.3rem; font-weight: 900;
         }
-        .calc-card h3 i { color: var(--main-color); }
+        .calc-card h3 i { color: var(--main-color); font-size: 1.5rem; }
         
         .form-group { margin-bottom: 15px; text-align: right; }
-        .form-group label { display: block; font-weight: bold; color: #555; margin-bottom: 8px; font-size: 0.9rem; }
+        .form-group label { display: block; font-weight: bold; color: #555; margin-bottom: 8px; font-size: 0.95rem; }
         
         .calc-input, .calc-select {
-            width: 100%; padding: 12px; border: 2px solid #edf2f1; border-radius: 10px;
-            font-family: 'Cairo'; font-size: 1rem; transition: 0.3s; box-sizing: border-box;
-            background: #fafafa;
+            width: 100%; padding: 14px; border: 2px solid #edf2f1; border-radius: 12px;
+            font-family: 'Cairo'; font-size: 1.05rem; transition: 0.3s; box-sizing: border-box;
+            background: #fafafa; font-weight: bold;
         }
-        .calc-input:focus, .calc-select:focus { border-color: var(--main-color); outline: none; background: white; }
+        .calc-input:focus, .calc-select:focus { border-color: var(--main-color); outline: none; background: white; box-shadow: 0 0 0 4px rgba(0,168,132,0.1); }
         
         .btn-calc {
             width: 100%; background: var(--main-color); color: white; border: none;
-            padding: 14px; border-radius: 12px; font-weight: bold; font-size: 1.1rem;
-            cursor: pointer; transition: 0.3s; margin-top: 10px; font-family: 'Cairo';
+            padding: 16px; border-radius: 12px; font-weight: 900; font-size: 1.2rem;
+            cursor: pointer; transition: 0.3s; margin-top: auto; font-family: 'Cairo';
         }
-        .btn-calc:hover { background: #008e6f; box-shadow: 0 5px 15px rgba(0,168,132,0.3); }
+        .btn-calc:hover { background: #008e6f; box-shadow: 0 8px 20px rgba(0,168,132,0.3); transform: translateY(-2px); }
         
         .result-box {
             background: #e8f6f3; color: #008e6f; padding: 20px; border-radius: 12px;
             margin-top: 20px; text-align: center; font-weight: bold; font-size: 1.1rem;
             display: none; border: 2px dashed #008e6f; line-height: 1.6;
-            animation: fadeIn 0.4s ease;
+            animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes bounceIn { 
+            0% { transform: scale(0.8); opacity: 0; } 
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
         .result-box.danger { background: #fadbd8; color: #c0392b; border-color: #c0392b; }
         .result-box.warning { background: #fcf3cf; color: #d35400; border-color: #f39c12; }
 
@@ -141,9 +148,9 @@
         /* ========================================= */
         .quick-access-btn { 
             position: fixed; bottom: 30px; right: 30px; 
-            background: var(--main-color); color: white; width: 65px; height: 65px; 
+            background: linear-gradient(135deg, var(--main-color), #00c69a); color: white; width: 65px; height: 65px; 
             border-radius: 50%; display: flex; align-items: center; justify-content: center; 
-            font-size: 1.8rem; cursor: pointer; z-index: 100000; box-shadow: 0 10px 20px rgba(0,0,0,0.2); 
+            font-size: 1.8rem; cursor: pointer; z-index: 100000; box-shadow: 0 10px 20px rgba(0,168,132,0.4); 
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             -webkit-tap-highlight-color: transparent;
         }
@@ -179,7 +186,52 @@
         .quick-menu li a i { width: 25px; text-align: center; color: var(--main-color); font-size: 1.3rem; transition: 0.3s; }
         .quick-menu li a:hover i { transform: scale(1.2); }
         
-        footer { background: #1e272e; color: #999; text-align: center; padding: 30px; margin-top: 50px; }
+        footer { background: #1e272e; color: #999; text-align: center; padding: 30px; margin-top: 50px; font-weight: bold; border-top: 5px solid var(--main-color); }
+
+        /* ========================================= */
+        /* التحديثات الجمالية الجديدة (الوميض واللمس) */
+        /* ========================================= */
+
+        /* 1. تأثير الانضغاط عند اللمس للهواتف */
+        .btn-calc:active, .calc-card:active, .quick-access-btn:active {
+            transform: scale(0.96) !important;
+            transition: transform 0.1s ease;
+        }
+
+        /* 2. تأثير الوميض (اللمعان) والنبض لأزرار الحساب */
+        .btn-calc {
+            position: relative;
+            overflow: hidden;
+            animation: buttonPulse 2s infinite alternate;
+        }
+        .btn-calc::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg); animation: shine 3.5s infinite;
+        }
+        @keyframes shine { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
+        
+        /* ضبط النبض ليطابق لون الزر (أخضر، أزرق، أحمر) */
+        .calc-card:nth-child(1) .btn-calc { animation-name: pulseGreen; }
+        .calc-card:nth-child(2) .btn-calc { animation-name: pulseBlue; }
+        .calc-card:nth-child(3) .btn-calc { animation-name: pulseRed; }
+        
+        @keyframes pulseGreen { 0% { box-shadow: 0 5px 15px rgba(0, 168, 132, 0.4); } 100% { box-shadow: 0 8px 25px rgba(0, 168, 132, 0.8); } }
+        @keyframes pulseBlue { 0% { box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4); } 100% { box-shadow: 0 8px 25px rgba(52, 152, 219, 0.8); } }
+        @keyframes pulseRed { 0% { box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4); } 100% { box-shadow: 0 8px 25px rgba(231, 76, 60, 0.8); } }
+
+        /* 3. توهج ذكي للبطاقات عند التمرير حسب التخصص (أخضر، أزرق، أحمر) */
+        .calc-card:nth-child(1):hover { box-shadow: 0 15px 35px rgba(0, 168, 132, 0.2) !important; }
+        .calc-card:nth-child(2):hover { box-shadow: 0 15px 35px rgba(52, 152, 219, 0.2) !important; }
+        .calc-card:nth-child(3):hover { box-shadow: 0 15px 35px rgba(231, 76, 60, 0.2) !important; }
+
+        /* 4. ديناميكية خلفية الهيدر */
+        .calc-header {
+            background: linear-gradient(-45deg, #1e272e, #2c3e50, #1a252f, #11181e) !important;
+            background-size: 300% 300% !important;
+            animation: gradientBG 15s ease infinite !important;
+        }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
         @media (max-width: 768px) {
             .navbar { flex-direction: column; gap: 15px; padding: 10px; }
@@ -187,6 +239,9 @@
             .nav-links::-webkit-scrollbar { display: none; }
             .nav-links li { flex: 0 0 auto; }
             .nav-links li a { font-size: 0.9rem; padding: 5px 10px; }
+            
+            .calc-header { padding: 40px 15px; border-radius: 0 0 30px 30px; }
+            .calc-header h1 { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -298,7 +353,7 @@
 
     <div id="quickMenu" class="quick-menu">
         <ul>
-            <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+             <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
             <li><a href="about.html"><i class="fas fa-info-circle"></i> من نحن</a></li>
             <li><a href="research.html"><i class="fas fa-book-medical"></i> مكتبة الأبحاث</a></li>
             <li><a href="jobs.html"><i class="fas fa-user-md"></i> فرص العمل</a></li>
@@ -415,7 +470,7 @@
             
             resultBox.style.display = 'block';
             resultBox.className = statusClass;
-            resultBox.innerHTML = `النتيجة (GCS): <span style="font-size:1.8rem;">${total}/15</span><br><small>${status}</small>`;
+            resultBox.innerHTML = `النتيجة (GCS): <span style="font-size:1.8rem; font-weight:900;">${total}/15</span><br><small style="font-size:1.1rem;">${status}</small>`;
         }
 
         // ========================================================

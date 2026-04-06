@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="style.css">
     <style>
         :root { --blood-red: #c0392b; --bright-red: #e74c3c; }
-        body { background-color: #f9fafb; font-family: 'Cairo', sans-serif; margin: 0; }
+        body { background-color: #f9fafb; font-family: 'Cairo', sans-serif; margin: 0; padding-bottom: 90px; }
         .navbar { display: flex; justify-content: space-between; align-items: center; background: white; padding: 15px 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 15px; }
         .logo { font-size: 1.4rem; font-weight: 700; color: #333; text-decoration: none; display: flex; align-items: center; gap: 8px; }
         .logo span { color: var(--blood-red); }
@@ -19,33 +19,120 @@
         .nav-links li a:hover { color: var(--blood-red); }
 
         .blood-header { background: linear-gradient(135deg, var(--blood-red), var(--bright-red)); color: white; padding: 50px 20px; text-align: center; border-radius: 0 0 40px 40px; box-shadow: 0 10px 25px rgba(192, 57, 43, 0.2); margin-bottom: 30px; }
-        .blood-header h1 { margin: 0 0 10px 0; font-size: 2.2rem; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-        .blood-header p { margin: 0; font-size: 1.1rem; opacity: 0.9; }
+        .blood-header h1 { margin: 0 0 10px 0; font-size: 2.2rem; text-shadow: 0 2px 4px rgba(0,0,0,0.2); font-weight: 900; }
+        .blood-header p { margin: 0; font-size: 1.1rem; opacity: 0.9; font-weight: bold; }
         
         .blood-type-badge { background: var(--bright-red); color: white; padding: 8px 20px; border-radius: 50px; font-weight: bold; font-size: 1.2rem; box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3); }
         
         .donor-card { background: white; border-radius: 20px; padding: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border-right: 8px solid var(--bright-red); display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); flex-wrap: wrap; gap: 15px; }
         .donor-card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(0,0,0,0.1); }
         
-        .donor-info h3 { margin: 0 0 10px 0; color: #333; }
-        .donor-meta { color: #666; font-size: 0.95rem; display: flex; gap: 10px; flex-wrap: wrap; }
+        .donor-info h3 { margin: 0 0 10px 0; color: #333; font-weight: 900; font-size: 1.4rem; }
+        .donor-meta { color: #666; font-size: 0.95rem; display: flex; gap: 10px; flex-wrap: wrap; font-weight: bold; }
         
-        .btn-call-blood { background: #27ae60; color: white; padding: 12px 25px; border-radius: 12px; text-decoration: none; font-weight: bold; display: flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3); }
-        .blood-tabs { display: flex; gap: 12px; margin: 30px 0; overflow-x: auto; padding: 10px 5px; scrollbar-width: none; }
-        .tab-btn { padding: 10px 25px; border: 2px solid var(--bright-red); border-radius: 25px; background: white; color: var(--bright-red); cursor: pointer; white-space: nowrap; font-weight: bold; transition: 0.3s; }
-        .tab-btn.active { background: var(--bright-red); color: white; }
+        .btn-call-blood { background: #27ae60; color: white; padding: 12px 25px; border-radius: 12px; text-decoration: none; font-weight: bold; display: flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3); font-size: 1.1rem; }
+        
+        /* تحسين التبويبات للتمرير الناعم */
+        .blood-tabs { display: flex; gap: 12px; margin: 30px 0; overflow-x: auto; padding: 10px 5px; scrollbar-width: thin; scrollbar-color: var(--bright-red) #f0f0f0; }
+        .blood-tabs::-webkit-scrollbar { height: 6px; }
+        .blood-tabs::-webkit-scrollbar-track { background: #f0f0f0; border-radius: 10px; }
+        .blood-tabs::-webkit-scrollbar-thumb { background: var(--bright-red); border-radius: 10px; }
+
+        .tab-btn { padding: 10px 25px; border: 2px solid var(--bright-red); border-radius: 25px; background: white; color: var(--bright-red); cursor: pointer; white-space: nowrap; font-weight: bold; transition: 0.3s; font-family: 'Cairo'; font-size: 1.1rem; }
+        .tab-btn.active { background: var(--bright-red); color: white; box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4); transform: translateY(-2px); }
 
         .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); }
-        .modal-content { background: white; margin: 5% auto; padding: 40px; border-radius: 25px; width: 90%; max-width: 500px; position: relative; animation: slideDown 0.4s ease; }
-        .close-btn { position: absolute; left: 20px; top: 15px; font-size: 32px; cursor: pointer; color: #999; }
-        .form-input { padding: 15px; border-radius: 12px; border: 2px solid #eee; font-family: 'Cairo'; font-size: 1rem; width: 100%; box-sizing: border-box; margin-bottom: 10px; }
-
-        .quick-access-btn { position: fixed; bottom: 30px; right: 30px; background: linear-gradient(135deg, var(--blood-red), var(--bright-red)); color: white; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; cursor: pointer; z-index: 1000; box-shadow: 0 10px 25px rgba(192, 57, 43, 0.4); transition: 0.3s; }
-        .quick-menu { display: none; position: fixed; bottom: 110px; right: 30px; background: white; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.2); width: 280px; z-index: 1000; border: 1px solid #eee; }
-        .quick-menu ul { list-style: none; margin: 0; padding: 15px; }
-        .quick-menu li a { display: flex; align-items: center; gap: 15px; padding: 12px 15px; text-decoration: none; color: #444; border-radius: 12px; font-weight: 600; }
+        .modal-content { background: white; margin: 5% auto; padding: 40px; border-radius: 25px; width: 90%; max-width: 500px; position: relative; animation: slideDown 0.4s ease; border-top: 8px solid var(--blood-red); box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+        @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         
-        footer { background: #2c3e50; color: white; text-align: center; padding: 25px; margin-top: 50px; }
+        .close-btn { position: absolute; left: 20px; top: 15px; font-size: 32px; cursor: pointer; color: #999; transition: 0.3s; }
+        .close-btn:hover { color: var(--blood-red); transform: rotate(90deg); }
+        
+        .form-input { padding: 15px; border-radius: 12px; border: 2px solid #eee; font-family: 'Cairo'; font-size: 1rem; width: 100%; box-sizing: border-box; margin-bottom: 15px; transition: 0.3s; font-weight: bold; background: #fafafa; }
+        .form-input:focus { border-color: var(--bright-red); background: white; outline: none; box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.1); }
+
+        .quick-access-btn { position: fixed; bottom: 30px; right: 30px; background: linear-gradient(135deg, var(--blood-red), var(--bright-red)); color: white; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; cursor: pointer; z-index: 1000; box-shadow: 0 10px 25px rgba(192, 57, 43, 0.4); transition: 0.3s; -webkit-tap-highlight-color: transparent; }
+        
+        .quick-menu { display: none; position: fixed; bottom: 110px; right: 30px; background: white; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.2); width: 280px; z-index: 1000; border: 1px solid #eee; overflow-y: auto; max-height: 70vh; animation: fadeUp 0.3s ease; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .quick-menu::-webkit-scrollbar { width: 5px; }
+        .quick-menu::-webkit-scrollbar-thumb { background: var(--bright-red); border-radius: 10px; }
+        
+        .quick-menu ul { list-style: none; margin: 0; padding: 15px; }
+        .quick-menu li { border-bottom: 1px solid #f5f5f5; }
+        .quick-menu li:last-child { border: none; }
+        .quick-menu li a { display: flex; align-items: center; gap: 15px; padding: 12px 15px; text-decoration: none; color: #444; border-radius: 12px; font-weight: 700; transition: 0.3s; }
+        .quick-menu li a i { width: 25px; text-align: center; color: var(--bright-red); font-size: 1.2rem; }
+        .quick-menu li a:hover { background: #fdf2f0; color: var(--blood-red); padding-right: 25px; }
+        
+        footer { background: #2c3e50; color: white; text-align: center; padding: 25px; margin-top: 50px; border-top: 5px solid var(--blood-red); font-weight: bold; letter-spacing: 1px; }
+
+        /* ========================================= */
+        /* التحديثات الجمالية الجديدة (الوميض واللمس) */
+        /* ========================================= */
+
+        /* 1. تأثير الانضغاط للهواتف (اللمس) */
+        .btn-primary:active, .btn-call-blood:active, .tab-btn:active, .donor-card:active, .quick-access-btn:active, .btn-update:active {
+            transform: scale(0.95) !important;
+            transition: transform 0.1s ease;
+        }
+
+        /* 2. تصميم زر النشر الداخلي (btn-update) المفقود */
+        .btn-update {
+            background: linear-gradient(135deg, var(--blood-red), var(--bright-red));
+            color: white; border: none; padding: 18px; border-radius: 12px;
+            font-family: 'Cairo'; font-weight: 900; font-size: 1.2rem; cursor: pointer;
+            box-shadow: 0 8px 20px rgba(192, 57, 43, 0.3); transition: 0.3s; position: relative; overflow: hidden;
+        }
+        .btn-update:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(192, 57, 43, 0.4); }
+
+        /* 3. تأثير اللمعان (Shine) لأزرار الإجراءات الرئيسية */
+        .btn-primary, .btn-update { position: relative; overflow: hidden; }
+        .btn-primary::after, .btn-update::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg); animation: shine 3.5s infinite;
+        }
+        @keyframes shine { 
+            0% { left: -100%; } 
+            20% { left: 200%; } 
+            100% { left: 200%; } 
+        }
+
+        /* 4. نبض (Pulse) مستمر لزر "سجل كمتبرع" والزر العائم */
+        .btn-primary, .quick-access-btn { animation: pulseRed 2s infinite alternate; }
+        @keyframes pulseRed {
+            0% { box-shadow: 0 5px 15px rgba(192, 57, 43, 0.4); }
+            100% { box-shadow: 0 8px 25px rgba(192, 57, 43, 0.8); }
+        }
+
+        /* 5. توهج لون البطاقات عند التمرير (حسب الحالة) */
+        .donor-card:hover {
+            box-shadow: 0 15px 35px rgba(192, 57, 43, 0.15) !important;
+            border-right-width: 12px;
+        }
+
+        /* 6. ديناميكية الخلفية (سريان الدم) للهيدر */
+        .blood-header {
+            background: linear-gradient(-45deg, var(--blood-red), var(--bright-red), #900C3F, #C70039) !important;
+            background-size: 300% 300% !important;
+            animation: flowBlood 10s ease infinite !important;
+        }
+        @keyframes flowBlood {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* استجابة الشاشات الصغيرة لتجنب التداخل */
+        @media (max-width: 768px) {
+            .navbar { flex-direction: column; gap: 10px; padding: 15px; }
+            .blood-header { padding: 40px 15px; border-radius: 0 0 30px 30px; }
+            .blood-header h1 { font-size: 1.8rem; }
+            .donor-card { flex-direction: column; text-align: center; border-right: none; border-top: 8px solid var(--bright-red); }
+            .donor-meta { justify-content: center; }
+            .donor-card div:last-child { width: 100%; justify-content: center; margin-top: 10px; }
+        }
     </style>
 </head>
 <body>
@@ -75,11 +162,11 @@
             </div>
 
             <div class="donor-list" id="bloodGrid">
-                <div style="text-align: center; padding: 50px;"><i class="fas fa-spinner fa-spin fa-2x"></i> جاري مزامنة بيانات بنك الدم...</div>
+                <div style="text-align: center; padding: 50px;"><i class="fas fa-spinner fa-spin fa-2x" style="color: var(--bright-red)"></i> <br><br>جاري مزامنة بيانات بنك الدم...</div>
             </div>
 
             <div style="margin-top: 50px; text-align: center;">
-                <button class="btn btn-primary" style="background: linear-gradient(135deg, var(--blood-red), var(--bright-red)); border: none; padding: 18px 45px; color: white; border-radius: 50px; cursor: pointer; font-family: Cairo; font-weight: bold; font-size: 1.2rem; box-shadow: 0 8px 25px rgba(192, 57, 43, 0.4);" onclick="document.getElementById('bloodModal').style.display='block'">
+                <button class="btn btn-primary" style="background: linear-gradient(135deg, var(--blood-red), var(--bright-red)); border: none; padding: 18px 45px; color: white; border-radius: 50px; cursor: pointer; font-family: Cairo; font-weight: bold; font-size: 1.2rem;" onclick="document.getElementById('bloodModal').style.display='block'">
                     <i class="fas fa-plus-circle"></i> سجل كمتبرع أو اطلب دم
                 </button>
             </div>
@@ -89,7 +176,7 @@
     <div id="bloodModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="document.getElementById('bloodModal').style.display='none'">&times;</span>
-            <h2 style="color: var(--blood-red); text-align: center; margin-top: 0;"><i class="fas fa-hand-holding-medical"></i> إضافة بيانات لبنك الدم</h2>
+            <h2 style="color: var(--blood-red); text-align: center; margin-top: 0; font-weight: 900;"><i class="fas fa-hand-holding-medical"></i> إضافة بيانات لبنك الدم</h2>
             <form id="bloodForm" action="https://formspree.io/f/meerewpw" method="POST">
                 <input type="hidden" name="_subject" value="🩸 بنك الدم - طلب أو تبرع جديد">
                 <input type="hidden" name="نوع_الطلب" value="🩸 بنك الدم">
@@ -103,7 +190,7 @@
                 </select>
                 <input type="tel" name="رقم_الهاتف" placeholder="رقم الهاتف" class="form-input" required>
                 <input type="text" name="المدينة_أو_المستشفى" placeholder="المدينة والمستشفى (مثال: أم درمان - النو)" class="form-input" required>
-                <button type="submit" class="btn-update" style="width:100%">نشر في البنك</button>
+                <button type="submit" class="btn-update" style="width:100%"><i class="fas fa-paper-plane"></i> نشر في البنك</button>
             </form>
         </div>
     </div>
@@ -155,7 +242,7 @@
             const grid = document.getElementById('bloodGrid');
             grid.innerHTML = '';
             allBloodData = [];
-            if(!snapshot.exists()) { grid.innerHTML = "لا توجد بيانات حالياً."; return; }
+            if(!snapshot.exists()) { grid.innerHTML = "<div style='text-align:center; padding:40px; font-weight:bold; color:#777;'>لا توجد بيانات مسجلة حالياً. كن أول المتبرعين!</div>"; return; }
             
             snapshot.forEach(child => {
                 const b = child.val();
@@ -168,7 +255,7 @@
             const grid = document.getElementById('bloodGrid');
             const isUrgent = b.status === 'urgent';
             const cardHtml = `
-                <div class="donor-card" style="border-right-color: ${isUrgent ? '#f39c12' : 'var(--bright-red)'}; background: ${isUrgent ? '#fffcf9' : 'white'}">
+                <div class="donor-card" style="border-color: ${isUrgent ? '#f39c12' : 'var(--bright-red)'}; background: ${isUrgent ? '#fffcf9' : 'white'}">
                     <div class="donor-info">
                         <h3 style="color: ${isUrgent ? '#d35400' : '#333'}">${isUrgent ? '<i class="fas fa-exclamation-triangle"></i> عاجل: ' : ''}${b.name}</h3>
                         <div class="donor-meta">
@@ -187,7 +274,14 @@
         function filterBlood(type) {
             const grid = document.getElementById('bloodGrid');
             grid.innerHTML = '';
-            allBloodData.filter(b => type === 'الكل' || b.type === type).forEach(renderCard);
+            const filteredData = allBloodData.filter(b => type === 'الكل' || b.type === type);
+            
+            if (filteredData.length === 0) {
+                grid.innerHTML = `<div style="text-align:center; padding:40px; font-weight:bold; color:#777;">لا يوجد نتائج متطابقة للفصيلة ${type} حالياً.</div>`;
+            } else {
+                filteredData.forEach(renderCard);
+            }
+
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.innerText === type);
             });
@@ -195,12 +289,24 @@
 
         function toggleQuickMenu() { const q = document.getElementById('quickMenu'); q.style.display = q.style.display === 'block' ? 'none' : 'block'; }
         
+        // إغلاق النوافذ عند النقر خارجها
+        window.onclick = function(event) {
+            const modal = document.getElementById('bloodModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+            if (!event.target.closest('.quick-access-btn') && !event.target.closest('.quick-menu')) {
+                const menu = document.getElementById('quickMenu');
+                if (menu && menu.style.display === 'block') menu.style.display = 'none';
+            }
+        }
+
         // سكريبت الإرسال FormSubmit كما هو
         document.getElementById('bloodForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const btn = this.querySelector('button');
             const original = btn.innerHTML;
-            btn.innerHTML = 'جاري الإرسال...';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
             fetch(this.action, { method: 'POST', body: new FormData(this), headers: { 'Accept': 'application/json' } })
             .then(res => { if(res.ok) { alert('تم استلام بياناتك بنجاح!'); document.getElementById('bloodModal').style.display='none'; this.reset(); } })
             .finally(() => btn.innerHTML = original);

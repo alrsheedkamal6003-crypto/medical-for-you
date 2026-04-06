@@ -18,7 +18,7 @@
             --accent-yellow: #f1c40f;
         }
 
-        body { font-family: 'Cairo', sans-serif; margin: 0; background-color: var(--light-bg); color: #333; scroll-behavior: smooth; }
+        body { font-family: 'Cairo', sans-serif; margin: 0; background-color: var(--light-bg); color: #333; scroll-behavior: smooth; padding-bottom: 90px; }
 
         /* تنسيقاتك الأصلية للجمال والتمرير */
         ::-webkit-scrollbar { width: 8px; }
@@ -29,44 +29,53 @@
         .logo { text-decoration: none; color: var(--dark-blue); font-weight: bold; font-size: 1.4rem; display: flex; align-items: center; gap: 8px; }
         .logo span { color: var(--main-color); }
         .nav-links { list-style: none; display: flex; gap: 20px; align-items: center; margin: 0; padding: 0; }
-        .nav-links a { text-decoration: none; color: #555; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+        .nav-links a { text-decoration: none; color: #555; font-weight: 600; display: flex; align-items: center; gap: 6px; transition: 0.3s; }
+        .nav-links a:hover { color: var(--main-color); }
 
-        .hero { display: flex; align-items: center; justify-content: center; text-align: center; color: white; height: 35vh; background: linear-gradient(135deg, rgba(30, 39, 46, 0.9), rgba(0, 168, 132, 0.85)); border-radius: 0 0 30px 30px; }
-        .hero-content h1 { font-size: 2.5rem; }
+        .hero { display: flex; align-items: center; justify-content: center; text-align: center; color: white; height: 35vh; background: linear-gradient(135deg, rgba(30, 39, 46, 0.9), rgba(0, 168, 132, 0.85)); border-radius: 0 0 30px 30px; position: relative; overflow: hidden; }
+        .hero-content h1 { font-size: 2.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
 
-        .section-title { text-align: center; margin: 60px 0 40px; position: relative; color: var(--dark-blue); font-size: 1.8rem; }
+        .section-title { text-align: center; margin: 60px 0 40px; position: relative; color: var(--dark-blue); font-size: 1.8rem; font-weight: 900; }
         .section-title::after { content: ''; width: 80px; height: 4px; background: var(--main-color); position: absolute; bottom: -12px; right: 50%; transform: translateX(50%); border-radius: 2px; }
 
-        .training-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 40px; padding: 0 5%; }
+        .training-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 40px; padding: 0 5%; max-width: 1200px; margin-left: auto; margin-right: auto; }
         
         /* تصميم كروت الدورات الموحد */
-        .course-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.05); transition: 0.4s; border-top: 6px solid var(--main-color); display: flex; flex-direction: column; }
+        .course-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.05); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); border-top: 6px solid var(--main-color); display: flex; flex-direction: column; }
         .course-card:hover { transform: translateY(-10px); }
-        .course-header { padding: 25px 20px; background: #f9fdfc; }
+        .course-header { padding: 25px 20px; background: #f9fdfc; border-bottom: 1px solid #eee; }
         .course-category { background: var(--main-color); color: white; padding: 6px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
         .course-body { padding: 25px 20px; flex-grow: 1; }
         .course-info-list { list-style: none; padding: 0; margin: 0; font-size: 0.95rem; }
-        .course-info-list li { margin-bottom: 12px; display: flex; align-items: center; gap: 12px; }
-        .course-info-list i { color: var(--main-color); width: 25px; text-align: center; }
+        .course-info-list li { margin-bottom: 12px; display: flex; align-items: center; gap: 12px; font-weight: 600; color: #555; }
+        .course-info-list i { color: var(--main-color); width: 25px; text-align: center; font-size: 1.1rem; }
         .availability { font-weight: bold; color: var(--accent-orange); background: #fdebd0; padding: 2px 8px; border-radius: 5px; }
         
-        .btn { padding: 12px 25px; border-radius: 10px; border: none; cursor: pointer; font-family: 'Cairo'; font-weight: bold; width: 100%; transition: 0.3s; }
-        .btn-primary { background: var(--main-color); color: white; }
+        .btn { padding: 12px 25px; border-radius: 10px; border: none; cursor: pointer; font-family: 'Cairo'; font-weight: bold; width: 100%; transition: 0.3s; font-size: 1.1rem; }
+        .btn-primary { background: var(--main-color); color: white; box-shadow: 0 4px 15px rgba(0, 168, 132, 0.3); }
+        .btn-primary:hover { background: var(--main-hover); transform: translateY(-2px); }
         .btn-secondary { background: transparent; border: 2px solid var(--accent-orange); color: var(--accent-orange); }
+        .btn-secondary:hover { background: var(--accent-orange); color: white; transform: translateY(-2px); }
 
         /* الترشيح وModal */
-        .nominate-section { background: linear-gradient(135deg, var(--dark-blue), #2c3e50); color: white; padding: 50px 30px; border-radius: 20px; margin: 60px 5%; text-align: center; }
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); }
-        .modal-content { background: white; margin: 8% auto; padding: 40px; border-radius: 20px; position: relative; max-width: 450px; }
-        .close-btn { position: absolute; left: 20px; top: 15px; font-size: 32px; cursor: pointer; color: #aaa; }
-        .close-btn:hover { color: #e74c3c; }
+        .nominate-section { background: linear-gradient(135deg, var(--dark-blue), #2c3e50); color: white; padding: 50px 30px; border-radius: 20px; margin: 60px 5%; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); overflow-y: auto; }
+        .modal-content { background: white; margin: 8vh auto; padding: 40px; border-radius: 20px; position: relative; max-width: 450px; width: 90%; animation: slideDown 0.4s ease; border-top: 8px solid var(--main-color); box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+        @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
+        .close-btn { position: absolute; left: 20px; top: 15px; font-size: 32px; cursor: pointer; color: #aaa; transition: 0.3s; }
+        .close-btn:hover { color: #e74c3c; transform: rotate(90deg); }
 
-        .quick-access-btn { position: fixed; bottom: 30px; right: 30px; background: var(--main-color); color: white; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; cursor: pointer; z-index: 1001; transition: 0.3s; }
+        .quick-access-btn { position: fixed; bottom: 30px; right: 30px; background: linear-gradient(135deg, var(--main-color), #00c69a); color: white; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; cursor: pointer; z-index: 1001; transition: 0.3s; box-shadow: 0 10px 30px rgba(0, 168, 132, 0.4); -webkit-tap-highlight-color: transparent; }
         .quick-access-btn:hover, .quick-access-btn.active-btn { transform: scale(1.1) rotate(90deg); background: var(--dark-blue); }
         
-        .quick-menu { display: none; position: fixed; bottom: 110px; right: 30px; background: white; width: 260px; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.15); z-index: 1000; max-height: 400px; overflow-y: auto; border: 1px solid #eee; }
+        .quick-menu { display: none; position: fixed; bottom: 110px; right: 30px; background: white; width: 280px; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.2); z-index: 1000; max-height: 75vh; overflow-y: auto; border: 1px solid #eee; }
         .quick-menu.active { display: block !important; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .quick-menu::-webkit-scrollbar { width: 5px; }
+        .quick-menu::-webkit-scrollbar-thumb { background: var(--main-color); border-radius: 10px; }
+        
         .quick-menu ul { list-style: none; padding: 10px 0; margin: 0; }
         .quick-menu li { border-bottom: 1px solid #f9f9f9; }
         .quick-menu li a { display: flex; align-items: center; gap: 15px; padding: 12px 20px; text-decoration: none; color: var(--dark-blue); font-weight: 700; transition: 0.3s; }
@@ -74,7 +83,7 @@
         .quick-menu li a i { width: 25px; text-align: center; color: var(--main-color); font-size: 1.2rem; transition: 0.3s; }
         .quick-menu li a:hover i { transform: scale(1.2); }
         
-        footer { text-align: center; padding: 30px; background: var(--dark-blue); color: white; margin-top: 60px; }
+        footer { text-align: center; padding: 30px; background: var(--dark-blue); color: white; margin-top: 60px; font-weight: 600; border-top: 5px solid var(--main-color); }
 
         /* ========================================= */
         /* التنسيقات المضافة لزر ونافذة المبرمج */
@@ -135,11 +144,93 @@
         .dev-contact-info a:hover { color: var(--main-color); padding-right: 5px; }
         .dev-contact-info i { color: var(--main-color); width: 25px; font-size: 1.3rem; text-align: center; }
 
+        /* ========================================= */
+        /* التحديثات الجمالية الجديدة (الوميض واللمس) */
+        /* ========================================= */
+
+        /* 1. تأثير الانضغاط عند اللمس للهواتف (Active State) */
+        .btn:active, .course-card:active, .quick-access-btn:active, .nominate-section button:active {
+            transform: scale(0.95) !important;
+            transition: transform 0.1s ease;
+        }
+
+        /* 2. تأثير اللمعان (Shine) لأزرار التسجيل والترشيح */
+        .btn-primary, .nominate-section button {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary::after, .nominate-section button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            animation: shine 3s infinite;
+        }
+        @keyframes shine { 
+            0% { left: -100%; } 
+            20% { left: 200%; } 
+            100% { left: 200%; } 
+        }
+
+        /* 3. نبض (Pulse) مستمر لزر "أرسل ترشيحك الآن" والزر العائم */
+        .nominate-section button, .quick-access-btn {
+            animation: pulseButton 2s infinite alternate;
+        }
+        @keyframes pulseButton {
+            0% { box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); }
+            100% { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5); }
+        }
+
+        /* 4. توهج ذكي للبطاقات (حسب حالة الدورة) */
+        .course-card[style*="var(--main-color)"]:hover {
+            box-shadow: 0 15px 35px rgba(0, 168, 132, 0.2) !important;
+        }
+        .course-card[style*="var(--accent-orange)"]:hover {
+            box-shadow: 0 15px 35px rgba(243, 156, 18, 0.2) !important;
+        }
+
+        /* 5. ديناميكية الخلفيات (الهيدر وقسم الترشيح) */
+        .hero {
+            background: linear-gradient(-45deg, rgba(30,39,46,0.9), rgba(0,168,132,0.9), rgba(30,39,46,0.9)) !important;
+            background-size: 300% 300% !important;
+            animation: gradientBG 10s ease infinite !important;
+        }
+        .nominate-section {
+            background: linear-gradient(-45deg, var(--dark-blue), #2c3e50, #1a252f) !important;
+            background-size: 200% 200% !important;
+            animation: gradientBG 8s ease infinite !important;
+        }
+        @keyframes gradientBG { 
+            0% { background-position: 0% 50%; } 
+            50% { background-position: 100% 50%; } 
+            100% { background-position: 0% 50%; } 
+        }
+
+        /* تحسين مدخلات النصوص في المودال */
+        form input[type="text"], form input[type="tel"], form input[type="email"], form textarea {
+            width: 100%; padding: 15px !important; border: 2px solid #eee !important;
+            border-radius: 12px !important; font-family: 'Cairo'; font-size: 1rem;
+            box-sizing: border-box; margin-bottom: 15px !important; transition: 0.3s;
+            background: #fafafa; font-weight: bold;
+        }
+        form input:focus, form textarea:focus {
+            border-color: var(--main-color) !important; background: white;
+            outline: none; box-shadow: 0 0 0 4px rgba(0,168,132,0.1);
+        }
+
         @media (max-width: 768px) {
             .navbar { flex-direction: column; gap: 15px; padding: 10px; }
             .nav-links { display: flex; flex-wrap: nowrap; overflow-x: auto; width: 100%; justify-content: flex-start; padding-bottom: 5px; -webkit-overflow-scrolling: touch; }
             .nav-links::-webkit-scrollbar { display: none; }
             .nav-links li { flex: 0 0 auto; }
+            
+            .hero { padding: 40px 15px; border-radius: 0 0 30px 30px; height: auto; min-height: 30vh; }
+            .hero-content h1 { font-size: 2rem; }
+            .nominate-section { margin: 40px 15px; padding: 40px 20px; }
         }
     </style>
 </head>
@@ -157,57 +248,60 @@
     <header class="hero">
         <div class="hero-content">
             <h1>مركز <span style="color: var(--accent-yellow);">التدريب والترشيح</span></h1>
-            <p>سجل في دوراتنا الحالية، ترقب برامجنا القادمة، أو شاركنا بترشيحك.</p>
+            <p style="font-size: 1.1rem; font-weight: bold; opacity: 0.9;">سجل في دوراتنا الحالية، ترقب برامجنا القادمة، أو شاركنا بترشيحك.</p>
         </div>
     </header>
 
     <h2 class="section-title" id="availableTitle">الدورات التدريبية المتاحة</h2>
     <div class="training-grid" id="availableContainer">
-        </div>
+        <div style="text-align: center; grid-column: 1/-1; padding: 40px; color: #777; font-weight: bold;"><i class="fas fa-spinner fa-spin fa-2x"></i><br>جاري جلب الدورات...</div>
+    </div>
 
     <h2 class="section-title" id="upcomingTitle">دورات تدريبية لاحقاً (برامج مرتقبة)</h2>
     <div class="training-grid" id="upcomingContainer">
-        </div>
+        <div style="text-align: center; grid-column: 1/-1; padding: 40px; color: #777; font-weight: bold;"><i class="fas fa-spinner fa-spin fa-2x"></i><br>جاري جلب الدورات...</div>
+    </div>
 
     <div class="nominate-section">
         <i class="fas fa-lightbulb" style="font-size: 3.5rem; color: var(--accent-yellow); margin-bottom: 20px;"></i>
-        <h2>رشح موضوعاً تدريبياً</h2>
-        <button class="btn btn-primary" style="width:auto; background: var(--accent-yellow); color: #333;" onclick="openModal('nominateModal', '')">أرسل ترشيحك الآن</button>
+        <h2 style="font-weight: 900; margin-top: 0;">رشح موضوعاً تدريبياً</h2>
+        <p style="font-size: 1.1rem; opacity: 0.9; margin-bottom: 25px;">هل هناك مهارة معينة ترى أن الكادر التمريضي بحاجة إليها؟</p>
+        <button class="btn btn-primary" style="width:auto; background: var(--accent-yellow); color: #333; padding: 15px 40px; font-size: 1.2rem; border-radius: 30px;" onclick="openModal('nominateModal', '')"><i class="fas fa-paper-plane"></i> أرسل ترشيحك الآن</button>
     </div>
 
     <div id="regModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModals()">&times;</span>
-            <h2 id="regTitle">التسجيل في الدورة</h2>
+            <h2 id="regTitle" style="color: var(--dark-blue); font-weight: 900; margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 15px;">التسجيل في الدورة</h2>
             <form id="regForm" action="https://formspree.io/f/meerewpw" method="POST">
                 <input type="hidden" name="اسم_الدورة" id="hiddenCourseReg">
-                <input type="text" name="الاسم_الكامل" placeholder="الاسم الكامل" required style="width:100%; margin-bottom:10px; padding:10px; border-radius:10px; border:1px solid #ddd;">
-                <input type="tel" name="رقم_الواتساب" placeholder="رقم الواتساب" required style="width:100%; margin-bottom:15px; padding:10px; border-radius:10px; border:1px solid #ddd;">
-                <button type="submit" class="btn btn-primary">تأكيد طلب التسجيل</button>
+                <input type="text" name="الاسم_الكامل" placeholder="الاسم الكامل" required>
+                <input type="tel" name="رقم_الواتساب" placeholder="رقم الواتساب" required>
+                <button type="submit" class="btn btn-primary" style="padding: 15px; font-size: 1.1rem;"><i class="fas fa-check-circle"></i> تأكيد طلب التسجيل</button>
             </form>
         </div>
     </div>
 
     <div id="notifyModal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content" style="border-top-color: var(--accent-orange);">
             <span class="close-btn" onclick="closeModals()">&times;</span>
-            <h2 id="notifyTitle">أعلمني عند البدء</h2>
+            <h2 id="notifyTitle" style="color: var(--accent-orange); font-weight: 900; margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 15px;">أعلمني عند البدء</h2>
             <form id="notifyForm" action="https://formspree.io/f/meerewpw" method="POST">
                 <input type="hidden" name="اسم_الدورة" id="hiddenCourseNotify">
-                <input type="email" name="البريد_الإلكتروني" placeholder="أدخل بريدك الإلكتروني" required style="width:100%; margin-bottom:15px; padding:10px; border-radius:10px; border:1px solid #ddd;">
-                <button type="submit" class="btn btn-secondary" style="background:var(--accent-orange); color:white;">تفعيل التنبيه</button>
+                <input type="email" name="البريد_الإلكتروني" placeholder="أدخل بريدك الإلكتروني" required>
+                <button type="submit" class="btn btn-secondary" style="background:var(--accent-orange); color:white; border:none; padding: 15px; font-size: 1.1rem;"><i class="fas fa-bell"></i> تفعيل التنبيه</button>
             </form>
         </div>
     </div>
 
     <div id="nominateModal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content" style="border-top-color: var(--accent-yellow);">
             <span class="close-btn" onclick="closeModals()">&times;</span>
-            <h2>رشح دورة جديدة</h2>
+            <h2 style="color: var(--dark-blue); font-weight: 900; margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 15px;"><i class="fas fa-lightbulb" style="color: var(--accent-yellow);"></i> رشح دورة جديدة</h2>
             <form id="nomForm" action="https://formspree.io/f/meerewpw" method="POST">
-                <input type="text" name="اسم_الدورة_المقترحة" placeholder="اسم الدورة" required style="width:100%; margin-bottom:10px; padding:10px; border-radius:10px; border:1px solid #ddd;">
-                <textarea name="أهمية_الترشيح" placeholder="لماذا هذا الترشيح مهم؟" required style="width:100%; height:100px; padding:10px; border-radius:10px; border:1px solid #ddd;"></textarea>
-                <button type="submit" class="btn btn-primary">إرسال الترشيح</button>
+                <input type="text" name="اسم_الدورة_المقترحة" placeholder="اسم الدورة المقترحة" required>
+                <textarea name="أهمية_الترشيح" placeholder="لماذا هذا الترشيح مهم للكوادر التمريضية؟" required></textarea>
+                <button type="submit" class="btn btn-primary" style="background: var(--dark-blue); padding: 15px; font-size: 1.1rem;"><i class="fas fa-paper-plane"></i> إرسال الترشيح</button>
             </form>
         </div>
     </div>
@@ -293,13 +387,19 @@
             
             let availCount = 0; let upCount = 0;
 
+            if(!snapshot.exists()) {
+                availCont.innerHTML = '<div style="text-align: center; grid-column: 1/-1; padding: 20px; color: #777; font-weight: bold;">لا توجد دورات متاحة حالياً.</div>';
+                upCont.innerHTML = '<div style="text-align: center; grid-column: 1/-1; padding: 20px; color: #777; font-weight: bold;">لا توجد دورات مرتقبة حالياً.</div>';
+                return;
+            }
+
             snapshot.forEach(child => {
                 const c = child.val();
                 const card = `
                     <div class="course-card" style="border-top-color: ${c.status === 'available' ? 'var(--main-color)' : 'var(--accent-orange)'}">
                         <div class="course-header">
                             <span class="course-category" style="background: ${c.status === 'available' ? 'var(--main-color)' : 'var(--accent-orange)'}">${c.category}</span>
-                            <h3 style="margin-top:15px;">${c.title}</h3>
+                            <h3 style="margin-top:15px; color: var(--dark-blue); font-weight: 900;">${c.title}</h3>
                         </div>
                         <div class="course-body">
                             <ul class="course-info-list">
@@ -308,10 +408,10 @@
                                 ${c.status === 'available' ? `<li><i class="fas fa-users"></i> <span class="availability">${c.seats}</span></li>` : ''}
                             </ul>
                         </div>
-                        <div style="padding:20px;">
+                        <div style="padding:20px; border-top: 1px solid #f4f7f6;">
                             ${c.status === 'available' ? 
-                                `<button class="btn btn-primary" onclick="openModal('regModal', '${c.title}')">سجل الآن</button>` :
-                                `<button class="btn btn-secondary" onclick="openModal('notifyModal', '${c.title}')">أعلمني عند البدء</button>`
+                                `<button class="btn btn-primary" onclick="openModal('regModal', '${c.title}')"><i class="fas fa-pen-nib"></i> سجل الآن</button>` :
+                                `<button class="btn btn-secondary" onclick="openModal('notifyModal', '${c.title}')"><i class="fas fa-bell"></i> أعلمني عند البدء</button>`
                             }
                         </div>
                     </div>`;
@@ -385,6 +485,30 @@
             if(quickMenu) quickMenu.classList.toggle('active');
             if(quickToggleBtn) quickToggleBtn.classList.toggle('active-btn');
         }
+
+        // معالجة إرسال الفورمات
+        const forms = ['regForm', 'notifyForm', 'nomForm'];
+        forms.forEach(formId => {
+            const formElement = document.getElementById(formId);
+            if(formElement) {
+                formElement.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const btn = this.querySelector('button');
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+                    
+                    fetch(this.action, { method: 'POST', body: new FormData(this), headers: { 'Accept': 'application/json' } })
+                    .then(res => { 
+                        if(res.ok) { 
+                            alert('تم استلام طلبك بنجاح! ✅'); 
+                            closeModals(); 
+                            this.reset(); 
+                        } 
+                    })
+                    .finally(() => btn.innerHTML = originalText);
+                });
+            }
+        });
     </script>
 </body>
 </html>

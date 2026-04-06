@@ -134,6 +134,7 @@
             justify-content: center; align-items: center; font-size: 2rem;
             box-shadow: 0 8px 25px rgba(231, 76, 60, 0.5); cursor: pointer; z-index: 1000;
             transition: var(--transition); animation: float 3s ease-in-out infinite;
+            -webkit-tap-highlight-color: transparent;
         }
         
         @keyframes float {
@@ -151,7 +152,9 @@
             background-color: white; margin: 5vh auto; padding: 35px 30px;
             border-radius: 25px; width: 90%; max-width: 550px; max-height: 85vh; 
             overflow-y: auto; position: relative; border-top: 8px solid var(--sos-red);
+            animation: slideDown 0.4s ease;
         }
+        @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         footer { text-align: center; padding: 25px; background: #1e272e; color: white; font-weight: 600; margin-top: 40px; border-top: 5px solid var(--sos-red); }
 
@@ -259,11 +262,77 @@
         .quick-menu li a i { width: 25px; text-align: center; color: var(--sos-red); font-size: 1.3rem; transition: 0.3s; }
         .quick-menu li a:hover i { transform: scale(1.2); }
 
+        /* ========================================= */
+        /* التحديثات الجمالية الجديدة (الوميض، اللمس، والديناميكية) */
+        /* ========================================= */
+
+        /* 1. تأثير الانضغاط عند اللمس (الضغط) للهواتف والأزرار */
+        .btn-call:active, .btn-location:active, .btn-submit-sos:active, .add-sos-btn:active, .quick-access-btn:active, .sos-card:active {
+            transform: scale(0.95) !important;
+            transition: transform 0.1s ease;
+        }
+
+        /* 2. تأثير الوميض (اللمعان) والنبض للأزرار الرئيسية */
+        .btn-submit-sos {
+            position: relative;
+            overflow: hidden;
+            animation: buttonPulse 2s infinite alternate;
+        }
+        .btn-submit-sos::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            animation: shine 3.5s infinite;
+        }
+        @keyframes shine { 
+            0% { left: -100%; } 
+            20% { left: 200%; } 
+            100% { left: 200%; } 
+        }
+        @keyframes buttonPulse {
+            0% { box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4); }
+            100% { box-shadow: 0 8px 25px rgba(231, 76, 60, 0.8); }
+        }
+
+        /* 3. ديناميكية خلفية الهيدر (تحذير متحرك) */
+        .sos-header {
+            background: linear-gradient(-45deg, var(--sos-red), #c0392b, #e74c3c, #922b21) !important;
+            background-size: 300% 300% !important;
+            animation: gradientBG 12s ease infinite !important;
+        }
+        @keyframes gradientBG { 
+            0% { background-position: 0% 50%; } 
+            50% { background-position: 100% 50%; } 
+            100% { background-position: 0% 50%; } 
+        }
+
+        /* 4. توهج البطاقات عند التمرير */
+        .sos-card:hover {
+            box-shadow: 0 15px 35px rgba(231, 76, 60, 0.2) !important;
+            border-right-width: 12px;
+        }
+
+        /* 5. حماية العرض في الهواتف ومنع التداخل */
+        body { padding-bottom: 90px; } /* حماية الفوتر من الزر العائم */
+        .sos-card h3, .sos-info p { word-wrap: break-word; overflow-wrap: break-word; }
+
         @media (max-width: 768px) {
             .navbar { flex-direction: column; gap: 15px; padding: 10px; }
             .nav-links { display: flex; flex-wrap: nowrap; overflow-x: auto; width: 100%; justify-content: flex-start; padding-bottom: 5px; -webkit-overflow-scrolling: touch; }
             .nav-links::-webkit-scrollbar { display: none; }
             .nav-links li { flex: 0 0 auto; }
+            
+            .sos-header { padding: 40px 15px; border-radius: 0 0 30px 30px; }
+            .sos-header h1 { font-size: 1.8rem; }
+            
+            /* ترتيب أزرار الكروت فوق بعض في الهاتف لسهولة الضغط */
+            .sos-actions { flex-direction: column; gap: 10px; }
+            .btn-call, .btn-location { width: 100%; justify-content: center; box-sizing: border-box; }
         }
     </style>
 </head>
