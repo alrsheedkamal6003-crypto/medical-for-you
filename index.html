@@ -192,6 +192,69 @@
         .quick-menu li a i { width: 25px; text-align: center; color: var(--main-color); font-size: 1.3rem; transition: 0.3s; }
         .quick-menu li a:hover i { transform: scale(1.2); }
 
+        /* ========================================= */
+        /* التحديثات الجمالية الجديدة (الوميض، اللمس، والديناميكية) */
+        /* ========================================= */
+
+        /* 1. تأثير الانضغاط عند اللمس (الضغط) للهواتف والأزرار */
+        .btn:active, .service-card:active, .project-card:active, .faq-question:active, .quick-access-btn:active {
+            transform: scale(0.95) !important;
+            transition: transform 0.1s ease;
+        }
+
+        /* 2. تأثير الوميض (اللمعان) المستمر للأزرار الرئيسية */
+        .btn-primary {
+            position: relative;
+            overflow: hidden;
+            animation: buttonPulse 2s infinite alternate; /* نبض الظل بشكل مستمر */
+        }
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            animation: shine 3.5s infinite; /* لمعان يمر عبر الزر */
+        }
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 200%; }
+            100% { left: 200%; }
+        }
+        @keyframes buttonPulse {
+            0% { box-shadow: 0 5px 15px rgba(0, 168, 132, 0.4); }
+            100% { box-shadow: 0 8px 25px rgba(0, 168, 132, 0.8); }
+        }
+
+        /* 3. تغيير الألوان الديناميكي لخلفية الهيرو (الواجهة) */
+        .hero {
+            background: linear-gradient(-45deg, rgba(30, 39, 46, 0.9), rgba(0, 168, 132, 0.9), rgba(26, 188, 156, 0.9), rgba(22, 160, 133, 0.9)), url('https://images.unsplash.com/photo-1584982751601-97d883f51524?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            background-size: 300% 300%, cover;
+            background-blend-mode: overlay;
+            animation: gradientBG 12s ease infinite; /* حركة التدرج المستمرة */
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 4. تحسينات البطاقات (توهج بألوان مختلفة عند المرور) */
+        .red-card:hover { box-shadow: 0 15px 30px rgba(231,76,60,0.3) !important; border-color: var(--red-color); }
+        .blue-card:hover { box-shadow: 0 15px 30px rgba(52,152,219,0.3) !important; border-color: var(--blue-color); }
+        .purple-card:hover { box-shadow: 0 15px 30px rgba(155,89,182,0.3) !important; border-color: var(--purple-color); }
+        .orange-card:hover { box-shadow: 0 15px 30px rgba(230,126,34,0.3) !important; border-color: var(--orange-color); }
+        .teal-card:hover { box-shadow: 0 15px 30px rgba(26,188,156,0.3) !important; border-color: var(--teal-color); }
+        .service-card:hover { border-color: var(--main-color); box-shadow: 0 15px 30px rgba(0,168,132,0.3); }
+
+        /* 5. منع التداخل بشكل قاطع وحماية العرض في الهواتف */
+        body { padding-bottom: 90px; } /* مساحة آمنة للزر العائم حتى لا يغطي الفوتر */
+        .service-card h3, .service-card p { word-wrap: break-word; overflow-wrap: break-word; } /* منع خروج النصوص الطويلة */
+
+
         /* التجاوب مع شاشات الجوال */
         @media (max-width: 768px) {
             html { font-size: 14px; }
