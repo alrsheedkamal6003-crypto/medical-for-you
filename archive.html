@@ -15,21 +15,21 @@
             --light-bg: #f8fafc;
         }
 
-        body { font-family: 'Cairo', sans-serif; margin: 0; padding: 0; background-color: var(--light-bg); padding-bottom: 80px; }
+        body { font-family: 'Cairo', sans-serif; margin: 0; padding: 0; background-color: var(--light-bg); padding-bottom: 90px; }
 
         /* تنسيق الناف بار والهيرو (بلمسات جمالية إضافية) */
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; flex-wrap: wrap; gap: 15px; }
         .logo { font-size: 1.5rem; font-weight: 900; color: var(--dark-blue); display: flex; align-items: center; gap: 8px; }
         .logo span { color: var(--main-color); }
-        .nav-links { display: flex; list-style: none; gap: 25px; padding: 0; margin: 0; }
+        .nav-links { display: flex; list-style: none; gap: 25px; padding: 0; margin: 0; flex-wrap: wrap; justify-content: center; }
         .nav-links a { text-decoration: none; color: #475569; font-weight: 700; transition: 0.3s; padding: 5px 10px; border-radius: 8px; }
         .nav-links a:hover { color: var(--main-color); background: #f0fdf4; }
         
-        .hero { display: flex; align-items: center; justify-content: center; text-align: center; color: white; flex-direction: column; position: relative; }
-        .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(30, 39, 46, 0.95), rgba(0, 168, 132, 0.85)); z-index: 1; }
+        .hero { display: flex; align-items: center; justify-content: center; text-align: center; color: white; flex-direction: column; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
         .hero-content { position: relative; z-index: 2; padding: 0 20px; }
-        .hero-content h1 { font-size: 3rem; margin-bottom: 10px; font-weight: 900; text-shadow: 2px 2px 5px rgba(0,0,0,0.3); }
-        .hero-content p { font-size: 1.2rem; opacity: 0.9; font-weight: 600; }
+        .hero-content h1 { font-size: 3rem; margin-bottom: 10px; font-weight: 900; text-shadow: 2px 2px 5px rgba(0,0,0,0.4); }
+        .hero-content p { font-size: 1.2rem; opacity: 0.95; font-weight: bold; text-shadow: 1px 1px 3px rgba(0,0,0,0.3); }
         .highlight { color: #34d399; }
 
         /* تنسيقات البحث والنتائج (مُحسنة) */
@@ -42,7 +42,7 @@
             display: flex; flex-wrap: wrap; gap: 15px; margin: -50px auto 40px; position: relative; z-index: 10; max-width: 900px;
         }
         .search-filters input, .search-filters select {
-            flex: 1; min-width: 200px; padding: 15px 20px; border: 2px solid #e2e8f0; border-radius: 10px; font-family: 'Cairo'; font-size: 1rem; outline: none; transition: 0.3s; background: #f8fafc;
+            flex: 1; min-width: 200px; padding: 15px 20px; border: 2px solid #e2e8f0; border-radius: 10px; font-family: 'Cairo'; font-size: 1rem; outline: none; transition: 0.3s; background: #f8fafc; font-weight: bold; color: #333;
         }
         .search-filters input:focus, .search-filters select:focus { border-color: var(--main-color); background: white; box-shadow: 0 0 0 4px rgba(0,168,132,0.1); }
         
@@ -51,7 +51,7 @@
             margin-bottom: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.03); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; border-left: 1px solid #f1f5f9; border-top: 1px solid #f1f5f9; border-bottom: 1px solid #f1f5f9;
         }
-        .result-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); }
+        
         .result-info { flex: 1; }
         .result-info h3 { margin: 0 0 12px 0; color: var(--dark-blue); font-size: 1.3rem; font-weight: 900; line-height: 1.4; }
         .result-meta { color: #64748b; font-size: 0.95rem; display: flex; gap: 15px; flex-wrap: wrap; font-weight: 600; }
@@ -70,7 +70,7 @@
         .close-btn { position: absolute; left: 25px; top: 20px; font-size: 35px; cursor: pointer; color: #94a3b8; transition: 0.3s; }
         .close-btn:hover { color: #ef4444; transform: rotate(90deg); }
         #modalTitle { color: var(--dark-blue); font-weight: 900; margin-top: 0; margin-bottom: 20px; font-size: 1.5rem; line-height: 1.4; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px; }
-        #modalBody { color: #475569; line-height: 1.8; font-size: 1.1rem; background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px dashed #cbd5e0; }
+        #modalBody { color: #475569; line-height: 1.8; font-size: 1.1rem; background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px dashed #cbd5e0; font-weight: 600; }
 
         /* --- تنسيق الزر العائم الموحد والاحترافي (FAB) --- */
         .quick-access-btn {
@@ -80,8 +80,9 @@
             font-size: 1.8rem; cursor: pointer; z-index: 8000;
             box-shadow: 0 10px 25px rgba(0,168,132,0.4); 
             transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            -webkit-tap-highlight-color: transparent;
         }
-        .quick-access-btn:hover { transform: scale(1.1) rotate(90deg); background: var(--dark-blue); }
+        .quick-access-btn:hover, .quick-access-btn.active-btn { transform: scale(1.1) rotate(90deg); background: var(--dark-blue); }
 
         .quick-menu {
             display: none; position: fixed; bottom: 120px; left: 30px;
@@ -105,11 +106,74 @@
             to { opacity: 1; transform: translateY(0) scale(1); } 
         }
 
-        .pagination { display: flex; justify-content: center; gap: 10px; margin-top: 50px; }
+        /* تنسيق شريط التمرير للقائمة */
+        .quick-menu::-webkit-scrollbar { width: 5px; }
+        .quick-menu::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        .quick-menu::-webkit-scrollbar-thumb { background: var(--main-color); border-radius: 10px; }
+
+        .pagination { display: flex; justify-content: center; gap: 10px; margin-top: 50px; flex-wrap: wrap; }
         .page-btn { padding: 10px 18px; border: 2px solid var(--main-color); background: white; color: var(--main-color); border-radius: 10px; cursor: pointer; font-family: 'Cairo'; font-weight: bold; font-size: 1rem; transition: 0.3s; }
         .page-btn:hover { background: #f0fdf4; }
         .page-btn.active { background: var(--main-color); color: white; box-shadow: 0 4px 10px rgba(0,168,132,0.3); }
-        footer { text-align: center; padding: 25px; background: var(--dark-blue); color: white; margin-top: 40px; font-weight: bold; font-size: 1.1rem; }
+        
+        footer { text-align: center; padding: 25px; background: var(--dark-blue); color: white; margin-top: 40px; font-weight: bold; font-size: 1.1rem; border-top: 5px solid var(--main-color); }
+
+        /* ========================================= */
+        /* التحديثات الجمالية الجديدة (الوميض، اللمس، والديناميكية) */
+        /* ========================================= */
+
+        /* 1. تأثير الانضغاط عند اللمس للهواتف */
+        .btn:active, .page-btn:active, .result-card:active, .quick-access-btn:active {
+            transform: scale(0.95) !important;
+            transition: transform 0.1s ease;
+        }
+
+        /* 2. تأثير اللمعان (Shine) لزر الملخص وزر البحث */
+        .btn { position: relative; overflow: hidden; }
+        .btn::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg); animation: shine 3.5s infinite;
+        }
+        @keyframes shine { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
+
+        /* 3. نبض زر البحث (تطبيق الفرز) ليكون لافتاً للانتباه */
+        .btn-primary { animation: pulsePrimary 2s infinite alternate; }
+        @keyframes pulsePrimary { 0% { box-shadow: 0 4px 15px rgba(0,168,132,0.3); } 100% { box-shadow: 0 6px 20px rgba(0,168,132,0.6); } }
+
+        /* 4. توهج ذكي للبطاقات يتوافق مع لون البحث (المُرسل من القاعدة أو الهاردكود) */
+        .result-card:hover { transform: translateY(-8px); }
+        .result-card[style*="border-right-color: var(--main-color)"]:hover, .result-card[style*="border-right-color: #00a884"]:hover { box-shadow: 0 15px 35px rgba(0, 168, 132, 0.2) !important; }
+        .result-card[style*="border-right-color: #f39c12"]:hover { box-shadow: 0 15px 35px rgba(243, 156, 18, 0.2) !important; }
+        .result-card[style*="border-right-color: var(--dark-blue)"]:hover, .result-card[style*="border-right-color: #1e272e"]:hover { box-shadow: 0 15px 35px rgba(30, 39, 46, 0.2) !important; }
+        .result-card[style*="border-right-color: #27ae60"]:hover { box-shadow: 0 15px 35px rgba(39, 174, 96, 0.2) !important; }
+
+        /* 5. ديناميكية تدرج الهيدر (بقاء الصورة وجعل الغطاء اللوني يتحرك) */
+        .hero::before {
+            background: linear-gradient(-45deg, rgba(30, 39, 46, 0.95), rgba(0, 168, 132, 0.85), rgba(30, 39, 46, 0.9), rgba(5, 150, 105, 0.85));
+            background-size: 300% 300%;
+            animation: gradientBG 15s ease infinite;
+        }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        /* حماية وتنسيق الهواتف الذكية */
+        .result-info h3, .result-meta span { word-wrap: break-word; overflow-wrap: break-word; }
+        @media (max-width: 768px) {
+            .navbar { flex-direction: column; padding: 15px 10px; }
+            .nav-links { width: 100%; justify-content: flex-start; overflow-x: auto; padding-bottom: 5px; -webkit-overflow-scrolling: touch; }
+            .nav-links::-webkit-scrollbar { display: none; }
+            .nav-links li { flex: 0 0 auto; }
+            
+            .hero { height: auto; min-height: 30vh; padding: 40px 0; border-radius: 0 0 30px 30px; }
+            .hero-content h1 { font-size: 2rem; }
+            
+            .search-filters { flex-direction: column; padding: 20px; gap: 10px; margin-top: -30px; }
+            .search-filters input, .search-filters select, .search-filters button { width: 100%; box-sizing: border-box; }
+            
+            .result-card { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .result-action { width: 100%; }
+            .result-action button { width: 100%; justify-content: center; }
+        }
     </style>
 </head>
 <body>
@@ -149,8 +213,8 @@
             </div>
 
             <div id="researchContainer">
-                <div style="text-align: center; padding: 50px; color: #64748b;">
-                    <i class="fas fa-spinner fa-spin fa-2x"></i> جاري تحميل الأرشيف...
+                <div style="text-align: center; padding: 50px; color: var(--main-color); font-weight: bold;">
+                    <i class="fas fa-spinner fa-spin fa-2x"></i><br><br> جاري تحميل الأرشيف...
                 </div>
             </div>
 
@@ -197,7 +261,7 @@
         </div>
     </div>
 
-    <footer><p>جميع الحقوق محفوظة &copy; 2026 - شبكة الممرضين السودانيين</p></footer>
+    <footer><p style="margin: 0;">جميع الحقوق محفوظة &copy; 2026 - شبكة الممرضين السودانيين</p></footer>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -301,7 +365,7 @@
 
             // رسم الكروت
             currentData.forEach(item => {
-                // تمرير النصوص بشكل آمن للمودال باستخدام base64 أو استبدال علامات الاقتباس
+                // تمرير النصوص بشكل آمن للمودال باستبدال علامات الاقتباس
                 const safeTitle = item.title.replace(/'/g, "&apos;").replace(/"/g, "&quot;");
                 const safeSummary = item.summary.replace(/'/g, "&apos;").replace(/"/g, "&quot;");
                 
@@ -310,9 +374,9 @@
                     <div class="result-info">
                         <h3 style="color: ${item.color};">${item.title}</h3>
                         <div class="result-meta">
-                            <span><i class="fas ${item.icon}"></i> ${item.categoryName}</span>
-                            ${item.author ? `<span><i class="fas fa-user-graduate"></i> الباحث: ${item.author}</span>` : ''}
-                            ${item.location && item.location !== 'غير محدد' ? `<span><i class="fas fa-map-marker-alt"></i> ${item.location}</span>` : ''}
+                            <span><i class="fas ${item.icon}" style="color:${item.color};"></i> ${item.categoryName}</span>
+                            ${item.author ? `<span><i class="fas fa-user-graduate" style="color:#64748b;"></i> الباحث: ${item.author}</span>` : ''}
+                            ${item.location && item.location !== 'غير محدد' ? `<span><i class="fas fa-map-marker-alt" style="color:#64748b;"></i> ${item.location}</span>` : ''}
                         </div>
                     </div>
                     <div class="result-action">
@@ -338,7 +402,7 @@
             const catVal = document.getElementById('categoryFilter').value;
             
             const filtered = window.allResearchData.filter(item => {
-                const matchText = (item.title.toLowerCase().includes(searchVal) || item.author.toLowerCase().includes(searchVal));
+                const matchText = (item.title.toLowerCase().includes(searchVal) || (item.author && item.author.toLowerCase().includes(searchVal)));
                 const matchCat = catVal === "" ? true : item.category === catVal;
                 return matchText && matchCat;
             });

@@ -16,6 +16,7 @@
             --light-bg: #f8fbfb;
             --text-color: #2f3640;
             --border-color: #dcdde1;
+            --transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         body { 
@@ -23,9 +24,15 @@
             margin: 0; 
             padding: 0; 
             background-color: var(--light-bg); 
-            padding-bottom: 80px; 
+            padding-bottom: 90px; /* تم زيادتها لحماية الفوتر من الزر العائم */
             color: var(--text-color);
+            scroll-behavior: smooth;
         }
+
+        /* تخصيص شريط التمرير */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--light-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--main-color); border-radius: 10px; }
 
         /* تنسيق شريط التنقل بلمسة حديثة */
         .navbar { 
@@ -33,61 +40,57 @@
             justify-content: space-between; 
             align-items: center; 
             padding: 15px 5%; 
-            background: white; 
+            background: rgba(255, 255, 255, 0.95); 
             box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
             position: sticky;
             top: 0;
             z-index: 1000;
+            backdrop-filter: blur(10px);
+            flex-wrap: wrap;
+            gap: 15px;
         }
-        .logo { font-size: 1.4rem; font-weight: 800; color: var(--dark-blue); }
-        .logo i { color: var(--main-color); margin-left: 5px; }
+        .logo { font-size: 1.5rem; font-weight: 900; color: var(--dark-blue); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .logo i { color: var(--main-color); animation: heartbeat 1.5s infinite; }
         .logo span { color: var(--main-color); }
-        .nav-links { display: flex; list-style: none; gap: 25px; padding: 0; }
-        .nav-links a { 
-            text-decoration: none; 
-            color: #555; 
-            font-weight: 700; 
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .nav-links a:hover { color: var(--main-color); transform: translateY(-2px); }
         
-        /* تنسيق الهيرو المطور */
+        @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+
+        .nav-links { display: flex; list-style: none; gap: 25px; padding: 0; margin: 0; flex-wrap: wrap; justify-content: center; }
+        .nav-links a { 
+            text-decoration: none; color: #555; font-weight: 700; transition: var(--transition);
+            display: flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 8px;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--main-color); background: rgba(0, 168, 132, 0.1); transform: translateY(-2px); }
+        
+        /* تنسيق الهيرو المطور الديناميكي */
         .hero { 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            text-align: center; 
-            color: white; 
-            flex-direction: column; 
-            position: relative;
+            display: flex; align-items: center; justify-content: center; text-align: center; color: white; 
+            flex-direction: column; position: relative; height: 40vh; overflow: hidden;
+            background-size: cover !important; background-position: center !important;
         }
         .hero::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(135deg, rgba(30, 39, 46, 0.95), rgba(0, 168, 132, 0.85));
-            z-index: 1;
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(-45deg, rgba(30, 39, 46, 0.95), rgba(0, 168, 132, 0.85), rgba(30, 39, 46, 0.95));
+            background-size: 300% 300%; animation: gradientBG 15s ease infinite; z-index: 1;
         }
-        .hero-content { z-index: 2; padding: 0 20px; }
-        .hero-content h1 { font-size: 3rem; margin-bottom: 10px; font-weight: 800; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
-        .hero-content p { font-size: 1.2rem; opacity: 0.9; max-width: 600px; margin: auto; }
-        .highlight { color: #2ecc71; text-shadow: none; }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        .hero-content { z-index: 2; padding: 0 20px; animation: fadeInDown 1s ease; max-width: 800px; }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .hero-content h1 { font-size: 3rem; margin-bottom: 10px; font-weight: 900; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
+        .hero-content p { font-size: 1.2rem; font-weight: 700; opacity: 0.95; max-width: 600px; margin: auto; text-shadow: 1px 1px 3px rgba(0,0,0,0.4); }
+        .highlight { color: #34d399; text-shadow: none; }
 
         .section { padding: 50px 5%; }
         .fade-element { animation: fadeIn 0.8s ease forwards; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         /* تنسيق استمارة الرفع باحترافية */
         .upload-container {
             max-width: 750px; 
-            margin: -60px auto 0; /* رفع الاستمارة لتتداخل مع الهيرو */
+            margin: -60px auto 0; 
             background: white; 
             padding: 45px; 
             border-radius: 20px; 
@@ -95,148 +98,168 @@
             border-top: 6px solid var(--main-color);
             position: relative;
             z-index: 10;
+            transition: var(--transition);
         }
-        .upload-container h2 { text-align: center; color: var(--dark-blue); margin-bottom: 35px; font-size: 1.8rem; font-weight: 800; }
+        .upload-container:hover { box-shadow: 0 20px 50px rgba(0, 168, 132, 0.15); transform: translateY(-5px); border-top-color: var(--dark-blue); }
+
+        .upload-container h2 { text-align: center; color: var(--dark-blue); margin-bottom: 35px; font-size: 1.8rem; font-weight: 900; }
         .upload-container h2 i { color: var(--main-color); margin-left: 10px; }
         
         .upload-form { display: flex; flex-direction: column; gap: 25px; }
         .form-group { position: relative; }
         .upload-form label { 
-            font-weight: 700; 
-            color: var(--dark-blue); 
-            font-size: 1.05rem; 
-            display: block; 
-            margin-bottom: 10px; 
+            font-weight: 800; color: var(--dark-blue); font-size: 1.05rem; display: block; margin-bottom: 10px; 
         }
-        .upload-form input[type="text"], 
-        .upload-form select, 
-        .upload-form textarea { 
-            width: 100%; 
-            padding: 15px; 
-            border: 2px solid var(--border-color); 
-            border-radius: 12px; 
-            font-family: 'Cairo', sans-serif; 
-            font-size: 1rem;
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-            background-color: #fcfcfc;
+        .upload-form input[type="text"], .upload-form select, .upload-form textarea { 
+            width: 100%; padding: 15px; border: 2px solid var(--border-color); border-radius: 12px; 
+            font-family: 'Cairo', sans-serif; font-size: 1rem; box-sizing: border-box;
+            transition: var(--transition); background-color: #fcfcfc; font-weight: 600; color: var(--dark-blue);
         }
-        .upload-form input:focus, 
-        .upload-form select:focus, 
-        .upload-form textarea:focus {
-            outline: none;
-            border-color: var(--main-color);
-            background-color: white;
-            box-shadow: 0 0 0 4px rgba(0, 168, 132, 0.1);
+        .upload-form input:focus, .upload-form select:focus, .upload-form textarea:focus {
+            outline: none; border-color: var(--main-color); background-color: white; box-shadow: 0 0 0 4px rgba(0, 168, 132, 0.1);
         }
         
-        /* تأثيرات الرفع (Drag & Drop area) */
+        /* تأثيرات الرفع (Drag & Drop area) الديناميكية */
         .file-upload-wrapper {
-            position: relative; 
-            text-align: center; 
-            padding: 40px 20px; 
-            border: 2px dashed var(--main-color); 
-            border-radius: 15px; 
-            background: #f4fbf9; 
-            cursor: pointer; 
-            transition: all 0.3s ease;
+            position: relative; text-align: center; padding: 40px 20px; 
+            border: 2px dashed var(--main-color); border-radius: 15px; background: #f4fbf9; 
+            cursor: pointer; transition: var(--transition); overflow: hidden;
         }
-        .file-upload-wrapper:hover { background: #e6f6f2; border-color: var(--main-color-hover); transform: scale(1.01); }
-        .file-upload-wrapper i { font-size: 3.5rem; color: var(--main-color); margin-bottom: 15px; transition: 0.3s; }
-        .file-upload-wrapper:hover i { transform: translateY(-5px); }
-        .file-upload-text { font-size: 1.1rem; color: #555; font-weight: 600; }
-        .file-upload-wrapper input[type="file"] { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
-        #fileNameDisplay { margin-top: 15px; font-weight: 700; color: var(--dark-blue); font-size: 1.1rem; }
+        .file-upload-wrapper:hover { background: #e6f6f2; border-color: var(--dark-blue); }
+        .file-upload-wrapper i { font-size: 3.5rem; color: var(--main-color); margin-bottom: 15px; transition: var(--transition); }
+        .file-upload-wrapper:hover i { transform: translateY(-8px) scale(1.1); color: var(--dark-blue); }
+        .file-upload-text { font-size: 1.1rem; color: #555; font-weight: 700; }
+        .file-upload-wrapper input[type="file"] { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 5; }
+        #fileNameDisplay { margin-top: 15px; font-weight: 800; color: var(--dark-blue); font-size: 1.1rem; }
 
-        /* زر الإرسال */
+        /* زر الإرسال الديناميكي */
         .btn { 
-            padding: 16px 25px; 
-            border-radius: 12px; 
-            border: none; 
-            cursor: pointer; 
-            font-family: 'Cairo'; 
-            font-weight: 800; 
-            font-size: 1.2rem !important;
-            transition: all 0.3s ease; 
-            display: inline-block; 
-            text-align: center; 
-            text-decoration: none; 
+            padding: 16px 25px; border-radius: 12px; border: none; cursor: pointer; 
+            font-family: 'Cairo'; font-weight: 900; font-size: 1.2rem !important;
+            transition: var(--transition); display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            text-decoration: none; position: relative; overflow: hidden;
         }
         .btn-primary { 
-            background: linear-gradient(135deg, var(--main-color), #028d70); 
-            color: white; 
-            width: 100%; 
-            margin-top: 15px;
-            box-shadow: 0 8px 20px rgba(0, 168, 132, 0.3);
+            background: linear-gradient(135deg, var(--main-color), #028d70); color: white; width: 100%; margin-top: 15px;
+            box-shadow: 0 8px 20px rgba(0, 168, 132, 0.3); animation: pulseButton 2s infinite alternate;
         }
-        .btn-primary:hover { 
-            transform: translateY(-3px); 
-            box-shadow: 0 12px 25px rgba(0, 168, 132, 0.4); 
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(0, 168, 132, 0.5); }
+        
+        .btn-primary::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg); animation: shine 3.5s infinite;
         }
-        .btn-primary:active { transform: translateY(0); }
+        @keyframes shine { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
+        @keyframes pulseButton { 0% { box-shadow: 0 5px 15px rgba(0,168,132,0.3); } 100% { box-shadow: 0 8px 25px rgba(0,168,132,0.6); } }
+
+        /* ========================================= */
+        /* التنسيقات المضافة لزر ونافذة المبرمج (Dev Modal) */
+        /* ========================================= */
+        .nav-dev-btn { 
+            background: rgba(0, 168, 132, 0.1); color: var(--main-color) !important; border: 1px solid var(--main-color); 
+            padding: 6px 15px !important; border-radius: 10px; margin-right: 10px; font-weight: 900; 
+            transition: 0.3s; cursor: pointer; display: inline-flex; align-items: center; font-family: 'Cairo';
+        }
+        .nav-dev-btn:hover { background: var(--main-color); color: white !important; box-shadow: 0 4px 15px rgba(0,168,132,0.4); transform: translateY(-2px); }
+
+        .copyright-btn { 
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); color: #fff; 
+            padding: 10px 25px; border-radius: 30px; cursor: pointer; font-family: 'Cairo'; font-size: 1rem; 
+            margin-top: 15px; transition: 0.3s; font-weight: bold; display: inline-flex; align-items: center; gap: 8px; 
+        }
+        .copyright-btn:hover { background: var(--main-color); border-color: var(--main-color); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,168,132,0.4); }
+
+        .dev-modal { display: none; position: fixed; z-index: 999999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); opacity: 0; transition: opacity 0.3s ease; }
+        .dev-modal.show-modal { display: flex; opacity: 1; justify-content: center; align-items: center; }
+        .dev-content { background: white; width: 90%; max-width: 420px; padding: 40px 30px; border-radius: 25px; text-align: center; position: relative; border-bottom: 8px solid var(--main-color); color: #333; box-shadow: 0 25px 50px rgba(0,0,0,0.4); transform: translateY(-50px); opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .dev-modal.show-modal .dev-content { transform: translateY(0); opacity: 1; }
+        .dev-img { width: 140px; height: 140px; border-radius: 50%; border: 5px solid var(--main-color); margin-bottom: 20px; object-fit: cover; box-shadow: 0 10px 25px rgba(0,168,132,0.4); padding: 4px; background: white; }
+        .close-dev { position: absolute; left: 25px; top: 20px; font-size: 30px; cursor: pointer; color: #aaa; transition: 0.3s; line-height: 1; }
+        .close-dev:hover { color: #e74c3c; transform: rotate(90deg) scale(1.2); }
+        .dev-contact-info { text-align: right; margin-top: 25px; background: #f4fdfa; padding: 25px; border-radius: 15px; border: 2px dashed var(--main-color); }
+        .dev-contact-info p { margin: 15px 0; font-size: 1.1rem; display: flex; align-items: center; gap: 15px; font-weight: bold; }
+        .dev-contact-info a { color: var(--dark-blue); text-decoration: none; transition: 0.3s; }
+        .dev-contact-info a:hover { color: var(--main-color); padding-right: 5px; }
+        .dev-contact-info i { color: var(--main-color); width: 25px; font-size: 1.3rem; text-align: center; }
 
         /* --- تنسيق الزر العائم الموحد والاحترافي (FAB) --- */
         .quick-access-btn {
             position: fixed; bottom: 30px; left: 30px;
-            background: linear-gradient(135deg, var(--main-color), var(--main-color-hover)); color: white; width: 65px; height: 65px;
+            background: linear-gradient(135deg, var(--main-color), #00c69a); color: white; width: 65px; height: 65px;
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 1.6rem; cursor: pointer; z-index: 8000;
+            font-size: 1.8rem; cursor: pointer; z-index: 8000;
             box-shadow: 0 10px 25px rgba(0,168,132,0.4); 
             transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            -webkit-tap-highlight-color: transparent;
+            animation: pulseFab 2s infinite alternate;
         }
-        .quick-access-btn:hover { transform: scale(1.1) rotate(90deg); background: var(--dark-blue); }
+        @keyframes pulseFab { 0% { box-shadow: 0 5px 15px rgba(0,168,132,0.3); } 100% { box-shadow: 0 8px 25px rgba(0,168,132,0.6); } }
+        .quick-access-btn:hover, .quick-access-btn.active-btn { transform: scale(1.1) rotate(90deg); background: var(--dark-blue); animation: none; }
 
         .quick-menu {
-            display: none; position: fixed; bottom: 110px; left: 30px;
-            background: white; border-radius: 20px; width: 280px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2); z-index: 7999;
-            overflow-y: auto; max-height: 70vh; border: 1px solid #f1f2f6;
+            display: none; position: fixed; bottom: 120px; left: 30px;
+            background: rgba(255,255,255,0.98); border-radius: 20px; width: 280px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2); z-index: 7999;
+            overflow-y: auto; max-height: 70vh; border: 1px solid #eee; backdrop-filter: blur(10px);
             animation: slideUpNav 0.4s ease forwards;
         }
-        .quick-menu ul { list-style: none; padding: 15px; margin: 0; }
-        .quick-menu li { border-bottom: 1px solid #f8fafc; margin-bottom: 5px; }
-        .quick-menu li:last-child { border-bottom: none; margin-bottom: 0; }
-        .quick-menu li a { 
-            display: flex; align-items: center; gap: 15px; padding: 12px 15px; 
-            text-decoration: none; color: #334155; transition: all 0.3s ease; font-weight: 700; 
-            border-radius: 10px;
-        }
-        .quick-menu li a i { color: var(--main-color); width: 20px; text-align: center; font-size: 1.1rem; }
-        .quick-menu li a:hover { background: #f0fdf4; color: var(--main-color); padding-right: 20px; }
+        .quick-menu.active { display: block !important; }
+        .quick-menu::-webkit-scrollbar { width: 5px; }
+        .quick-menu::-webkit-scrollbar-thumb { background: var(--main-color); border-radius: 10px; }
 
-        @keyframes slideUpNav { 
-            from { opacity: 0; transform: translateY(30px) scale(0.9); } 
-            to { opacity: 1; transform: translateY(0) scale(1); } 
+        .quick-menu ul { list-style: none; padding: 10px 0; margin: 0; }
+        .quick-menu li { border-bottom: 1px solid #f8fafc; }
+        .quick-menu li:last-child { border-bottom: none; }
+        .quick-menu li a { display: flex; align-items: center; gap: 15px; padding: 12px 20px; text-decoration: none; color: #334155; transition: 0.3s; font-weight: 800; border-radius: 10px; }
+        .quick-menu li a i { color: var(--main-color); width: 25px; text-align: center; font-size: 1.2rem; }
+        .quick-menu li a:hover { background: #f0fdf4; color: var(--main-color); padding-right: 30px; }
+
+        @keyframes slideUpNav { from { opacity: 0; transform: translateY(30px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+        footer { text-align: center; padding: 25px; background: var(--dark-blue); color: white; margin-top: 50px; font-weight: bold; border-top: 5px solid var(--main-color); }
+
+        /* ========================================= */
+        /* التحديثات الجمالية الجديدة (اللمس) */
+        /* ========================================= */
+        .btn:active, .quick-access-btn:active, .upload-container:active, .file-upload-wrapper:active {
+            transform: scale(0.96) !important;
+            transition: transform 0.1s ease;
         }
 
-        footer { text-align: center; padding: 25px; background: var(--dark-blue); color: white; margin-top: 60px; font-weight: 600; }
-        
         /* إخفاء شريط التنقل في الشاشات الصغيرة وتنسيق أفضل */
         @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .upload-container { margin-top: -30px; padding: 25px; }
+            .navbar { flex-direction: column; padding: 15px 10px; gap: 15px; }
+            .nav-links { overflow-x: auto; flex-wrap: nowrap; justify-content: flex-start; width: 100%; padding-bottom: 5px; -webkit-overflow-scrolling: touch; }
+            .nav-links::-webkit-scrollbar { display: none; }
+            .nav-links li { flex: 0 0 auto; }
+            .hero { height: auto; min-height: 35vh; padding: 50px 15px; border-radius: 0 0 30px 30px; }
             .hero-content h1 { font-size: 2.2rem; }
+            .upload-container { margin-top: -30px; padding: 25px 20px; }
+            .upload-container h2 { font-size: 1.5rem; }
+            .btn-primary { font-size: 1.1rem !important; padding: 15px; }
         }
     </style>
 </head>
 <body>
 
     <nav class="navbar">
-        <div class="logo">
-            <i class="fas fa-heart-pulse"></i> شبكة الممرضين <span>السودانيين</span>
-        </div>
+        <a href="index.html" class="logo" style="text-decoration: none;">
+            <i class="fas fa-book-medical" style="font-size: 1.8rem; color: var(--main-color);"></i> شبكة الممرضين <span>السودانيين</span>
+        </a>
         <ul class="nav-links">
             <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
             <li><a href="about.html"><i class="fas fa-info-circle"></i> من نحن</a></li>
-            <li><a href="research.html" style="color: var(--main-color);"><i class="fas fa-book-medical"></i> المكتبة والأبحاث</a></li>
+            <li><a href="research.html" class="active" style="color: var(--main-color); background: rgba(0,168,132,0.1);"><i class="fas fa-book-medical"></i> المكتبة والأبحاث</a></li>
             <li><a href="index.html#contact"><i class="fas fa-envelope"></i> اتصل بنا</a></li>
+            <li><button class="nav-dev-btn" onclick="openDevModal(event)"><i class="fas fa-code"></i> المبرمج</button></li>
         </ul>
     </nav>
 
-    <header class="hero" style="height: 40vh; background: url('https://via.placeholder.com/1200x400') center/cover no-repeat;">
+    <header class="hero" style="background: url('https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;">
         <div class="hero-content">
             <h1>شارك <span class="highlight">بحثك</span></h1>
-            <p>ساهم في إثراء المكتبة التمريضية السودانية وانشر علمك لييستفيد منه الجميع.</p>
+            <p>ساهم في إثراء المكتبة التمريضية السودانية وانشر علمك ليستفيد منه الجميع.</p>
         </div>
     </header>
 
@@ -298,13 +321,13 @@
         </div>
     </section>
 
-    <div class="quick-access-btn" onclick="toggleQuickMenu()" title="كل الشاشات">
-        <i class="fas fa-th-large"></i>
+    <div class="quick-access-btn" id="quickToggleBtn" title="كل الشاشات">
+        <i class="fas fa-th-large" style="pointer-events: none;"></i>
     </div>
 
     <div id="quickMenu" class="quick-menu">
         <ul>
-         <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+            <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
             <li><a href="about.html"><i class="fas fa-info-circle"></i> من نحن</a></li>
             <li><a href="research.html"><i class="fas fa-book-medical"></i> مكتبة الأبحاث</a></li>
             <li><a href="jobs.html"><i class="fas fa-user-md"></i> فرص العمل</a></li>
@@ -323,12 +346,36 @@
             <li><a href="forum.html"><i class="fas fa-comments"></i> صوت التمريض (المنتدى)</a></li>
             <li><a href="locator.html"><i class="fas fa-search-location"></i> الرادار الطبي</a></li>
             <li><a href="archive.html"><i class="fas fa-book-medical"></i> أرشيف الأبحاث</a></li>
-            <li><a href="upload.html"><i class="fas fa-cloud-upload-alt"></i> شارك بحثك العلمي</a></li>
+            <li><a href="upload.html" style="color: var(--main-color);"><i class="fas fa-cloud-upload-alt"></i> شارك بحثك العلمي</a></li>
         </ul>
     </div>
 
+    <div id="devModal" class="dev-modal">
+        <div class="dev-content">
+            <span class="close-dev" id="closeDevBtn">&times;</span>
+            
+            <img src="https://ui-avatars.com/api/?name=Al-Rasheed&background=00a884&color=fff&size=150&bold=true" alt="المبرمج الرشيد كمال" class="dev-img">
+            
+            <h3 style="color: var(--dark-blue); margin-bottom: 5px; font-weight: 900; font-size: 1.6rem;">تطوير المبرمج: الرشيد كمال</h3>
+            <p style="color: #666; font-size: 1.1rem; font-weight: bold;">متخصص في حلول الويب والأنظمة الصحية</p>
+            
+            <div class="dev-contact-info">
+                <p><i class="fas fa-phone-alt"></i> <a href="tel:0127825456">0127825456</a></p>
+                <p><i class="fas fa-phone-alt"></i> <a href="tel:0964278052">0964278052</a></p>
+                <p><i class="fas fa-envelope"></i> <a href="mailto:alrsheedkamal6002@gmail.com">alrsheedkamal6002@gmail.com</a></p>
+            </div>
+
+            <hr style="margin: 25px 0; border: 0; border-top: 1px solid #eee;">
+            <p style="margin-top: 10px; font-weight: 900; font-size: 1.2rem; color: var(--main-color);">Al-Rasheed Company © 2026</p>
+            <p style="font-size: 0.9rem; color: #888; font-weight: bold;">صنع بكل فخر لدعم الكوادر الصحية السودانية</p>
+        </div>
+    </div>
+
     <footer>
-        <p>جميع الحقوق محفوظة &copy; 2026 - شبكة الممرضين السودانيين</p>
+        <p style="margin-bottom: 15px;">جميع الحقوق محفوظة &copy; 2026 - شبكة الممرضين السودانيين</p>
+        <button class="copyright-btn" onclick="openDevModal(event)">
+            <i class="fas fa-code"></i> حقوق البرمجة والتطوير
+        </button>
     </footer>
 
     <script>
@@ -350,6 +397,7 @@
             const form = this;
             const submitBtn = form.querySelector('button[type="submit"]');
             const originalBtnText = submitBtn.innerHTML;
+            
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري رفع البحث...';
             submitBtn.disabled = true;
 
@@ -360,7 +408,7 @@
             })
             .then(response => {
                 if (response.ok) {
-                    alert('تم استلام ملف البحث بنجاح! شكراً ليك!');
+                    alert('تم استلام ملف البحث بنجاح! شكراً لك على إثراء المحتوى العلمي.');
                     form.reset(); 
                     fileNameDisplay.innerHTML = ''; 
                 } else {
@@ -375,20 +423,60 @@
         });
 
         // وظيفة القائمة السريعة السحرية
-        function toggleQuickMenu() {
-            const menu = document.getElementById('quickMenu');
-            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+        const quickMenu = document.getElementById('quickMenu');
+        const quickToggleBtn = document.getElementById('quickToggleBtn');
+
+        if (quickToggleBtn && quickMenu) {
+            quickToggleBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation(); // منع انتقال النقرة لإغلاقها فوراً
+                quickMenu.classList.toggle('active');
+                quickToggleBtn.classList.toggle('active-btn');
+                
+                const btnIcon = quickToggleBtn.querySelector('i');
+                if(quickMenu.classList.contains('active')){
+                    btnIcon.classList.remove('fa-th-large');
+                    btnIcon.classList.add('fa-times');
+                } else {
+                    btnIcon.classList.remove('fa-times');
+                    btnIcon.classList.add('fa-th-large');
+                }
+            });
         }
 
-        // إغلاق عند الضغط بالخارج
+        // إغلاق النوافذ عند الضغط بالخارج
         window.onclick = function(event) {
-            const menu = document.getElementById('quickMenu');
-            const btn = document.querySelector('.quick-access-btn');
-            if (menu.style.display === 'block') {
-                if (event.target !== menu && !menu.contains(event.target) && event.target !== btn && !btn.contains(event.target)) {
-                    menu.style.display = 'none';
+            // إغلاق القائمة السريعة
+            if (quickMenu && quickToggleBtn) {
+                if (!quickMenu.contains(event.target) && !quickToggleBtn.contains(event.target)) {
+                    quickMenu.classList.remove('active');
+                    quickToggleBtn.classList.remove('active-btn');
+                    const btnIcon = quickToggleBtn.querySelector('i');
+                    if(btnIcon) {
+                        btnIcon.classList.remove('fa-times');
+                        btnIcon.classList.add('fa-th-large');
+                    }
                 }
             }
+            
+            // إغلاق نافذة المبرمج
+            const devModal = document.getElementById('devModal');
+            if (devModal && event.target === devModal) {
+                devModal.classList.remove('show-modal');
+            }
+        }
+
+        // دوال فتح وإغلاق نافذة المبرمج
+        function openDevModal(e) { 
+            if(e) { e.preventDefault(); e.stopPropagation(); }
+            document.getElementById('devModal').classList.add('show-modal'); 
+        }
+        
+        const closeDevBtn = document.getElementById('closeDevBtn');
+        if (closeDevBtn) {
+            closeDevBtn.addEventListener('click', function() {
+                document.getElementById('devModal').classList.remove('show-modal');
+            });
         }
     </script>
 </body>

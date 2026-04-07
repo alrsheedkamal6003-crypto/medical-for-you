@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>المكتبة والأبحاث | شبكة الممرضين السودانيين</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -14,96 +14,220 @@
             --main-color: #00a884;
             --dark-blue: #1e272e;
             --light-bg: #f4f7f6;
+            --warning-orange: #f39c12;
         }
 
         body {
             font-family: 'Cairo', sans-serif;
             margin: 0;
-            padding-bottom: 40px; 
+            padding-bottom: 90px; /* لحماية الفوتر من الزر العائم */
             background-color: #fff;
             color: #333;
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
+
+        /* تخصيص شريط التمرير */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--light-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--main-color); border-radius: 10px; }
 
         /* تنسيق شريط التنقل */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 5%;
-            background: #fff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 5%;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             position: sticky;
             top: 0;
             z-index: 1000;
+            backdrop-filter: blur(10px);
+            flex-wrap: wrap;
+            gap: 15px;
         }
-        .logo { font-weight: bold; font-size: 1.2rem; color: var(--dark-blue); }
+        .logo { font-weight: 900; font-size: 1.5rem; color: var(--dark-blue); text-decoration: none; display: flex; align-items: center; gap: 8px; }
         .logo span { color: var(--main-color); }
-        .nav-links { display: flex; list-style: none; gap: 20px; margin: 0; padding: 0; }
-        .nav-links a { text-decoration: none; color: #333; font-weight: 600; transition: 0.3s; }
-        .nav-links a:hover { color: var(--main-color); }
+        .nav-links { display: flex; list-style: none; gap: 20px; margin: 0; padding: 0; flex-wrap: wrap; justify-content: center; }
+        .nav-links a { text-decoration: none; color: #333; font-weight: 700; transition: 0.3s; padding: 5px 10px; border-radius: 8px; }
+        .nav-links a:hover { color: var(--main-color); background: rgba(0,168,132,0.1); }
 
-        .hero { display: flex; align-items: center; justify-content: center; text-align: center; color: white; padding: 20px; }
-        .highlight { color: var(--main-color); }
+        .hero { 
+            display: flex; align-items: center; justify-content: center; text-align: center; color: white; padding: 20px; 
+            position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(-45deg, rgba(30, 39, 46, 0.9), rgba(0, 168, 132, 0.8), rgba(30, 39, 46, 0.9));
+            background-size: 300% 300%; animation: gradientBG 15s ease infinite; z-index: 1;
+        }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        
+        .hero-content { position: relative; z-index: 2; animation: fadeInDown 1s ease; }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .hero h1 { font-weight: 900; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .highlight { color: #34d399; }
 
-        .section { padding: 40px 5%; }
-        .section-title { text-align: center; margin-bottom: 30px; position: relative; font-weight: 700; }
+        .section { padding: 60px 5%; }
+        .section-title { text-align: center; margin-bottom: 40px; position: relative; font-weight: 900; font-size: 2rem; color: var(--dark-blue); }
         .bg-light { background-color: var(--light-bg); }
 
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+            gap: 30px;
             max-width: 1200px;
             margin: auto;
         }
 
         .card {
             background: white;
-            padding: 25px;
-            border-radius: 15px;
+            padding: 30px 25px;
+            border-radius: 20px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
+            display: flex; flex-direction: column;
         }
-        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .card:hover { transform: translateY(-10px); }
 
-        .btn { display: inline-block; padding: 12px 25px; border-radius: 8px; text-decoration: none; transition: 0.3s; cursor: pointer; font-weight: 600; text-align: center; border: none; }
-        .btn-primary { background: var(--main-color); color: white; }
-        .btn-primary:hover { background: var(--dark-blue); box-shadow: 0 5px 15px rgba(0,168,132,0.3); }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 25px; border-radius: 12px; text-decoration: none; transition: 0.3s; cursor: pointer; font-weight: 800; font-family: 'Cairo'; border: none; font-size: 1.05rem; position: relative; overflow: hidden; }
+        .btn-primary { background: linear-gradient(135deg, var(--main-color), #059669); color: white; box-shadow: 0 5px 15px rgba(0,168,132,0.3); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,168,132,0.4); }
         .btn-secondary { border: 2px solid var(--main-color); background: transparent; color: var(--main-color); }
-        .btn-secondary:hover { background: var(--main-color); color: white; }
+        .btn-secondary:hover { background: var(--main-color); color: white; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,168,132,0.3); }
 
         /* --- القائمة السريعة والزر العائم --- */
         .quick-access-btn {
             position: fixed; bottom: 30px; left: 30px;
-            background: var(--main-color); color: white; width: 65px; height: 65px;
+            background: linear-gradient(135deg, var(--main-color), #059669); color: white; width: 70px; height: 70px;
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem; cursor: pointer; z-index: 8000;
+            font-size: 1.8rem; cursor: pointer; z-index: 8000;
             box-shadow: 0 10px 25px rgba(0,168,132,0.4); 
             transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            -webkit-tap-highlight-color: transparent;
+            animation: pulseFab 2s infinite alternate;
         }
-        .quick-access-btn:hover { transform: scale(1.1) rotate(90deg); background: var(--dark-blue); }
+        @keyframes pulseFab { 0% { box-shadow: 0 5px 15px rgba(0,168,132,0.3); } 100% { box-shadow: 0 8px 25px rgba(0,168,132,0.6); } }
+        .quick-access-btn:hover, .quick-access-btn.active-btn { transform: scale(1.1) rotate(90deg); background: var(--dark-blue); animation: none; }
 
         .quick-menu {
-            display: none; position: fixed; bottom: 110px; left: 30px;
-            background: white; border-radius: 20px; width: 260px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2); z-index: 7999;
-            overflow-y: auto; max-height: 70vh; border: 1px solid #eee;
+            display: none; position: fixed; bottom: 120px; left: 30px;
+            background: rgba(255,255,255,0.98); border-radius: 20px; width: 280px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2); z-index: 7999;
+            overflow-y: auto; max-height: 70vh; border: 1px solid #eee; backdrop-filter: blur(10px);
             animation: slideUpNav 0.4s ease forwards;
         }
-        .quick-menu ul { list-style: none; padding: 10px; margin: 0; }
+        .quick-menu.active { display: block !important; }
+        .quick-menu::-webkit-scrollbar { width: 5px; }
+        .quick-menu::-webkit-scrollbar-thumb { background: var(--main-color); border-radius: 10px; }
+
+        .quick-menu ul { list-style: none; padding: 10px 0; margin: 0; }
         .quick-menu li { border-bottom: 1px solid #f8fafc; }
-        .quick-menu li a { display: flex; align-items: center; gap: 12px; padding: 12px 15px; text-decoration: none; color: #334155; transition: 0.3s; font-weight: 600; }
-        .quick-menu li a i { color: var(--main-color); width: 20px; text-align: center; }
-        .quick-menu li a:hover { background: #f0fdf4; color: var(--main-color); padding-right: 25px; }
+        .quick-menu li:last-child { border-bottom: none; }
+        .quick-menu li a { display: flex; align-items: center; gap: 15px; padding: 12px 20px; text-decoration: none; color: #334155; transition: 0.3s; font-weight: 700; border-radius: 10px; }
+        .quick-menu li a i { color: var(--main-color); width: 25px; text-align: center; font-size: 1.2rem; }
+        .quick-menu li a:hover { background: #f0fdf4; color: var(--main-color); padding-right: 30px; }
 
         @keyframes slideUpNav { from { opacity: 0; transform: translateY(30px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-        footer { text-align: center; padding: 30px; background: var(--dark-blue); color: white; margin-top: 50px; }
+        /* ========================================= */
+        /* التنسيقات المضافة لزر ونافذة المبرمج */
+        /* ========================================= */
+        .nav-dev-btn { 
+            background: rgba(0, 168, 132, 0.1); 
+            color: var(--main-color) !important; 
+            border: 1px solid var(--main-color); 
+            padding: 6px 15px !important; 
+            border-radius: 10px; 
+            font-weight: 900; 
+            transition: 0.3s; 
+            cursor: pointer; 
+            display: inline-flex; 
+            align-items: center; 
+            font-family: 'Cairo';
+        }
+        .nav-dev-btn:hover { 
+            background: var(--main-color); 
+            color: white !important; 
+            box-shadow: 0 4px 15px rgba(0,168,132,0.4); 
+            transform: translateY(-2px); 
+        }
+
+        .copyright-btn { 
+            background: rgba(255,255,255,0.05); 
+            border: 1px solid rgba(255,255,255,0.2); 
+            color: #fff; 
+            padding: 10px 25px; 
+            border-radius: 30px; 
+            cursor: pointer; 
+            font-family: 'Cairo'; 
+            font-size: 1rem; 
+            margin-top: 15px; 
+            transition: 0.3s; 
+            font-weight: bold; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 8px; 
+        }
+        .copyright-btn:hover { 
+            background: var(--main-color); 
+            border-color: var(--main-color); 
+            transform: translateY(-3px); 
+            box-shadow: 0 5px 15px rgba(0,168,132,0.4); 
+        }
+
+        .dev-modal { display: none; position: fixed; z-index: 999999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); opacity: 0; transition: opacity 0.3s ease; }
+        .dev-modal.show-modal { display: flex; opacity: 1; justify-content: center; align-items: center; }
+        .dev-content { background: white; width: 90%; max-width: 420px; padding: 40px 30px; border-radius: 25px; text-align: center; position: relative; border-bottom: 8px solid var(--main-color); color: #333; box-shadow: 0 25px 50px rgba(0,0,0,0.4); transform: translateY(-50px); opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .dev-modal.show-modal .dev-content { transform: translateY(0); opacity: 1; }
+        .dev-img { width: 140px; height: 140px; border-radius: 50%; border: 5px solid var(--main-color); margin-bottom: 20px; object-fit: cover; box-shadow: 0 10px 25px rgba(0,168,132,0.4); padding: 4px; background: white; }
+        .close-dev { position: absolute; left: 25px; top: 20px; font-size: 30px; cursor: pointer; color: #aaa; transition: 0.3s; line-height: 1; }
+        .close-dev:hover { color: #e74c3c; transform: rotate(90deg) scale(1.2); }
+        .dev-contact-info { text-align: right; margin-top: 25px; background: #f4fdfa; padding: 25px; border-radius: 15px; border: 2px dashed var(--main-color); }
+        .dev-contact-info p { margin: 15px 0; font-size: 1.1rem; display: flex; align-items: center; gap: 15px; font-weight: bold; }
+        .dev-contact-info a { color: var(--dark-blue); text-decoration: none; transition: 0.3s; }
+        .dev-contact-info a:hover { color: var(--main-color); padding-right: 5px; }
+        .dev-contact-info i { color: var(--main-color); width: 25px; font-size: 1.3rem; text-align: center; }
+
+        footer { text-align: center; padding: 30px; background: var(--dark-blue); color: white; margin-top: 40px; border-top: 5px solid var(--main-color); }
         
-        input[type="text"]:focus { outline: none; border-color: var(--main-color); box-shadow: 0 0 0 3px rgba(0,168,132,0.1); }
+        input[type="text"] { font-family: 'Cairo'; font-weight: bold; transition: 0.3s; }
+        input[type="text"]:focus { outline: none; border-color: var(--main-color); box-shadow: 0 0 0 4px rgba(0,168,132,0.1); }
+
+        /* ========================================= */
+        /* التحديثات الجمالية الجديدة (اللمس، التوهج، اللمعان) */
+        /* ========================================= */
+        .btn:active, .card:active, .quick-access-btn:active {
+            transform: scale(0.95) !important;
+            transition: transform 0.1s ease;
+        }
+
+        .btn::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg); animation: shine 3.5s infinite;
+        }
+        @keyframes shine { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
+
+        /* توهج ذكي لبطاقات الخدمات */
+        .card[style*="var(--main-color)"]:hover { box-shadow: 0 15px 35px rgba(0,168,132,0.2) !important; }
+        .card[style*="var(--dark-blue)"]:hover { box-shadow: 0 15px 35px rgba(30,39,46,0.2) !important; }
+        .card[style*="#f39c12"]:hover { box-shadow: 0 15px 35px rgba(243,156,18,0.2) !important; }
+
+        @media (max-width: 768px) {
+            .navbar { flex-direction: column; gap: 15px; padding: 15px 10px; }
+            .nav-links { overflow-x: auto; flex-wrap: nowrap; justify-content: flex-start; width: 100%; padding-bottom: 5px; -webkit-overflow-scrolling: touch; }
+            .nav-links::-webkit-scrollbar { display: none; }
+            .nav-links li { flex: 0 0 auto; }
+            .hero { height: auto; min-height: 35vh; padding: 50px 15px; border-radius: 0 0 30px 30px; }
+            .hero h1 { font-size: 2.2rem; }
+            .card { padding: 25px 20px; }
+            .card h3 { font-size: 1.3rem; font-weight: 900; }
+        }
     </style>
 </head>
 <body>
@@ -115,12 +239,13 @@
         <ul class="nav-links">
             <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
             <li><a href="about.html"><i class="fas fa-info-circle"></i> من نحن</a></li>
-            <li><a href="research.html" style="color: var(--main-color);"><i class="fas fa-book-medical"></i> المكتبة والأبحاث</a></li>
+            <li><a href="research.html" style="color: var(--main-color); background: rgba(0,168,132,0.1);"><i class="fas fa-book-medical"></i> المكتبة والأبحاث</a></li>
             <li><a href="index.html#contact"><i class="fas fa-envelope"></i> اتصل بنا</a></li>
+            <li><button class="nav-dev-btn" onclick="openDevModal(event)"><i class="fas fa-code"></i> المبرمج</button></li>
         </ul>
     </nav>
 
-    <header class="hero" style="height: 40vh; background: linear-gradient(rgba(30, 39, 46, 0.8), rgba(0, 168, 132, 0.8)), url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'); background-size: cover; background-position: center;">
+    <header class="hero" style="height: 40vh; background: url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'); background-size: cover; background-position: center;">
         <div class="hero-content">
             <h1 style="font-size: 2.5rem; margin-bottom: 10px;">المكتبة <span class="highlight">العلمية</span></h1>
             <p style="font-size: 1.1rem; max-width: 800px;">شارك معرفتك، استكشف أبحاث زملائك، واحصل على الدعم الكامل في مسيرتك العلمية.</p>
@@ -128,60 +253,60 @@
     </header>
 
     <section class="section" style="padding-bottom: 20px;">
-        <div style="max-width: 600px; margin: auto; display: flex; gap: 10px;">
-            <input type="text" placeholder="ابحث عن بحث، دراسة، أو موضوع..." style="flex: 1; padding: 15px; border-radius: 8px; border: 1px solid #ccc; font-family: 'Cairo'; font-size: 1rem;">
-           <a href="archive.html" class="btn btn-primary" style="display: flex; align-items: center; gap: 8px;"><i class="fas fa-search"></i> بحث</a>
+        <div style="max-width: 700px; margin: auto; display: flex; gap: 10px; flex-wrap: wrap;">
+            <input type="text" placeholder="ابحث عن بحث، دراسة، أو موضوع..." style="flex: 1; min-width: 250px; padding: 15px; border-radius: 12px; border: 2px solid #e2e8f0; font-family: 'Cairo'; font-size: 1rem;">
+            <a href="archive.html" class="btn btn-primary" style="display: flex; align-items: center; gap: 8px;"><i class="fas fa-search"></i> بحث في الأرشيف</a>
         </div>
     </section>
 
     <section class="section bg-light">
         <h2 class="section-title">بوابة الباحثين</h2>
         <div class="grid">
-            <div class="card" style="border-top: 4px solid var(--main-color);">
-                <div class="icon-box" style="width: 60px; height: 60px; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; background: rgba(0,168,132,0.1); border-radius: 50%; color: var(--main-color); margin-bottom: 20px;"><i class="fas fa-folder-open"></i></div>
-                <h3>تصفح الأبحاث</h3>
-                <p>اطلع على مكتبة ضخمة تضم أبحاث التخرج، الدراسات الميدانية، والأوراق العلمية المنشورة بواسطة زملائك.</p>
-               <a href="archive.html" class="btn btn-secondary" style="margin-top: 15px; width: 100%;">دخول الأرشيف</a>
+            <div class="card" style="border-top: 5px solid var(--main-color);">
+                <div class="icon-box" style="width: 65px; height: 65px; font-size: 1.8rem; display: flex; align-items: center; justify-content: center; background: rgba(0,168,132,0.1); border-radius: 50%; color: var(--main-color); margin-bottom: 20px;"><i class="fas fa-folder-open"></i></div>
+                <h3 style="color: var(--dark-blue);">تصفح الأبحاث</h3>
+                <p style="flex-grow: 1; color: #555; font-weight: 600;">اطلع على مكتبة ضخمة تضم أبحاث التخرج، الدراسات الميدانية، والأوراق العلمية المنشورة بواسطة زملائك.</p>
+                <a href="archive.html" class="btn btn-secondary" style="margin-top: 15px; width: 100%; box-sizing: border-box;">دخول الأرشيف <i class="fas fa-arrow-left"></i></a>
             </div>
 
-            <div class="card" style="border-top: 4px solid var(--dark-blue);">
-                <div class="icon-box" style="width: 60px; height: 60px; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; color: var(--dark-blue); background: rgba(30, 39, 46, 0.1); border-radius: 50%; margin-bottom: 20px;"><i class="fas fa-upload"></i></div>
+            <div class="card" style="border-top: 5px solid var(--dark-blue);">
+                <div class="icon-box" style="width: 65px; height: 65px; font-size: 1.8rem; display: flex; align-items: center; justify-content: center; color: var(--dark-blue); background: rgba(30, 39, 46, 0.1); border-radius: 50%; margin-bottom: 20px;"><i class="fas fa-upload"></i></div>
                 <h3 style="color: var(--dark-blue);">شارك بحثك</h3>
-                <p>هل أتممت بحثاً قيماً؟ انشره هنا لتعم الفائدة، واحصل على تغذية راجعة من مجتمع التمريض السوداني.</p>
-                <a href="upload.html" class="btn btn-primary" style="margin-top: 15px; width: 100%;">رفع ملف البحث</a>
+                <p style="flex-grow: 1; color: #555; font-weight: 600;">هل أتممت بحثاً قيماً؟ انشره هنا لتعم الفائدة، واحصل على تغذية راجعة من مجتمع التمريض السوداني.</p>
+                <a href="upload.html" class="btn btn-primary" style="margin-top: 15px; width: 100%; box-sizing: border-box; background: linear-gradient(135deg, var(--dark-blue), #2c3e50); box-shadow: 0 4px 15px rgba(30,39,46,0.3);">رفع ملف البحث <i class="fas fa-cloud-upload-alt"></i></a>
             </div>
 
-            <div class="card" style="border-top: 4px solid #f39c12;">
-                <div class="icon-box" style="width: 60px; height: 60px; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; color: #f39c12; background: rgba(243, 156, 18, 0.1); border-radius: 50%; margin-bottom: 20px;"><i class="fas fa-hands-helping"></i></div>
-                <h3 style="color: #f39c12;">تحتاج مساعدة؟</h3>
-                <p>إذا كنت تواجه صعوبة في كتابة بحث التخرج، أو تحتاج إلى مساعدة في التحليل الإحصائي (SPSS)، فريقنا هنا لدعمك.</p>
-                <a href="index.html#contact" class="btn btn-secondary" style="color: #f39c12; border-color: #f39c12; margin-top: 15px; width: 100%;">تواصل مع المرشدين</a>
+            <div class="card" style="border-top: 5px solid #f39c12;">
+                <div class="icon-box" style="width: 65px; height: 65px; font-size: 1.8rem; display: flex; align-items: center; justify-content: center; color: #f39c12; background: rgba(243, 156, 18, 0.1); border-radius: 50%; margin-bottom: 20px;"><i class="fas fa-hands-helping"></i></div>
+                <h3 style="color: var(--dark-blue);">تحتاج مساعدة؟</h3>
+                <p style="flex-grow: 1; color: #555; font-weight: 600;">إذا كنت تواجه صعوبة في كتابة بحث التخرج، أو تحتاج مساعدة في التحليل الإحصائي (SPSS)، فريقنا هنا لدعمك.</p>
+                <a href="consult.html" class="btn btn-secondary" style="color: #f39c12; border-color: #f39c12; margin-top: 15px; width: 100%; box-sizing: border-box;">تواصل مع المرشدين <i class="fas fa-comments"></i></a>
             </div>
         </div>
     </section>
 
     <section class="section">
         <h2 class="section-title"><i class="fas fa-star" style="color: #f1c40f;"></i> لوحة شرف الباحثين <i class="fas fa-star" style="color: #f1c40f;"></i></h2>
-        <p style="text-align: center; margin-bottom: 40px; font-size: 1.1rem;">نحتفي هنا بالزملاء الذين قدموا إسهامات علمية بارزة وأبحاثاً أحدثت فارقاً في الميدان الصحي.</p>
+        <p style="text-align: center; margin-bottom: 40px; font-size: 1.1rem; font-weight: bold; color: #666;">نحتفي هنا بالزملاء الذين قدموا إسهامات علمية بارزة وأبحاثاً أحدثت فارقاً في الميدان الصحي.</p>
         <div class="grid">
-            <div class="card" style="text-align: center; background: linear-gradient(135deg, #fff, #f4f7f6); border: 1px solid #ddd;">
-                <img src="https://ui-avatars.com/api/?name=A+H&background=00a884&color=fff&size=100" alt="صورة الباحث" style="border-radius: 50%; border: 3px solid var(--main-color); margin-bottom: 15px;">
-                <h3 style="margin: 0; color: var(--dark-blue);">أ. أحمد حسن</h3>
-                <p style="color: var(--main-color); font-weight: bold; font-size: 0.9rem; margin: 5px 0;">باحث الشهر</p>
-                <p style="font-size: 0.9rem;">صاحب الورقة البحثية الأكثر تحميلاً في مجال إدارة الطوارئ بالمستشفيات.</p>
+            <div class="card" style="text-align: center; background: linear-gradient(135deg, #fff, #f8fafc); border: 1px solid #e2e8f0; border-top: 5px solid var(--main-color);">
+                <img src="https://ui-avatars.com/api/?name=A+H&background=00a884&color=fff&size=100&bold=true" alt="صورة الباحث" style="border-radius: 50%; border: 4px solid var(--main-color); margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,168,132,0.3);">
+                <h3 style="margin: 0; color: var(--dark-blue); font-weight: 900;">أ. أحمد حسن</h3>
+                <p style="color: var(--main-color); font-weight: 900; font-size: 1rem; margin: 5px 0;">باحث الشهر <i class="fas fa-medal"></i></p>
+                <p style="font-size: 0.95rem; color: #555; font-weight: 600;">صاحب الورقة البحثية الأكثر تحميلاً في مجال إدارة الطوارئ بالمستشفيات.</p>
             </div>
-            <div class="card" style="text-align: center; background: linear-gradient(135deg, #fff, #f4f7f6); border: 1px solid #ddd;">
-                <img src="https://ui-avatars.com/api/?name=F+O&background=00a884&color=fff&size=100" alt="صورة الباحثة" style="border-radius: 50%; border: 3px solid var(--main-color); margin-bottom: 15px;">
-                <h3 style="margin: 0; color: var(--dark-blue);">أ. فاطمة عمر</h3>
-                <p style="color: var(--main-color); font-weight: bold; font-size: 0.9rem; margin: 5px 0;">نجمة الأبحاث الميدانية</p>
-                <p style="font-size: 0.9rem;">تكريم خاص لجهودها في دراسات مكافحة العدوى والوقاية الميدانية.</p>
+            <div class="card" style="text-align: center; background: linear-gradient(135deg, #fff, #f8fafc); border: 1px solid #e2e8f0; border-top: 5px solid var(--main-color);">
+                <img src="https://ui-avatars.com/api/?name=F+O&background=00a884&color=fff&size=100&bold=true" alt="صورة الباحثة" style="border-radius: 50%; border: 4px solid var(--main-color); margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,168,132,0.3);">
+                <h3 style="margin: 0; color: var(--dark-blue); font-weight: 900;">أ. فاطمة عمر</h3>
+                <p style="color: var(--main-color); font-weight: 900; font-size: 1rem; margin: 5px 0;">نجمة الأبحاث الميدانية <i class="fas fa-trophy"></i></p>
+                <p style="font-size: 0.95rem; color: #555; font-weight: 600;">تكريم خاص لجهودها في دراسات مكافحة العدوى والوقاية الميدانية.</p>
             </div>
-            <div class="card" style="text-align: center; background: linear-gradient(135deg, #fff, #f4f7f6); border: 1px solid #ddd; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                <div style="width: 80px; height: 80px; background: #eee; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 3px dashed #ccc; margin-bottom: 15px;">
-                    <i class="fas fa-user-plus" style="font-size: 1.8rem; color: #aaa;"></i>
+            <div class="card" style="text-align: center; background: linear-gradient(135deg, #fff, #f8fafc); border: 2px dashed #cbd5e0; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: none;">
+                <div style="width: 80px; height: 80px; background: #f1f5f9; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-bottom: 15px;">
+                    <i class="fas fa-user-plus" style="font-size: 2rem; color: #94a3b8;"></i>
                 </div>
-                <h3 style="margin: 0; color: var(--dark-blue);">المكان متاح لك!</h3>
-                <p style="font-size: 0.9rem; margin-top: 10px;">شارك بحثك المميز اليوم لتكون نجمنا القادم على لوحة الشرف.</p>
+                <h3 style="margin: 0; color: #64748b; font-weight: 900;">المكان متاح لك!</h3>
+                <p style="font-size: 0.95rem; margin-top: 10px; color: #64748b; font-weight: 600;">شارك بحثك المميز اليوم لتكون نجمنا القادم على لوحة الشرف.</p>
             </div>
         </div>
     </section>
@@ -190,17 +315,17 @@
         <h2 class="section-title">أحدث الأبحاث المضافة</h2>
         <div class="grid">
             <div class="card" style="text-align: right; border-top: 5px solid var(--main-color);">
-                <span style="background: var(--main-color); color: white; padding: 5px 12px; border-radius: 5px; font-size: 0.8rem; font-weight: bold;">بحث تخرج</span>
-                <h3 style="margin-top: 15px;">معرفة الممرضين ودورهم في طرق انتقال العدوى</h3>
-                <p style="margin: 10px 0;"><strong>موقع الدراسة:</strong> مستشفى أم درمان التعليمي</p>
-                <p style="font-size: 0.9rem; color: #666;">دراسة وصفية تحليلية تهدف لتقييم وعي الكادر التمريضي بإجراءات السلامة.</p>
-                <a href="#" class="btn btn-secondary" style="margin-top: 15px; width: 100%;"><i class="fas fa-download"></i> تحميل وقراءة</a>
+                <span style="background: rgba(0,168,132,0.1); color: var(--main-color); padding: 6px 15px; border-radius: 8px; font-size: 0.85rem; font-weight: 900;"><i class="fas fa-graduation-cap"></i> بحث تخرج</span>
+                <h3 style="margin-top: 15px; color: var(--dark-blue); font-weight: 900;">معرفة الممرضين ودورهم في طرق انتقال العدوى</h3>
+                <p style="margin: 10px 0; color: #475569; font-weight: 600;"><i class="fas fa-map-marker-alt" style="color: var(--main-color);"></i> <strong>موقع الدراسة:</strong> مستشفى أم درمان التعليمي</p>
+                <p style="font-size: 0.95rem; color: #64748b; font-weight: bold;">دراسة وصفية تحليلية تهدف لتقييم وعي الكادر التمريضي بإجراءات السلامة.</p>
+                <a href="archive.html" class="btn btn-secondary" style="margin-top: 15px; width: 100%; box-sizing: border-box;"><i class="fas fa-book-reader"></i> قراءة في الأرشيف</a>
             </div>
         </div>
     </section>
 
-    <div class="quick-access-btn" onclick="toggleQuickMenu()" title="القائمة السريعة">
-        <i class="fas fa-th-large"></i>
+    <div class="quick-access-btn" id="quickToggleBtn" title="القائمة السريعة">
+        <i class="fas fa-th-large" style="pointer-events: none;"></i>
     </div>
 
     <div id="quickMenu" class="quick-menu">
@@ -228,27 +353,94 @@
         </ul>
     </div>
 
-    <footer><p>جميع الحقوق محفوظة &copy; 2026 - شبكة الممرضين السودانيين</p></footer>
+    <div id="devModal" class="dev-modal">
+        <div class="dev-content">
+            <span class="close-dev" id="closeDevBtn">&times;</span>
+            
+            <img src="me.jpeg" alt="المبرمج الرشيد كمال" class="dev-img" onerror="this.src='https://via.placeholder.com/150?text=Al-Rasheed'">
+            
+            <h3 style="color: var(--dark-blue); margin-bottom: 5px; font-weight: 900; font-size: 1.6rem;">تطوير المبرمج: الرشيد كمال</h3>
+            <p style="color: #666; font-size: 1.1rem; font-weight: bold;">متخصص في حلول الويب والأنظمة الصحية</p>
+            
+            <div class="dev-contact-info">
+                <p><i class="fas fa-phone-alt"></i> <a href="tel:0127825456">0127825456</a></p>
+                <p><i class="fas fa-phone-alt"></i> <a href="tel:0964278052">0964278052</a></p>
+                <p><i class="fas fa-envelope"></i> <a href="mailto:alrsheedkamal6002@gmail.com">alrsheedkamal6002@gmail.com</a></p>
+            </div>
+
+            <hr style="margin: 25px 0; border: 0; border-top: 1px solid #eee;">
+            <p style="margin-top: 10px; font-weight: 900; font-size: 1.2rem; color: var(--main-color);">Al-Rasheed Company © 2026</p>
+            <p style="font-size: 0.9rem; color: #888; font-weight: bold;">صنع بكل فخر لدعم الكوادر الصحية السودانية</p>
+        </div>
+    </div>
+
+    <footer>
+        <p style="margin-bottom: 10px;">جميع الحقوق محفوظة &copy; 2026 - شبكة الممرضين السودانيين</p>
+        <button class="copyright-btn" onclick="openDevModal(event)">
+            <i class="fas fa-code"></i> حقوق البرمجة والتطوير
+        </button>
+    </footer>
 
     <script>
-        function toggleQuickMenu() {
-            var menu = document.getElementById("quickMenu");
-            if (menu.style.display === "block") {
-                menu.style.display = "none";
-            } else {
-                menu.style.display = "block";
-            }
+        // تفعيل القائمة السريعة
+        const quickMenu = document.getElementById('quickMenu');
+        const quickToggleBtn = document.getElementById('quickToggleBtn');
+
+        if (quickToggleBtn && quickMenu) {
+            quickToggleBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                quickMenu.classList.toggle('active');
+                quickToggleBtn.classList.toggle('active-btn');
+                
+                const btnIcon = quickToggleBtn.querySelector('i');
+                if(quickMenu.classList.contains('active')) {
+                    btnIcon.classList.remove('fa-th-large');
+                    btnIcon.classList.add('fa-times');
+                } else {
+                    btnIcon.classList.remove('fa-times');
+                    btnIcon.classList.add('fa-th-large');
+                }
+            });
         }
 
-        // إغلاق القائمة عند النقر في أي مكان آخر
-        window.onclick = function(event) {
-            const menu = document.getElementById('quickMenu');
-            const btn = document.querySelector('.quick-access-btn');
-            if (menu.style.display === 'block') {
-                if (!menu.contains(event.target) && !btn.contains(event.target)) {
-                    menu.style.display = 'none';
+        // إغلاق القوائم والنوافذ عند النقر خارجها
+        document.addEventListener('click', function(e) {
+            if (quickMenu && quickToggleBtn) {
+                if (!quickMenu.contains(e.target) && !quickToggleBtn.contains(e.target)) {
+                    quickMenu.classList.remove('active');
+                    quickToggleBtn.classList.remove('active-btn');
+                    const btnIcon = quickToggleBtn.querySelector('i');
+                    if(btnIcon) {
+                        btnIcon.classList.remove('fa-times');
+                        btnIcon.classList.add('fa-th-large');
+                    }
                 }
             }
+            
+            const devModal = document.getElementById('devModal');
+            if (devModal && e.target === devModal) {
+                devModal.classList.remove('show-modal');
+            }
+        });
+
+        // دوال فتح وإغلاق نافذة المبرمج
+        function openDevModal(e) { 
+            if(e) { e.preventDefault(); e.stopPropagation(); }
+            document.getElementById('devModal').classList.add('show-modal'); 
+        }
+        
+        const closeDevBtn = document.getElementById('closeDevBtn');
+        if (closeDevBtn) {
+            closeDevBtn.addEventListener('click', function() {
+                document.getElementById('devModal').classList.remove('show-modal');
+            });
+        }
+
+        // دالة قديمة لتوافق الأزرار إن وجدت
+        function toggleQuickMenu() {
+            if(quickMenu) quickMenu.classList.toggle('active');
+            if(quickToggleBtn) quickToggleBtn.classList.toggle('active-btn');
         }
     </script>
 </body>

@@ -28,7 +28,7 @@
             display: flex; justify-content: space-around; background: var(--deep-green); 
             padding: 20px; border-radius: 25px; margin: -40px auto 30px; color: white; 
             text-align: center; position: relative; z-index: 100; box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            max-width: 800px;
+            max-width: 800px; transition: 0.3s;
         }
         .impact-item h3 { margin: 0; color: var(--primary-gold); font-size: 1.8rem; }
         .impact-item p { margin: 5px 0 0; font-size: 0.85rem; opacity: 0.9; font-weight: bold; }
@@ -48,15 +48,15 @@
 
         .act-body { padding: 25px; }
         .act-date { color: var(--primary-gold); font-weight: bold; font-size: 0.9rem; margin-bottom: 10px; display: block; }
-        .act-body h2 { margin: 0 0 15px 0; color: var(--deep-green); font-size: 1.5rem; }
-        .act-body p { color: #555; line-height: 1.8; margin-bottom: 20px; font-size: 1rem; }
+        .act-body h2 { margin: 0 0 15px 0; color: var(--deep-green); font-size: 1.5rem; font-weight: 900; }
+        .act-body p { color: #555; line-height: 1.8; margin-bottom: 20px; font-size: 1.05rem; font-weight: 600; }
 
         .guestbook { background: #f0fdf4; padding: 10px; border-radius: 12px; margin: 15px 0; overflow: hidden; border-right: 4px solid var(--deep-green); }
-        .marquee-text { display: inline-block; white-space: nowrap; animation: marquee 25s linear infinite; color: var(--deep-green); font-weight: bold; font-size: 0.85rem; }
+        .marquee-text { display: inline-block; white-space: nowrap; animation: marquee 25s linear infinite; color: var(--deep-green); font-weight: bold; font-size: 0.9rem; }
         @keyframes marquee { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
 
         .act-actions { display: flex; flex-wrap: wrap; gap: 10px; border-top: 1px solid #eee; padding-top: 20px; margin-top: 15px; }
-        .btn-act { padding: 10px 18px; border-radius: 12px; border: none; cursor: pointer; font-family: 'Cairo'; font-weight: bold; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; transition: 0.3s; }
+        .btn-act { padding: 12px 18px; border-radius: 12px; border: none; cursor: pointer; font-family: 'Cairo'; font-weight: bold; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; transition: 0.3s; }
         .btn-like { background: #fee2e2; color: #dc2626; }
         .btn-cert { background: #e0f2fe; color: #0369a1; }
         .btn-share { background: #f0fdf4; color: #166534; }
@@ -65,7 +65,8 @@
         @keyframes fly { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-120px) scale(0); opacity: 0; } }
 
         .cert-list { display: none; background: #fff; border: 1px solid #ddd; padding: 15px; border-radius: 15px; margin-top: 10px; }
-        .cert-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f1f5f9; font-size: 0.85rem; }
+        .cert-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f1f5f9; font-size: 0.85rem; font-weight: bold; }
+        .cert-item a { color: var(--main-color); text-decoration: none; }
 
         #loadingActs { text-align: center; grid-column: 1/-1; padding: 50px; font-weight: bold; color: var(--deep-green); }
 
@@ -153,6 +154,54 @@
         .quick-menu li a i { width: 25px; text-align: center; color: var(--primary-gold); font-size: 1.3rem; transition: 0.3s; }
         .quick-menu li a:hover i { transform: scale(1.2); }
 
+        /* ========================================= */
+        /* التحديثات الجمالية الجديدة (الوميض، اللمس، والديناميكية) */
+        /* ========================================= */
+
+        /* 1. تأثير الانضغاط عند اللمس للهواتف */
+        .btn-act:active, .act-card:active, .quick-access-btn:active, .back-nav:active, .impact-summary:active {
+            transform: scale(0.96) !important;
+            transition: transform 0.1s ease;
+        }
+
+        /* 2. تأثير اللمعان (Shine) لأزرار التفاعل */
+        .btn-act { position: relative; overflow: hidden; }
+        .btn-act::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg); animation: shine 3.5s infinite;
+        }
+        @keyframes shine { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
+
+        /* نبض زر الإعجاب وزر الرجوع */
+        .btn-like { animation: pulseRed 2s infinite alternate; }
+        .back-nav { animation: pulseGreen 2s infinite alternate; }
+        @keyframes pulseRed { 0% { box-shadow: 0 4px 15px rgba(220, 38, 38, 0.2); } 100% { box-shadow: 0 6px 20px rgba(220, 38, 38, 0.5); } }
+        @keyframes pulseGreen { 0% { box-shadow: 0 4px 15px rgba(6, 78, 59, 0.2); } 100% { box-shadow: 0 6px 20px rgba(6, 78, 59, 0.5); } }
+
+        /* 3. توهج ذكي للبطاقات والإحصائيات عند التمرير */
+        .act-content:hover { box-shadow: 0 15px 40px rgba(194, 157, 11, 0.15) !important; border-color: rgba(194, 157, 11, 0.3); }
+        .impact-summary:hover { box-shadow: 0 15px 35px rgba(6, 78, 59, 0.3) !important; transform: translateY(-5px); }
+        
+        /* 4. ديناميكية خلفية الهيدر */
+        .act-header {
+            background: linear-gradient(-45deg, rgba(6, 78, 59, 0.95), rgba(0, 168, 132, 0.85), rgba(30, 39, 46, 0.9), rgba(6, 78, 59, 0.95)), url('network_bg.jpg') !important;
+            background-size: 300% 300%, cover !important;
+            background-blend-mode: overlay;
+            animation: gradientBG 15s ease infinite !important;
+        }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        /* 5. إصلاحات العرض في الهواتف */
+        @media (max-width: 768px) {
+            .impact-summary { flex-direction: column; gap: 20px; padding: 30px; margin: -30px 15px 30px; }
+            .act-actions { flex-direction: column; }
+            .btn-act { width: 100%; justify-content: center; padding: 12px; font-size: 1rem; }
+            .act-card { padding-right: 40px; }
+            .act-dot { right: 10px; width: 20px; height: 20px; }
+            .timeline::after { right: 18px; }
+            .act-header { padding: 60px 15px; border-radius: 0 0 30px 30px; }
+        }
     </style>
 </head>
 <body>
@@ -160,8 +209,8 @@
     <a href="index.html" class="back-nav"><i class="fas fa-arrow-right"></i></a>
 
     <header class="act-header">
-        <h1>إنجازات ونشاطات الشبكة <i class="fas fa-star"></i></h1>
-        <p>توثيق حي لرحلة العطاء في الميدان السوداني الرقمي والواقعي</p>
+        <h1>إنجازات ونشاطات الشبكة <i class="fas fa-star" style="color: var(--primary-gold);"></i></h1>
+        <p style="font-weight: bold; font-size: 1.1rem;">توثيق حي لرحلة العطاء في الميدان السوداني الرقمي والواقعي</p>
     </header>
 
     <div class="container">
@@ -172,7 +221,7 @@
         </div>
 
         <div class="timeline" id="actTimeline">
-            <div id="loadingActs"><i class="fas fa-spinner fa-spin"></i> جاري استعادة ذكريات الميدان...</div>
+            <div id="loadingActs"><i class="fas fa-spinner fa-spin fa-2x"></i><br><br>جاري استعادة ذكريات الميدان...</div>
         </div>
     </div>
 
@@ -253,7 +302,7 @@
             const container = document.getElementById('actTimeline');
             container.innerHTML = '';
             if(!snapshot.exists()) {
-                container.innerHTML = '<p style="text-align:center;">لا توجد نشاطات مسجلة حالياً.</p>';
+                container.innerHTML = '<p style="text-align:center; font-weight:bold; color:#777;">لا توجد نشاطات مسجلة حالياً.</p>';
                 return;
             }
             snapshot.forEach(child => {
@@ -265,7 +314,7 @@
                     <div class="act-content">
                         <div class="act-img">
                             <span class="act-tag">${act.tag}</span>
-                            <img src="${act.img}" alt="نشاط">
+                            <img src="${act.img}" alt="نشاط" onerror="this.src='https://via.placeholder.com/800x400?text=صورة+النشاط'">
                         </div>
                         <div class="act-body">
                             <span class="act-date">${act.date}</span>
@@ -278,7 +327,7 @@
                                 <button class="btn-act btn-share" onclick="shareCard('card-${actId}')"><i class="fas fa-camera"></i> مشاركة كصورة</button>
                             </div>
                             <div id="certs-${actId}" class="cert-list">
-                                <div class="cert-item"><span>توثيق النشاط (PDF)</span> <a href="#">تحميل</a></div>
+                                <div class="cert-item"><span>توثيق النشاط (PDF)</span> <a href="#"><i class="fas fa-download"></i> تحميل</a></div>
                             </div>
                         </div>
                     </div>
@@ -299,18 +348,27 @@
                 setTimeout(() => p.remove(), 1000);
             }
         }
+        
         function toggleCerts(id) {
             const list = document.getElementById(id);
             list.style.display = list.style.display === 'block' ? 'none' : 'block';
         }
+        
         function shareCard(id) {
             const card = document.getElementById(id);
-            html2canvas(card).then(canvas => {
+            // إخفاء الأزرار أثناء التقاط الصورة
+            const actions = card.querySelector('.act-actions');
+            const originalDisplay = actions.style.display;
+            actions.style.display = 'none';
+            
+            html2canvas(card, { backgroundColor: '#fdfdfd', scale: 2 }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = 'nursing_activity.png';
                 link.href = canvas.toDataURL();
                 link.click();
-                alert('تم حفظ النشاط كصورة بنجاح!');
+                alert('تم حفظ النشاط كصورة بنجاح! 📸');
+                // إعادة إظهار الأزرار
+                actions.style.display = originalDisplay;
             });
         }
 
